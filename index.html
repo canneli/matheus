@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Portfólio do Chef Matheus R. Fonseca">
-    <title>Matheus R. Fonseca</title>
+    <title>Chef Matheus R. Fonseca</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
@@ -87,10 +87,10 @@
     <nav class="fixed w-full z-50 transition-all duration-300 glass-panel border-b-0">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex items-center justify-between h-20">
-                <div class="flex items-center gap-2">
-                    <i data-lucide="chef-hat" class="text-chef-gold w-8 h-8"></i>
+                <a href="#home" class="flex items-center gap-2 cursor-pointer group">
+                    <i data-lucide="chef-hat" class="text-chef-gold w-8 h-8 group-hover:rotate-12 transition-transform"></i>
                     <span class="text-xl font-bold tracking-widest uppercase text-white">Matheus<span class="text-chef-gold">.</span></span>
-                </div>
+                </a>
                 
                 <div class="hidden md:flex items-center space-x-8">
                     <a href="#about" class="text-stone-300 hover:text-chef-gold transition-colors text-sm uppercase tracking-wider" data-i18n="nav_about">Sobre</a>
@@ -119,8 +119,8 @@
         </div>
     </nav>
 
-    <!-- Hero Section -->
-    <section id="about" class="min-h-screen flex items-center justify-center relative pt-20">
+    <!-- Hero Section (Introdução) -->
+    <section id="home" class="min-h-screen flex items-center justify-center relative pt-20">
         <!-- Background Elements -->
         <div class="absolute inset-0 z-0 opacity-20">
             <img src="https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?q=80&w=2070&auto=format&fit=crop" class="w-full h-full object-cover grayscale" alt="Kitchen Background">
@@ -161,9 +161,9 @@
                             <i data-lucide="message-circle"></i>
                             <span data-i18n="hero_btn_contact">Fale Comigo</span>
                         </a>
-                        <a href="#experience" class="px-8 py-4 border border-stone-600 text-stone-300 font-bold uppercase tracking-wider hover:border-chef-gold hover:text-chef-gold transition-colors duration-300 flex items-center justify-center gap-2">
-                            <i data-lucide="chef-hat"></i>
-                            <span data-i18n="hero_btn_work">Ver Experiência</span>
+                        <a href="#about" class="px-8 py-4 border border-stone-600 text-stone-300 font-bold uppercase tracking-wider hover:border-chef-gold hover:text-chef-gold transition-colors duration-300 flex items-center justify-center gap-2">
+                            <i data-lucide="user"></i>
+                            <span data-i18n="hero_btn_about">Mais Sobre Mim</span>
                         </a>
                     </div>
 
@@ -171,6 +171,28 @@
                         <a href="https://instagram.com/cheftheu" target="_blank" class="hover:text-chef-gold transition-colors"><i data-lucide="instagram"></i></a>
                         <a href="mailto:rmatheusfonseca@gmail.com" class="hover:text-chef-gold transition-colors"><i data-lucide="mail"></i></a>
                     </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section (Nova Seção Detalhada) -->
+    <section id="about" class="py-24 bg-[#141210] relative">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-12 gap-12 items-center">
+                <!-- Decorative Icon -->
+                <div class="md:col-span-2 flex justify-center md:justify-start">
+                    <div class="w-20 h-20 bg-chef-gold/10 rounded-full flex items-center justify-center border border-chef-gold/30">
+                        <i data-lucide="quote" class="text-chef-gold w-10 h-10"></i>
+                    </div>
+                </div>
+                
+                <div class="md:col-span-10 text-center md:text-left">
+                    <span class="text-chef-gold text-sm tracking-widest uppercase mb-2 block" data-i18n="section_about_subtitle">Minha História</span>
+                    <h2 class="text-4xl font-bold text-white mb-6" data-i18n="section_about_title">Sobre Mim</h2>
+                    <p class="text-stone-300 text-lg leading-relaxed text-justify md:text-left" data-i18n="about_text">
+                        Olá, meu nome é Matheus Fonseca e sou cozinheiro, natural de Belo Horizonte, Minas Gerais. Desde pequeno, sempre tive uma conexão especial com a cozinha, influenciado pela rica tradição culinária da minha cidade e pelas receitas deliciosas que aprendi com minha família. O que mais me motiva é a chance de criar pratos que não apenas alimentam, mas também encantam e surpreendem. Além das aulas, busco estagiar em restaurantes e participar de eventos gastronômicos sempre que posso. Essas experiências têm sido incríveis, pois me permitem aprender com chefs renomados e trocar ideias com outros entusiastas da culinária. Meu objetivo é abrir meu próprio restaurante, onde poderei compartilhar minhas criações e oferecer experiências memoráveis aos meus clientes.
+                    </p>
                 </div>
             </div>
         </div>
@@ -468,7 +490,10 @@
                 hero_role: "Cozinheiro Profissional",
                 hero_bio: "Transformando ingredientes em memórias. Experiência sólida em cozinhas de alto padrão em Belo Horizonte. Combinando habilidades técnicas com paixão pela gastronomia.",
                 hero_btn_contact: "Fale Comigo",
-                hero_btn_work: "Ver Experiência",
+                hero_btn_about: "Mais Sobre Mim",
+                section_about_subtitle: "Minha História",
+                section_about_title: "Sobre Mim",
+                about_text: "Olá, meu nome é Matheus Fonseca e sou cozinheiro, natural de Belo Horizonte, Minas Gerais. Desde pequeno, sempre tive uma conexão especial com a cozinha, influenciado pela rica tradição culinária da minha cidade e pelas receitas deliciosas que aprendi com minha família. O que mais me motiva é a chance de criar pratos que não apenas alimentam, mas também encantam e surpreendem. Além das aulas, busco estagiar em restaurantes e participar de eventos gastronômicos sempre que posso. Essas experiências têm sido incríveis, pois me permitem aprender com chefs renomados e trocar ideias com outros entusiastas da culinária. Meu objetivo é abrir meu próprio restaurante, onde poderei compartilhar minhas criações e oferecer experiências memoráveis aos meus clientes.",
                 section_edu_subtitle: "Formação",
                 section_edu_title: "Educação Acadêmica",
                 edu_degree: "Graduação em Gastronomia",
@@ -514,7 +539,10 @@
                 hero_role: "Professional Cook",
                 hero_bio: "Turning ingredients into memories. Solid experience in high-end kitchens in Belo Horizonte. Combining technical skills with passion for gastronomy.",
                 hero_btn_contact: "Get in Touch",
-                hero_btn_work: "See Experience",
+                hero_btn_about: "More About Me",
+                section_about_subtitle: "My Story",
+                section_about_title: "About Me",
+                about_text: "Hello, my name is Matheus Fonseca and I am a cook, born in Belo Horizonte, Minas Gerais. Since I was little, I have always had a special connection with the kitchen, influenced by the rich culinary tradition of my city and the delicious recipes I learned with my family. What motivates me the most is the chance to create dishes that not only feed but also enchant and surprise. In addition to classes, I seek internships in restaurants and participate in gastronomic events whenever I can. These experiences have been incredible, allowing me to learn from renowned chefs and exchange ideas with other culinary enthusiasts. My goal is to open my own restaurant, where I can share my creations and offer memorable experiences to my clients.",
                 section_edu_subtitle: "Education",
                 section_edu_title: "Academic Background",
                 edu_degree: "Gastronomy Degree",
@@ -560,7 +588,10 @@
                 hero_role: "Cocinero Profesional",
                 hero_bio: "Transformando ingredientes en recuerdos. Sólida experiencia en cocinas de alto nivel en Belo Horizonte. Combinando habilidades técnicas con pasión por la gastronomía.",
                 hero_btn_contact: "Hable Conmigo",
-                hero_btn_work: "Ver Experiencia",
+                hero_btn_about: "Más Sobre Mí",
+                section_about_subtitle: "Mi Historia",
+                section_about_title: "Sobre Mí",
+                about_text: "Hola, mi nombre es Matheus Fonseca y soy cocinero, natural de Belo Horizonte, Minas Gerais. Desde pequeño, siempre tuve una conexión especial con la cocina, influenciado por la rica tradición culinaria de mi ciudad y por las deliciosas recetas que aprendí con mi familia. Lo que más me motiva es la oportunidad de crear platos que no solo alimentan, sino que también encantan y sorprenden. Además de las clases, busco realizar pasantías en restaurantes y participar en eventos gastronómicos siempre que puedo. Estas experiencias han sido increíbles, ya que me permiten aprender de chefs renombrados e intercambiar ideas con otros entusiastas de la cocina. Mi objetivo es abrir mi propio restaurante, donde podré compartir mis creaciones y ofrecer experiencias memorables a mis clientes.",
                 section_edu_subtitle: "Formación",
                 section_edu_title: "Educación Académica",
                 edu_degree: "Grado en Gastronomía",
@@ -606,7 +637,10 @@
                 hero_role: "Cuisinier Professionnel",
                 hero_bio: "Transformer des ingrédients en souvenirs. Solide expérience dans des cuisines haut de gamme à Belo Horizonte. Allier compétences techniques et passion pour la gastronomie.",
                 hero_btn_contact: "Me Contacter",
-                hero_btn_work: "Voir Expérience",
+                hero_btn_about: "Plus Sur Moi",
+                section_about_subtitle: "Mon Histoire",
+                section_about_title: "À Propos De Moi",
+                about_text: "Bonjour, je m'appelle Matheus Fonseca et je suis cuisinier, originaire de Belo Horizonte, Minas Gerais. Depuis tout petit, j'ai toujours eu une connexion spéciale avec la cuisine, influencé par la riche tradition culinaire de ma ville et les délicieuses recettes apprises avec ma famille. Ce qui me motive le plus, c'est la chance de créer des plats qui ne font pas que nourrir, mais qui enchantent et surprennent aussi. En plus des cours, je cherche à faire des stages dans des restaurants et à participer à des événements gastronomiques dès que je peux. Ces expériences ont été incroyables, me permettant d'apprendre auprès de chefs renommés et d'échanger des idées avec d'autres passionnés de cuisine. Mon objectif est d'ouvrir mon propre restaurant, où je pourrai partager mes créations et offrir des expériences mémorables à mes clients.",
                 section_edu_subtitle: "Formation",
                 section_edu_title: "Formation Académique",
                 edu_degree: "Licence en Gastronomie",
