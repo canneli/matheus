@@ -51,7 +51,6 @@
             background-color: #0c0a09; /* Stone 950 */
             color: #e7e5e4;
             font-family: 'Inter', sans-serif;
-            transition: background 0.5s ease;
         }
         
         h1, h2, h3, h4 {
@@ -64,51 +63,11 @@
             -webkit-text-fill-color: transparent;
         }
 
-        /* Efeito de vidro padrão */
+        /* Efeito de vidro */
         .glass-panel {
             background: rgba(28, 25, 23, 0.7);
             backdrop-filter: blur(10px);
             border: 1px solid rgba(214, 175, 55, 0.1);
-            transition: all 0.3s ease;
-        }
-
-        /* --- FLAVOR MODE STYLES --- */
-        body.flavor-mode {
-            background: linear-gradient(-45deg, #ff5f6d, #ffc371, #23a6d5, #23d5ab, #ffbf00, #ff6b6b);
-            background-size: 400% 400%;
-            animation: gradientBG 10s ease infinite;
-        }
-
-        /* Ajustes dos painéis no modo Flavor para ficarem legíveis */
-        body.flavor-mode .glass-panel, 
-        body.flavor-mode nav, 
-        body.flavor-mode footer,
-        body.flavor-mode section {
-            background: rgba(0, 0, 0, 0.4) !important;
-            border-color: rgba(255, 255, 255, 0.2) !important;
-        }
-
-        @keyframes gradientBG {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-
-        .ingredient-particle {
-            position: fixed;
-            bottom: -50px;
-            font-size: 2rem;
-            z-index: 1; /* Atrás do conteúdo principal */
-            pointer-events: none;
-            opacity: 0;
-            animation: floatUp linear infinite;
-        }
-
-        @keyframes floatUp {
-            0% { transform: translateY(0) rotate(0deg); opacity: 0; }
-            10% { opacity: 0.8; }
-            90% { opacity: 0.8; }
-            100% { transform: translateY(-110vh) rotate(360deg); opacity: 0; }
         }
 
         /* Scrollbar elegante */
@@ -122,10 +81,7 @@
         }
     </style>
 </head>
-<body class="antialiased overflow-x-hidden relative">
-
-    <!-- Container for floating ingredients (Created by JS) -->
-    <div id="ingredients-container" class="fixed inset-0 pointer-events-none overflow-hidden z-0 hidden"></div>
+<body class="antialiased overflow-x-hidden">
 
     <!-- Navbar -->
     <nav class="fixed w-full z-50 transition-all duration-300 glass-panel border-b-0">
@@ -147,13 +103,8 @@
                 </div>
 
                 <div class="flex items-center gap-4">
-                    <!-- Flavor Mode Toggle (Desktop & Mobile) -->
-                    <button onclick="toggleFlavorMode()" class="text-stone-300 hover:text-yellow-400 transition-colors p-2 rounded-full hover:bg-white/5 z-50 relative group" title="Explosão de Sabor">
-                        <i id="flavor-icon" data-lucide="sparkles" class="w-5 h-5 group-hover:animate-pulse"></i>
-                    </button>
-
                     <!-- Desktop Flags -->
-                    <div class="hidden md:flex items-center gap-3 border-l border-white/10 pl-4">
+                    <div class="hidden md:flex items-center gap-3">
                         <button onclick="changeLanguage('pt')" class="w-6 h-6 hover:scale-110 transition-transform" title="Português">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36 36" class="rounded-full shadow-lg"><path fill="#009b3a" d="M36 27a4 4 0 0 1-4 4H4a4 4 0 0 1-4-4V9a4 4 0 0 1 4-4h28a4 4 0 0 1 4 4v18z"/><path fill="#fedf00" d="M32.73 18L18 29.27 3.27 18 18 6.73z"/><circle fill="#002776" cx="18" cy="18" r="6.5"/><path fill="#fff" d="M13.25 18.27a8.6 8.6 0 0 0 9.27-2.34c-.26.23-1.09.84-2.82 1.34-2.61.76-4.94.34-6.45 1z"/></svg>
                         </button>
@@ -250,7 +201,7 @@
 
     <!-- About Section (Nova Seção Detalhada) -->
     <section id="about" class="py-24 bg-[#141210] relative">
-        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="grid grid-cols-1 md:grid-cols-12 gap-12 items-center">
                 <!-- Decorative Icon -->
                 <div class="md:col-span-2 flex justify-center md:justify-start">
@@ -272,7 +223,7 @@
 
     <!-- Education Section -->
     <section id="education" class="py-20 bg-[#0c0a09] relative">
-        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-16">
                 <span class="text-chef-gold text-sm tracking-widest uppercase mb-2 block" data-i18n="section_edu_subtitle">Formação</span>
                 <h2 class="text-4xl md:text-5xl font-bold text-white mb-4" data-i18n="section_edu_title">Educação Acadêmica</h2>
@@ -374,7 +325,7 @@
 
     <!-- Skills Section -->
     <section id="skills" class="py-24 bg-[#0c0a09] relative">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-16 items-start">
                 
                 <!-- Technical Skills -->
@@ -456,7 +407,7 @@
     </section>
 
     <!-- Instagram Gallery Section -->
-    <section class="py-16 bg-[#141210] relative z-10">
+    <section class="py-16 bg-[#141210]">
         <div class="max-w-7xl mx-auto px-4">
             <div class="text-center mb-10">
                 <a href="https://instagram.com/cheftheu" target="_blank" class="inline-flex items-center gap-2 text-chef-gold hover:text-white transition-colors mb-2">
@@ -518,7 +469,7 @@
     </section>
 
     <!-- Footer / Contact -->
-    <footer id="contact" class="bg-[#0c0a09] border-t border-stone-800 pt-16 pb-8 relative z-10">
+    <footer id="contact" class="bg-[#0c0a09] border-t border-stone-800 pt-16 pb-8">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex flex-col items-center text-center">
                 <i data-lucide="chef-hat" class="text-chef-gold w-10 h-10 mb-4"></i>
@@ -548,54 +499,6 @@
     <!-- Scripts -->
     <script>
         lucide.createIcons();
-
-        // ---------------------------------------------------------
-        // FLAVOR MODE LOGIC
-        // ---------------------------------------------------------
-        let flavorMode = false;
-        const ingredients = ['🍅', '🍤', '🧀', '🌶️', '🥦', '🥩', '🍋', '🧅', '🥑', '🥖', '🌮', '🥣'];
-        const ingredientsContainer = document.getElementById('ingredients-container');
-
-        function toggleFlavorMode() {
-            flavorMode = !flavorMode;
-            document.body.classList.toggle('flavor-mode');
-            
-            if (flavorMode) {
-                document.getElementById('ingredients-container').classList.remove('hidden');
-                spawnIngredients();
-            } else {
-                document.getElementById('ingredients-container').classList.add('hidden');
-                ingredientsContainer.innerHTML = ''; // Clear items
-            }
-        }
-
-        function spawnIngredients() {
-            // Create initial batch
-            for(let i=0; i<30; i++) {
-                createIngredient();
-            }
-            // Continue creating occasionally
-            // In a real scenario, use requestAnimationFrame or interval, but CSS loop handles movement
-        }
-
-        function createIngredient() {
-            const el = document.createElement('div');
-            el.innerText = ingredients[Math.floor(Math.random() * ingredients.length)];
-            el.className = 'ingredient-particle';
-            
-            // Random properties
-            const left = Math.random() * 100;
-            const size = 1 + Math.random() * 2; // 1rem to 3rem
-            const duration = 5 + Math.random() * 10; // 5s to 15s
-            const delay = Math.random() * 5; 
-
-            el.style.left = `${left}vw`;
-            el.style.fontSize = `${size}rem`;
-            el.style.animationDuration = `${duration}s`;
-            el.style.animationDelay = `-${delay}s`; // Negative delay to start mid-animation
-
-            ingredientsContainer.appendChild(el);
-        }
 
         // ---------------------------------------------------------
         // INTERNATIONALIZATION (I18N)
