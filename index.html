@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Portfólio do Chef Matheus R. Fonseca">
+    <title>Chef Matheus R. Fonseca</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <!-- Fontes: Playfair Display (Títulos elegantes) e Inter (Texto) -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        serif: ['Playfair Display', 'serif'],
+                    },
+                    colors: {
+                        chef: {
+                            gold: '#d4af37',
+                            dark: '#1c1917', // Stone 900
+                            light: '#e7e5e4', // Stone 200
+                            accent: '#ea580c', // Orange 600
+                        }
+                    },
+                    backgroundImage: {
+                        'texture': "url('https://www.transparenttextures.com/patterns/black-linen.png')",
+                    },
+                    animation: {
+                        'fade-in-up': 'fadeInUp 0.8s ease-out forwards',
+                        'spin-slow': 'spin 12s linear infinite',
+                    },
+                    keyframes: {
+                        fadeInUp: {
+                            '0%': { opacity: '0', transform: 'translateY(20px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            background-color: #0c0a09; /* Stone 950 */
+            color: #e7e5e4;
+            font-family: 'Inter', sans-serif;
+        }
+        
+        h1, h2, h3, h4 {
+            font-family: 'Playfair Display', serif;
+        }
+
+        .gold-gradient {
+            background: linear-gradient(to right, #d4af37, #fcd34d);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Efeito de vidro */
+        .glass-panel {
+            background: rgba(28, 25, 23, 0.7);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(214, 175, 55, 0.1);
+        }
+
+        /* Scrollbar elegante */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #0c0a09; }
+        ::-webkit-scrollbar-thumb { background: #44403c; border-radius: 3px; }
+        ::-webkit-scrollbar-thumb:hover { background: #d4af37; }
+
+        .dish-card:hover img {
+            transform: scale(1.1);
+        }
+    </style>
+</head>
+<body class="antialiased overflow-x-hidden">
+
+    <!-- Navbar -->
+    <nav class="fixed w-full z-50 transition-all duration-300 glass-panel border-b-0">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                <div class="flex items-center gap-2">
+                    <i data-lucide="chef-hat" class="text-chef-gold w-8 h-8"></i>
+                    <span class="text-xl font-bold tracking-widest uppercase text-white">Matheus<span class="text-chef-gold">.</span></span>
+                </div>
+                
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="#about" class="text-stone-300 hover:text-chef-gold transition-colors text-sm uppercase tracking-wider" data-i18n="nav_about">Sobre</a>
+                    <a href="#education" class="text-stone-300 hover:text-chef-gold transition-colors text-sm uppercase tracking-wider" data-i18n="nav_edu">Formação</a>
+                    <a href="#experience" class="text-stone-300 hover:text-chef-gold transition-colors text-sm uppercase tracking-wider" data-i18n="nav_exp">Experiência</a>
+                    <a href="#skills" class="text-stone-300 hover:text-chef-gold transition-colors text-sm uppercase tracking-wider" data-i18n="nav_skills">Habilidades</a>
+                    <a href="#contact" class="text-stone-300 hover:text-chef-gold transition-colors text-sm uppercase tracking-wider" data-i18n="nav_contact">Contato</a>
+                </div>
+
+                <!-- Language Flags -->
+                <div class="flex items-center gap-3">
+                    <button onclick="changeLanguage('pt')" class="w-6 h-6 hover:scale-110 transition-transform" title="Português">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36 36" class="rounded-full shadow-lg"><path fill="#009b3a" d="M36 27a4 4 0 0 1-4 4H4a4 4 0 0 1-4-4V9a4 4 0 0 1 4-4h28a4 4 0 0 1 4 4v18z"/><path fill="#fedf00" d="M32.73 18L18 29.27 3.27 18 18 6.73z"/><circle fill="#002776" cx="18" cy="18" r="6.5"/><path fill="#fff" d="M13.25 18.27a8.6 8.6 0 0 0 9.27-2.34c-.26.23-1.09.84-2.82 1.34-2.61.76-4.94.34-6.45 1z"/></svg>
+                    </button>
+                    <button onclick="changeLanguage('en')" class="w-6 h-6 hover:scale-110 transition-transform opacity-50" title="English">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36 36" class="rounded-full shadow-lg"><path fill="#bd3d44" d="M32 5H4a4 4 0 0 0-4 4v18a4 4 0 0 0 4 4h28a4 4 0 0 0 4-4V9a4 4 0 0 0-4-4z"/><path fill="#fff" d="M0 27a4 4 0 0 0 4 4h28a4 4 0 0 0 4-4V9a4 4 0 0 0-4-4H4a4 4 0 0 0-4 4v18z"/><path fill="#bd3d44" d="M36 20.5H0v-5h36v5z"/><path fill="#bd3d44" d="M36 25.5H0v-1h36v1zm0-15H0v-1h36v1z"/><path fill="#192f5d" d="M19.38 5H4a4 4 0 0 0-4 4v12.23h19.38V5z"/><path fill="#fff" d="M2.35 19.35l1.69-1.39 1.15 1.54 1.35-1.92 1.58 1.19 1.35-1.92 1.15 1.54 1.69-1.39-.77 2.23H10.7l-.39 2.16L9.62 19.2l-2.04 1.27.35-2.35-2.31-.5 2.12-1.07zm14.88 0l-1.69-1.39-1.15 1.54-1.35-1.92-1.58 1.19-1.35-1.92-1.15 1.54-1.69-1.39.77 2.23h1.85l.39 2.16.69-2.04 2.04 1.27-.35-2.35 2.31-.5-2.12-1.07zM3.6 15.65l1.04-1.93 1.89.65.65-1.93 1.89.65 1.04-1.93.42 2.16 2.31.35-1.73 1.62.92 2.15-2.27-.77-1.46 1.81-1.46-1.81-2.27.77.92-2.15-1.73-1.62zm10.77 0l-1.04-1.93-1.89.65-.65-1.93-1.89.65-1.04-1.93-.42 2.16-2.31.35 1.73 1.62-.92 2.15 2.27-.77 1.46 1.81 1.46-1.81 2.27.77-.92-2.15 1.73-1.62zM3.22 8.54l1.62.77-.15 2.19 2.08-.88 1.31 1.77 1.31-1.77 2.08.88-.15-2.19 1.62-.77-2.16-.39.46-2.15-1.96 1.12L8.08 5l-1.19 2.12L4.93 5l.46 2.15z"/></svg>
+                    </button>
+                    <button onclick="changeLanguage('es')" class="w-6 h-6 hover:scale-110 transition-transform opacity-50" title="Español">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36 36" class="rounded-full shadow-lg"><path fill="#bd3d44" d="M32 5H4a4 4 0 0 0-4 4v18a4 4 0 0 0 4 4h28a4 4 0 0 0 4-4V9a4 4 0 0 0-4-4z"/><path fill="#fbd116" d="M0 26h36V10H0z"/><path fill="#bd3d44" d="M6 15h9v6H6z"/></svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="about" class="min-h-screen flex items-center justify-center relative pt-20">
+        <!-- Background Elements -->
+        <div class="absolute inset-0 z-0 opacity-20">
+            <img src="https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?q=80&w=2070&auto=format&fit=crop" class="w-full h-full object-cover grayscale" alt="Kitchen Background">
+            <div class="absolute inset-0 bg-gradient-to-t from-[#0c0a09] via-[#0c0a09]/80 to-transparent"></div>
+        </div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full">
+            <div class="flex flex-col md:flex-row items-center gap-12 lg:gap-20">
+                <!-- Image Container -->
+                <div class="w-64 h-64 md:w-80 md:h-80 lg:w-[400px] lg:h-[500px] flex-shrink-0 relative group animate-fade-in-up">
+                    <div class="absolute inset-0 border-2 border-chef-gold/30 rounded-lg translate-x-4 translate-y-4 group-hover:translate-x-2 group-hover:translate-y-2 transition-transform duration-500"></div>
+                    <div class="w-full h-full rounded-lg overflow-hidden shadow-2xl relative">
+                        <img 
+                            src="https://blogger.googleusercontent.com/img/a/AVvXsEhldf6e9RSmGBUZEhVXxTNQ8T28BjTNeeny6tAAxOFuHZFdoqgVS7jUCV4jDY-QfWeE7dcL5F0yLy34f8GI6FMkKiIBu-Gmf3Wr_3foyZQ9cj9JOlXfHfabXl_M8LCSTOPaHXKNWrSDFM2XxnQnsMX47hJ7VCLc1TOxq5nloJQKcg7c5SKFvRRiwfNVBA0_=s1600" 
+                            alt="Matheus R. Fonseca" 
+                            class="w-full h-full object-cover hover:scale-105 transition-transform duration-700"
+                        >
+                        <!-- Gradient Overlay on Image -->
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+                    </div>
+                </div>
+
+                <!-- Text Content -->
+                <div class="text-center md:text-left animate-fade-in-up" style="animation-delay: 0.2s;">
+                    <div class="inline-block px-3 py-1 mb-4 border border-chef-gold/30 rounded-full bg-chef-gold/10 backdrop-blur-sm">
+                        <span class="text-chef-gold text-xs font-semibold tracking-widest uppercase" data-i18n="hero_role">Cozinheiro Profissional</span>
+                    </div>
+                    <h1 class="text-5xl md:text-6xl lg:text-7xl font-bold mb-4 leading-tight">
+                        Matheus <br>
+                        <span class="gold-gradient italic">Fonseca</span>
+                    </h1>
+                    <p class="text-stone-400 text-lg mb-8 max-w-xl leading-relaxed" data-i18n="hero_bio">
+                        Transformando ingredientes em memórias. Experiência sólida em cozinhas de alto padrão em Belo Horizonte. Combinando habilidades técnicas com paixão pela gastronomia.
+                    </p>
+                    
+                    <div class="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
+                        <a href="https://wa.me/5531997150746" target="_blank" class="px-8 py-4 bg-chef-gold text-stone-900 font-bold uppercase tracking-wider hover:bg-white transition-colors duration-300 flex items-center justify-center gap-2">
+                            <i data-lucide="message-circle"></i>
+                            <span data-i18n="hero_btn_contact">Fale Comigo</span>
+                        </a>
+                        <a href="#experience" class="px-8 py-4 border border-stone-600 text-stone-300 font-bold uppercase tracking-wider hover:border-chef-gold hover:text-chef-gold transition-colors duration-300 flex items-center justify-center gap-2">
+                            <i data-lucide="chef-hat"></i>
+                            <span data-i18n="hero_btn_work">Ver Experiência</span>
+                        </a>
+                    </div>
+
+                    <div class="mt-8 flex items-center justify-center md:justify-start gap-6 text-stone-500">
+                        <a href="https://instagram.com/cheftheu" target="_blank" class="hover:text-chef-gold transition-colors"><i data-lucide="instagram"></i></a>
+                        <a href="mailto:rmatheusfonseca@gmail.com" class="hover:text-chef-gold transition-colors"><i data-lucide="mail"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Education Section -->
+    <section id="education" class="py-20 bg-[#0c0a09] relative">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <span class="text-chef-gold text-sm tracking-widest uppercase mb-2 block" data-i18n="section_edu_subtitle">Formação</span>
+                <h2 class="text-4xl md:text-5xl font-bold text-white mb-4" data-i18n="section_edu_title">Educação Acadêmica</h2>
+                <div class="w-24 h-1 bg-chef-gold mx-auto"></div>
+            </div>
+
+            <div class="glass-panel p-8 md:p-10 rounded-xl hover:border-chef-gold/50 transition-colors group relative overflow-hidden">
+                <div class="absolute top-0 right-0 p-6 opacity-5 group-hover:opacity-10 transition-opacity">
+                    <i data-lucide="graduation-cap" class="w-32 h-32 text-chef-gold"></i>
+                </div>
+                
+                <div class="flex flex-col md:flex-row justify-between items-start mb-6 relative z-10">
+                    <div>
+                        <h3 class="text-2xl font-bold text-white mb-1" data-i18n="edu_degree">Graduação em Gastronomia</h3>
+                        <p class="text-chef-gold text-lg">Centro Universitário UNA</p>
+                    </div>
+                    <div class="mt-2 md:mt-0 px-4 py-1 bg-stone-800 rounded border border-stone-700 text-stone-300">
+                        2024
+                    </div>
+                </div>
+                
+                <p class="text-stone-400 leading-relaxed max-w-3xl relative z-10" data-i18n="edu_desc">
+                    Estudar Gastronomia na UNA é uma experiência transformadora. As aulas presenciais em cozinhas equipadas permitem explorar técnicas e sabores, desenvolvendo não apenas habilidades culinárias, mas também uma conexão mais profunda com a arte de cozinhar.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Experience Timeline -->
+    <section id="experience" class="py-24 bg-[#141210] relative overflow-hidden">
+        <i data-lucide="utensils" class="absolute top-20 right-10 w-64 h-64 text-white/5 -rotate-12"></i>
+
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="text-center mb-16">
+                <span class="text-chef-gold text-sm tracking-widest uppercase mb-2 block" data-i18n="section_trajectory">Minha Trajetória</span>
+                <h2 class="text-4xl md:text-5xl font-bold text-white mb-4" data-i18n="section_exp_title">Experiência Profissional</h2>
+                <div class="w-24 h-1 bg-chef-gold mx-auto"></div>
+            </div>
+
+            <div class="space-y-8">
+                <!-- Job 1 -->
+                <div class="glass-panel p-8 rounded-xl hover:border-chef-gold/50 transition-colors group">
+                    <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-4">
+                        <div>
+                            <h3 class="text-2xl font-bold text-white group-hover:text-chef-gold transition-colors">Pastaio</h3>
+                            <p class="text-stone-400 italic" data-i18n="role_cook">Cozinheiro</p>
+                        </div>
+                        <span class="mt-2 md:mt-0 px-4 py-1 bg-stone-800 rounded text-stone-300 text-sm border border-stone-700">Belo Horizonte, MG</span>
+                    </div>
+                    <p class="text-stone-400 leading-relaxed" data-i18n="exp_pastaio">
+                        Especializado em massas artesanais e cozinha italiana. Foco na produção de massas frescas, molhos clássicos e finalização de pratos com alta atenção aos detalhes.
+                    </p>
+                </div>
+
+                <!-- Job 2 -->
+                <div class="glass-panel p-8 rounded-xl hover:border-chef-gold/50 transition-colors group">
+                    <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-4">
+                        <div>
+                            <h3 class="text-2xl font-bold text-white group-hover:text-chef-gold transition-colors">Rex Bibendi</h3>
+                            <p class="text-stone-400 italic" data-i18n="role_cook">Cozinheiro</p>
+                        </div>
+                        <span class="mt-2 md:mt-0 px-4 py-1 bg-stone-800 rounded text-stone-300 text-sm border border-stone-700">Belo Horizonte, MG</span>
+                    </div>
+                    <p class="text-stone-400 leading-relaxed" data-i18n="exp_rex">
+                        Atuação em ambiente de alta gastronomia e carnes nobres. Responsável pela praça quente, controle de ponto de carnes, guarnições sofisticadas e manutenção dos padrões de qualidade.
+                    </p>
+                </div>
+
+                <!-- Job 3 -->
+                <div class="glass-panel p-8 rounded-xl hover:border-chef-gold/50 transition-colors group">
+                    <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-4">
+                        <div>
+                            <h3 class="text-2xl font-bold text-white group-hover:text-chef-gold transition-colors">Coco Bambu</h3>
+                            <p class="text-stone-400 italic" data-i18n="role_cook">Cozinheiro</p>
+                        </div>
+                        <span class="mt-2 md:mt-0 px-4 py-1 bg-stone-800 rounded text-stone-300 text-sm border border-stone-700">Belo Horizonte, MG</span>
+                    </div>
+                    <p class="text-stone-400 leading-relaxed" data-i18n="exp_coco">
+                        Experiência em cozinha de alto volume com foco em frutos do mar. Rigoroso controle de padronização, agilidade no serviço e trabalho em equipe em grande escala.
+                    </p>
+                </div>
+
+                <!-- Job 4 (New) -->
+                <div class="glass-panel p-8 rounded-xl hover:border-chef-gold/50 transition-colors group">
+                    <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-4">
+                        <div>
+                            <h3 class="text-2xl font-bold text-white group-hover:text-chef-gold transition-colors">Sorvetes Recreio</h3>
+                            <p class="text-stone-400 italic" data-i18n="role_recreio">Atendente e Gestão Operacional</p>
+                        </div>
+                        <span class="mt-2 md:mt-0 px-4 py-1 bg-stone-800 rounded text-stone-300 text-sm border border-stone-700">Belo Horizonte, MG</span>
+                    </div>
+                    <p class="text-stone-400 leading-relaxed" data-i18n="exp_recreio">
+                        Responsável pelo atendimento ao cliente, operação de caixa e gestão operacional do estabelecimento, garantindo a satisfação dos clientes e o bom funcionamento da loja.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section id="skills" class="py-24 bg-[#0c0a09] relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-16 items-start">
+                
+                <!-- Technical Skills -->
+                <div>
+                    <span class="text-chef-gold text-sm tracking-widest uppercase mb-2 block" data-i18n="section_skills_subtitle">Competências</span>
+                    <h2 class="text-4xl font-bold text-white mb-6" data-i18n="section_skills_title">A Arte da Cozinha</h2>
+                    <p class="text-stone-400 mb-8 leading-relaxed" data-i18n="skills_desc">
+                        Além da execução de receitas, possuo domínio técnico sobre os processos de uma cozinha profissional, garantindo segurança, sabor e eficiência.
+                    </p>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-10">
+                        <div class="flex items-center gap-4">
+                            <div class="w-12 h-12 bg-stone-800 rounded-full flex items-center justify-center text-chef-gold">
+                                <i data-lucide="flame"></i>
+                            </div>
+                            <div>
+                                <h4 class="text-white font-bold" data-i18n="skill_hot">Praça Quente</h4>
+                                <span class="text-xs text-stone-500">Grelhados & Assados</span>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-4">
+                            <div class="w-12 h-12 bg-stone-800 rounded-full flex items-center justify-center text-chef-gold">
+                                <i data-lucide="fish"></i>
+                            </div>
+                            <div>
+                                <h4 class="text-white font-bold" data-i18n="skill_seafood">Frutos do Mar</h4>
+                                <span class="text-xs text-stone-500">Limpeza & Preparo</span>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-4">
+                            <div class="w-12 h-12 bg-stone-800 rounded-full flex items-center justify-center text-chef-gold">
+                                <i data-lucide="wheat"></i>
+                            </div>
+                            <div>
+                                <h4 class="text-white font-bold" data-i18n="skill_pasta">Massas Artesanais</h4>
+                                <span class="text-xs text-stone-500">Produção & Molhos</span>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-4">
+                            <div class="w-12 h-12 bg-stone-800 rounded-full flex items-center justify-center text-chef-gold">
+                                <i data-lucide="clipboard-check"></i>
+                            </div>
+                            <div>
+                                <h4 class="text-white font-bold">Mise en Place</h4>
+                                <span class="text-xs text-stone-500" data-i18n="skill_org">Organização & Higiene</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Additional Skills (Soft & Market) -->
+                <div>
+                     <span class="text-chef-gold text-sm tracking-widest uppercase mb-2 block" data-i18n="section_add_skills_subtitle">Perfil Profissional</span>
+                     <h2 class="text-3xl font-bold text-white mb-6" data-i18n="section_add_skills_title">Habilidades & Mercado</h2>
+                     
+                     <div class="mb-8">
+                        <h4 class="text-white font-bold mb-3 border-b border-stone-800 pb-2" data-i18n="skills_personal">Habilidades Pessoais</h4>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="px-3 py-1 bg-stone-800 text-stone-300 rounded-full text-sm border border-stone-700" data-i18n="skill_proactive">Proatividade</span>
+                            <span class="px-3 py-1 bg-stone-800 text-stone-300 rounded-full text-sm border border-stone-700" data-i18n="skill_teamwork">Trabalho em equipe</span>
+                            <span class="px-3 py-1 bg-stone-800 text-stone-300 rounded-full text-sm border border-stone-700" data-i18n="skill_learning">Rápida aprendizagem</span>
+                        </div>
+                     </div>
+
+                     <div>
+                        <h4 class="text-white font-bold mb-3 border-b border-stone-800 pb-2" data-i18n="skills_market">Habilidades de Mercado</h4>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="px-3 py-1 bg-stone-800 text-stone-300 rounded-full text-sm border border-stone-700" data-i18n="skill_hot_kitchen">Cozinha Quente</span>
+                            <span class="px-3 py-1 bg-stone-800 text-stone-300 rounded-full text-sm border border-stone-700" data-i18n="skill_baking">Panificação</span>
+                            <span class="px-3 py-1 bg-stone-800 text-stone-300 rounded-full text-sm border border-stone-700" data-i18n="skill_safety">Segurança Alimentar</span>
+                            <span class="px-3 py-1 bg-stone-800 text-stone-300 rounded-full text-sm border border-stone-700" data-i18n="skill_customer">Atendimento ao cliente</span>
+                            <span class="px-3 py-1 bg-stone-800 text-stone-300 rounded-full text-sm border border-stone-700" data-i18n="skill_cashier">Operação de caixa</span>
+                            <span class="px-3 py-1 bg-stone-800 text-stone-300 rounded-full text-sm border border-stone-700" data-i18n="skill_time">Gestão de Tempo</span>
+                        </div>
+                     </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Instagram Gallery Section -->
+    <section class="py-16 bg-[#141210]">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="text-center mb-10">
+                <a href="https://instagram.com/cheftheu" target="_blank" class="inline-flex items-center gap-2 text-chef-gold hover:text-white transition-colors mb-2">
+                    <i data-lucide="instagram"></i>
+                    <span class="font-bold tracking-wide">@cheftheu</span>
+                </a>
+                <h3 class="text-2xl font-bold text-white" data-i18n="gallery_title">Minhas Últimas Criações</h3>
+            </div>
+            
+            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-2">
+                <!-- Instagram Link 1 - Drive Image -->
+                <a href="https://www.instagram.com/p/DLvRQrnuBaF/?img_index=1" target="_blank" class="block aspect-square overflow-hidden relative group">
+                    <img src="https://drive.google.com/thumbnail?id=1OgPqfk-lPPVUHNpQPd3lqkfS1oH30cQf&sz=w800" 
+                         class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" alt="Criação Gastronômica 1">
+                    <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                        <i data-lucide="instagram" class="text-white w-8 h-8"></i>
+                    </div>
+                </a>
+                <!-- Instagram Link 2 - Drive Image -->
+                <a href="https://www.instagram.com/p/DF0al6ku4-i/" target="_blank" class="block aspect-square overflow-hidden relative group">
+                    <img src="https://drive.google.com/thumbnail?id=1d33o7_HHZNiDA1AJAIZYMLOgcGrIWe8i&sz=w800" 
+                         class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" alt="Criação Gastronômica 2">
+                    <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                        <i data-lucide="instagram" class="text-white w-8 h-8"></i>
+                    </div>
+                </a>
+                <!-- Instagram Link 3 - Drive Image -->
+                <a href="https://www.instagram.com/p/DF0ahguOZrc/" target="_blank" class="block aspect-square overflow-hidden relative group">
+                    <img src="https://drive.google.com/thumbnail?id=17B9XfzcaZCDJCsjqwrjHpv_OWkpyqJkg&sz=w800" 
+                         class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" alt="Criação Gastronômica 3">
+                    <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                        <i data-lucide="instagram" class="text-white w-8 h-8"></i>
+                    </div>
+                </a>
+                <!-- Instagram Link 4 - Drive Image -->
+                <a href="https://www.instagram.com/p/DPSC0tXDtk4/" target="_blank" class="block aspect-square overflow-hidden relative group">
+                    <img src="https://drive.google.com/thumbnail?id=15Jy9ibnHjQA32ZkyXa1Yu6DEdiO-CpSF&sz=w800" 
+                         class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" alt="Criação Gastronômica 4">
+                    <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                        <i data-lucide="instagram" class="text-white w-8 h-8"></i>
+                    </div>
+                </a>
+                <!-- Instagram Link 5 - Drive Image -->
+                <a href="https://www.instagram.com/p/DLvPun-uGsA/?img_index=1" target="_blank" class="block aspect-square overflow-hidden relative group">
+                    <img src="https://drive.google.com/thumbnail?id=1C0bWARuI11th6pkO1vzOOJRjovQ8xHmh&sz=w800" 
+                         class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" alt="Criação Gastronômica 5">
+                    <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                        <i data-lucide="instagram" class="text-white w-8 h-8"></i>
+                    </div>
+                </a>
+            </div>
+            
+            <div class="text-center mt-8">
+                <a href="https://instagram.com/cheftheu" target="_blank" class="inline-block px-6 py-2 border border-stone-700 rounded-full text-stone-400 hover:text-white hover:border-white transition-all text-sm uppercase tracking-widest" data-i18n="gallery_btn">
+                    Seguir no Instagram
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer / Contact -->
+    <footer id="contact" class="bg-[#0c0a09] border-t border-stone-800 pt-16 pb-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col items-center text-center">
+                <i data-lucide="chef-hat" class="text-chef-gold w-10 h-10 mb-4"></i>
+                <h2 class="text-3xl font-bold text-white mb-2">Matheus R. Fonseca</h2>
+                <p class="text-stone-400 mb-8" data-i18n="footer_tagline">Disponível para eventos e novas oportunidades.</p>
+                
+                <div class="flex flex-wrap justify-center gap-6 mb-12">
+                    <a href="mailto:rmatheusfonseca@gmail.com" class="flex items-center gap-2 text-stone-300 hover:text-chef-gold transition-colors bg-stone-900 px-4 py-3 rounded border border-stone-800">
+                        <i data-lucide="mail" class="w-4 h-4"></i> rmatheusfonseca@gmail.com
+                    </a>
+                    <a href="tel:+5531997150746" class="flex items-center gap-2 text-stone-300 hover:text-chef-gold transition-colors bg-stone-900 px-4 py-3 rounded border border-stone-800">
+                        <i data-lucide="phone" class="w-4 h-4"></i> +55 31 99715-0746
+                    </a>
+                    <a href="https://instagram.com/cheftheu" target="_blank" class="flex items-center gap-2 text-stone-300 hover:text-chef-gold transition-colors bg-stone-900 px-4 py-3 rounded border border-stone-800">
+                        <i data-lucide="instagram" class="w-4 h-4"></i> @cheftheu
+                    </a>
+                </div>
+
+                <div class="text-stone-600 text-sm border-t border-stone-900 pt-8 w-full flex flex-col md:flex-row justify-between items-center">
+                    <span>&copy; 2024 Matheus Rodrigues da Fonseca.</span>
+                    <span class="flex items-center gap-1 mt-2 md:mt-0"><i data-lucide="map-pin" class="w-3 h-3"></i> Belo Horizonte, Brasil</span>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script>
+        lucide.createIcons();
+
+        // ---------------------------------------------------------
+        // INTERNATIONALIZATION (I18N)
+        // ---------------------------------------------------------
+        const translations = {
+            pt: {
+                nav_about: "Sobre",
+                nav_edu: "Formação",
+                nav_exp: "Experiência",
+                nav_skills: "Habilidades",
+                nav_contact: "Contato",
+                hero_role: "Cozinheiro Profissional",
+                hero_bio: "Transformando ingredientes em memórias. Experiência sólida em cozinhas de alto padrão em Belo Horizonte. Combinando habilidades técnicas com paixão pela gastronomia.",
+                hero_btn_contact: "Fale Comigo",
+                hero_btn_work: "Ver Experiência",
+                section_edu_subtitle: "Formação",
+                section_edu_title: "Educação Acadêmica",
+                edu_degree: "Graduação em Gastronomia",
+                edu_desc: "Estudar Gastronomia na UNA é uma experiência transformadora. As aulas presenciais em cozinhas equipadas permitem explorar técnicas e sabores, desenvolvendo não apenas habilidades culinárias, mas também uma conexão mais profunda com a arte de cozinhar.",
+                section_trajectory: "Minha Trajetória",
+                section_exp_title: "Experiência Profissional",
+                role_cook: "Cozinheiro",
+                role_recreio: "Atendente e Gestão Operacional",
+                exp_pastaio: "Especializado em massas artesanais e cozinha italiana. Foco na produção de massas frescas, molhos clássicos e finalização de pratos com alta atenção aos detalhes.",
+                exp_rex: "Atuação em ambiente de alta gastronomia e carnes nobres. Responsável pela praça quente, controle de ponto de carnes, guarnições sofisticadas e manutenção dos padrões de qualidade.",
+                exp_coco: "Experiencia em cozinha de alto volume com foco em frutos do mar. Rigoroso controle de padronização, agilidade no serviço e trabalho em equipe em grande escala.",
+                exp_recreio: "Responsável pelo atendimento ao cliente, operação de caixa e gestão operacional do estabelecimento, garantindo a satisfação dos clientes e o bom funcionamento da loja.",
+                section_skills_subtitle: "Competências",
+                section_skills_title: "A Arte da Cozinha",
+                skills_desc: "Além da execução de receitas, possuo domínio técnico sobre os processos de uma cozinha profissional, garantindo segurança, sabor e eficiência.",
+                skill_hot: "Praça Quente",
+                skill_seafood: "Frutos do Mar",
+                skill_pasta: "Massas Artesanais",
+                skill_org: "Organização & Higiene",
+                section_add_skills_subtitle: "Perfil Profissional",
+                section_add_skills_title: "Habilidades & Mercado",
+                skills_personal: "Habilidades Pessoais",
+                skills_market: "Habilidades de Mercado",
+                skill_proactive: "Proatividade",
+                skill_teamwork: "Trabalho em equipe",
+                skill_learning: "Rápida aprendizagem",
+                skill_hot_kitchen: "Cozinha Quente",
+                skill_baking: "Panificação",
+                skill_safety: "Segurança Alimentar",
+                skill_customer: "Atendimento ao cliente",
+                skill_cashier: "Operação de caixa",
+                skill_time: "Gestão de Tempo",
+                gallery_title: "Minhas Últimas Criações",
+                gallery_btn: "Seguir no Instagram",
+                footer_tagline: "Disponível para eventos e novas oportunidades."
+            },
+            en: {
+                nav_about: "About",
+                nav_edu: "Education",
+                nav_exp: "Experience",
+                nav_skills: "Skills",
+                nav_contact: "Contact",
+                hero_role: "Professional Cook",
+                hero_bio: "Turning ingredients into memories. Solid experience in high-end kitchens in Belo Horizonte. Combining technical skills with passion for gastronomy.",
+                hero_btn_contact: "Get in Touch",
+                hero_btn_work: "See Experience",
+                section_edu_subtitle: "Education",
+                section_edu_title: "Academic Background",
+                edu_degree: "Gastronomy Degree",
+                edu_desc: "Studying Gastronomy at UNA is a transformative experience. In-person classes in equipped kitchens allow exploring techniques and flavors, developing not only culinary skills but also a deeper connection with the art of cooking.",
+                section_trajectory: "My Journey",
+                section_exp_title: "Professional Experience",
+                role_cook: "Cook / Line Cook",
+                role_recreio: "Attendant & Operational Management",
+                exp_pastaio: "Specialized in artisanal pasta and Italian cuisine. Focus on fresh pasta production, classic sauces, and dish finishing with high attention to detail.",
+                exp_rex: "Working in high-end gastronomy and fine meats. Responsible for the hot station, meat doneness control, sophisticated sides, and maintaining quality standards.",
+                exp_coco: "Experience in high-volume kitchen focused on seafood. Rigorous standardization control, service agility, and large-scale teamwork.",
+                exp_recreio: "Responsible for customer service, cashier operations, and operational management of the establishment, ensuring customer satisfaction and smooth store operations.",
+                section_skills_subtitle: "Competencies",
+                section_skills_title: "The Art of Cooking",
+                skills_desc: "Beyond recipe execution, I possess technical mastery over professional kitchen processes, ensuring safety, flavor, and efficiency.",
+                skill_hot: "Hot Station",
+                skill_seafood: "Seafood",
+                skill_pasta: "Artisanal Pasta",
+                skill_org: "Organization & Hygiene",
+                section_add_skills_subtitle: "Professional Profile",
+                section_add_skills_title: "Skills & Market",
+                skills_personal: "Soft Skills",
+                skills_market: "Market Skills",
+                skill_proactive: "Proactivity",
+                skill_teamwork: "Teamwork",
+                skill_learning: "Fast Learning",
+                skill_hot_kitchen: "Hot Kitchen",
+                skill_baking: "Baking",
+                skill_safety: "Food Safety",
+                skill_customer: "Customer Service",
+                skill_cashier: "Cashier Operations",
+                skill_time: "Time Management",
+                gallery_title: "My Latest Creations",
+                gallery_btn: "Follow on Instagram",
+                footer_tagline: "Available for events and new opportunities."
+            },
+            es: {
+                nav_about: "Sobre Mí",
+                nav_edu: "Formación",
+                nav_exp: "Experiencia",
+                nav_skills: "Habilidades",
+                nav_contact: "Contacto",
+                hero_role: "Cocinero Profesional",
+                hero_bio: "Transformando ingredientes en recuerdos. Sólida experiencia en cocinas de alto nivel en Belo Horizonte. Combinando habilidades técnicas con pasión por la gastronomía.",
+                hero_btn_contact: "Hable Conmigo",
+                hero_btn_work: "Ver Experiencia",
+                section_edu_subtitle: "Formación",
+                section_edu_title: "Educación Académica",
+                edu_degree: "Grado en Gastronomía",
+                edu_desc: "Estudiar Gastronomía en UNA es una experiencia transformadora. Las clases presenciales en cocinas equipadas permiten explorar técnicas y sabores, desarrollando no solo habilidades culinarias, sino también una conexión más profunda con el arte de cocinar.",
+                section_trajectory: "Mi Trayectoria",
+                section_exp_title: "Experiencia Profesional",
+                role_cook: "Cocinero",
+                role_recreio: "Atención y Gestión Operativa",
+                exp_pastaio: "Especializado en pastas artesanales y cocina italiana. Enfoque en la producción de pastas frescas, salsas clásicas y finalización de platos con gran atención al detalle.",
+                exp_rex: "Actuación en ambiente de alta gastronomía y carnes nobles. Responsable de la estación caliente, control de punto de carnes, guarniciones sofisticadas y mantenimiento de estándares de calidad.",
+                exp_coco: "Experiencia en cocina de alto volumen con enfoque en mariscos. Riguroso control de estandarización, agilidad en el servicio y trabajo en equipo a gran escala.",
+                exp_recreio: "Responsable de la atención al cliente, operación de caja y gestión operativa del establecimiento, garantizando la satisfacción del cliente y el buen funcionamiento de la tienda.",
+                section_skills_subtitle: "Competencias",
+                section_skills_title: "El Arte de la Cocina",
+                skills_desc: "Más allá de la ejecución de recetas, poseo dominio técnico sobre los procesos de una cocina profesional, garantizando seguridad, sabor y eficiencia.",
+                skill_hot: "Estación Caliente",
+                skill_seafood: "Mariscos",
+                skill_pasta: "Pastas Artesanales",
+                skill_org: "Organización e Higiene",
+                section_add_skills_subtitle: "Perfil Profesional",
+                section_add_skills_title: "Habilidades y Mercado",
+                skills_personal: "Habilidades Personales",
+                skills_market: "Habilidades de Mercado",
+                skill_proactive: "Proactividad",
+                skill_teamwork: "Trabajo en equipo",
+                skill_learning: "Rápido aprendizaje",
+                skill_hot_kitchen: "Cocina Caliente",
+                skill_baking: "Panadería",
+                skill_safety: "Seguridad Alimentaria",
+                skill_customer: "Atención al cliente",
+                skill_cashier: "Operación de caja",
+                skill_time: "Gestión del Tiempo",
+                gallery_title: "Mis Últimas Creaciones",
+                gallery_btn: "Seguir en Instagram",
+                footer_tagline: "Disponible para eventos y nuevas oportunidades."
+            }
+        };
+
+        function changeLanguage(lang) {
+            // Update Text
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (translations[lang][key]) {
+                    el.textContent = translations[lang][key];
+                }
+            });
+            
+            // Visual feedback on buttons
+            const buttons = document.querySelectorAll('nav button');
+            buttons.forEach(btn => {
+                if(btn.onclick.toString().includes(`'${lang}'`)) {
+                    btn.classList.remove('opacity-50');
+                    btn.classList.add('scale-110');
+                } else {
+                    btn.classList.add('opacity-50');
+                    btn.classList.remove('scale-110');
+                }
+            });
+        }
+
+        // Navbar Scroll Effect
+        window.addEventListener('scroll', () => {
+            const nav = document.querySelector('nav');
+            if (window.scrollY > 50) {
+                nav.classList.add('bg-chef-dark/95', 'shadow-lg');
+            } else {
+                nav.classList.remove('bg-chef-dark/95', 'shadow-lg');
+            }
+        });
+    </script>
+</body>
+</html>
