@@ -87,11 +87,13 @@
     <nav class="fixed w-full z-50 transition-all duration-300 glass-panel border-b-0">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex items-center justify-between h-20">
-                <a href="#home" class="flex items-center gap-2 cursor-pointer group">
+                <!-- Logo -->
+                <a href="#home" class="flex items-center gap-2 cursor-pointer group z-50 relative">
                     <i data-lucide="chef-hat" class="text-chef-gold w-8 h-8 group-hover:rotate-12 transition-transform"></i>
                     <span class="text-xl font-bold tracking-widest uppercase text-white">Matheus<span class="text-chef-gold">.</span></span>
                 </a>
                 
+                <!-- Desktop Menu -->
                 <div class="hidden md:flex items-center space-x-8">
                     <a href="#about" class="text-stone-300 hover:text-chef-gold transition-colors text-sm uppercase tracking-wider" data-i18n="nav_about">Sobre</a>
                     <a href="#education" class="text-stone-300 hover:text-chef-gold transition-colors text-sm uppercase tracking-wider" data-i18n="nav_edu">Formação</a>
@@ -100,22 +102,43 @@
                     <a href="#contact" class="text-stone-300 hover:text-chef-gold transition-colors text-sm uppercase tracking-wider" data-i18n="nav_contact">Contato</a>
                 </div>
 
-                <!-- Language Flags -->
-                <div class="flex items-center gap-3">
-                    <button onclick="changeLanguage('pt')" class="w-6 h-6 hover:scale-110 transition-transform" title="Português">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36 36" class="rounded-full shadow-lg"><path fill="#009b3a" d="M36 27a4 4 0 0 1-4 4H4a4 4 0 0 1-4-4V9a4 4 0 0 1 4-4h28a4 4 0 0 1 4 4v18z"/><path fill="#fedf00" d="M32.73 18L18 29.27 3.27 18 18 6.73z"/><circle fill="#002776" cx="18" cy="18" r="6.5"/><path fill="#fff" d="M13.25 18.27a8.6 8.6 0 0 0 9.27-2.34c-.26.23-1.09.84-2.82 1.34-2.61.76-4.94.34-6.45 1z"/></svg>
+                <div class="flex items-center gap-4">
+                    <!-- Desktop Flags -->
+                    <div class="hidden md:flex items-center gap-3">
+                        <button onclick="changeLanguage('pt')" class="w-6 h-6 hover:scale-110 transition-transform" title="Português">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36 36" class="rounded-full shadow-lg"><path fill="#009b3a" d="M36 27a4 4 0 0 1-4 4H4a4 4 0 0 1-4-4V9a4 4 0 0 1 4-4h28a4 4 0 0 1 4 4v18z"/><path fill="#fedf00" d="M32.73 18L18 29.27 3.27 18 18 6.73z"/><circle fill="#002776" cx="18" cy="18" r="6.5"/><path fill="#fff" d="M13.25 18.27a8.6 8.6 0 0 0 9.27-2.34c-.26.23-1.09.84-2.82 1.34-2.61.76-4.94.34-6.45 1z"/></svg>
+                        </button>
+                        <button onclick="changeLanguage('en')" class="w-6 h-6 hover:scale-110 transition-transform opacity-50" title="English">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36 36" class="rounded-full shadow-lg"><path fill="#bd3d44" d="M32 5H4a4 4 0 0 0-4 4v18a4 4 0 0 0 4 4h28a4 4 0 0 0 4-4V9a4 4 0 0 0-4-4z"/><path fill="#fff" d="M0 27a4 4 0 0 0 4 4h28a4 4 0 0 0 4-4V9a4 4 0 0 0-4-4H4a4 4 0 0 0-4 4v18z"/><path fill="#bd3d44" d="M36 20.5H0v-5h36v5z"/><path fill="#bd3d44" d="M36 25.5H0v-1h36v1zm0-15H0v-1h36v1z"/><path fill="#192f5d" d="M19.38 5H4a4 4 0 0 0-4 4v12.23h19.38V5z"/><path fill="#fff" d="M2.35 19.35l1.69-1.39 1.15 1.54 1.35-1.92 1.58 1.19 1.35-1.92 1.15 1.54 1.69-1.39-.77 2.23H10.7l-.39 2.16L9.62 19.2l-2.04 1.27.35-2.35-2.31-.5 2.12-1.07zm14.88 0l-1.69-1.39-1.15 1.54-1.35-1.92-1.58 1.19-1.35-1.92-1.15 1.54-1.69-1.39.77 2.23h1.85l.39 2.16.69-2.04 2.04 1.27-.35-2.35 2.31-.5-2.12-1.07zM3.6 15.65l1.04-1.93 1.89.65.65-1.93 1.89.65 1.04-1.93.42 2.16 2.31.35-1.73 1.62.92 2.15-2.27-.77-1.46 1.81-1.46-1.81-2.27.77.92-2.15-1.73-1.62zm10.77 0l-1.04-1.93-1.89.65-.65-1.93-1.89.65-1.04-1.93-.42 2.16-2.31.35 1.73 1.62-.92 2.15 2.27-.77 1.46 1.81 1.46-1.81 2.27.77-.92-2.15 1.73-1.62zM3.22 8.54l1.62.77-.15 2.19 2.08-.88 1.31 1.77 1.31-1.77 2.08.88-.15-2.19 1.62-.77-2.16-.39.46-2.15-1.96 1.12L8.08 5l-1.19 2.12L4.93 5l.46 2.15z"/></svg>
+                        </button>
+                        <button onclick="changeLanguage('es')" class="w-6 h-6 hover:scale-110 transition-transform opacity-50" title="Español">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36 36" class="rounded-full shadow-lg"><path fill="#bd3d44" d="M32 5H4a4 4 0 0 0-4 4v18a4 4 0 0 0 4 4h28a4 4 0 0 0 4-4V9a4 4 0 0 0-4-4z"/><path fill="#fbd116" d="M0 26h36V10H0z"/><path fill="#bd3d44" d="M6 15h9v6H6z"/></svg>
+                        </button>
+                        <button onclick="changeLanguage('fr')" class="w-6 h-6 hover:scale-110 transition-transform opacity-50" title="Français">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36 36" class="rounded-full shadow-lg"><path fill="#0055A4" d="M0 0h12v36H0z"/><path fill="#fff" d="M12 0h12v36H12z"/><path fill="#EF4135" d="M24 0h12v36H24z"/></svg>
+                        </button>
+                    </div>
+
+                    <!-- Mobile Flag Button (Single) -->
+                    <button onclick="cycleLanguage()" id="mobile-lang-btn" class="md:hidden w-8 h-8 rounded-full overflow-hidden shadow-lg border border-white/10 active:scale-95 transition-transform z-50 relative">
+                        <!-- Icon will be injected by JS -->
                     </button>
-                    <button onclick="changeLanguage('en')" class="w-6 h-6 hover:scale-110 transition-transform opacity-50" title="English">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36 36" class="rounded-full shadow-lg"><path fill="#bd3d44" d="M32 5H4a4 4 0 0 0-4 4v18a4 4 0 0 0 4 4h28a4 4 0 0 0 4-4V9a4 4 0 0 0-4-4z"/><path fill="#fff" d="M0 27a4 4 0 0 0 4 4h28a4 4 0 0 0 4-4V9a4 4 0 0 0-4-4H4a4 4 0 0 0-4 4v18z"/><path fill="#bd3d44" d="M36 20.5H0v-5h36v5z"/><path fill="#bd3d44" d="M36 25.5H0v-1h36v1zm0-15H0v-1h36v1z"/><path fill="#192f5d" d="M19.38 5H4a4 4 0 0 0-4 4v12.23h19.38V5z"/><path fill="#fff" d="M2.35 19.35l1.69-1.39 1.15 1.54 1.35-1.92 1.58 1.19 1.35-1.92 1.15 1.54 1.69-1.39-.77 2.23H10.7l-.39 2.16L9.62 19.2l-2.04 1.27.35-2.35-2.31-.5 2.12-1.07zm14.88 0l-1.69-1.39-1.15 1.54-1.35-1.92-1.58 1.19-1.35-1.92-1.15 1.54-1.69-1.39.77 2.23h1.85l.39 2.16.69-2.04 2.04 1.27-.35-2.35 2.31-.5-2.12-1.07zM3.6 15.65l1.04-1.93 1.89.65.65-1.93 1.89.65 1.04-1.93.42 2.16 2.31.35-1.73 1.62.92 2.15-2.27-.77-1.46 1.81-1.46-1.81-2.27.77.92-2.15-1.73-1.62zm10.77 0l-1.04-1.93-1.89.65-.65-1.93-1.89.65-1.04-1.93-.42 2.16-2.31.35 1.73 1.62-.92 2.15 2.27-.77 1.46 1.81 1.46-1.81 2.27.77-.92-2.15 1.73-1.62zM3.22 8.54l1.62.77-.15 2.19 2.08-.88 1.31 1.77 1.31-1.77 2.08.88-.15-2.19 1.62-.77-2.16-.39.46-2.15-1.96 1.12L8.08 5l-1.19 2.12L4.93 5l.46 2.15z"/></svg>
-                    </button>
-                    <button onclick="changeLanguage('es')" class="w-6 h-6 hover:scale-110 transition-transform opacity-50" title="Español">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36 36" class="rounded-full shadow-lg"><path fill="#bd3d44" d="M32 5H4a4 4 0 0 0-4 4v18a4 4 0 0 0 4 4h28a4 4 0 0 0 4-4V9a4 4 0 0 0-4-4z"/><path fill="#fbd116" d="M0 26h36V10H0z"/><path fill="#bd3d44" d="M6 15h9v6H6z"/></svg>
-                    </button>
-                    <button onclick="changeLanguage('fr')" class="w-6 h-6 hover:scale-110 transition-transform opacity-50" title="Français">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36 36" class="rounded-full shadow-lg"><path fill="#0055A4" d="M0 0h12v36H0z"/><path fill="#fff" d="M12 0h12v36H12z"/><path fill="#EF4135" d="M24 0h12v36H24z"/></svg>
+
+                    <!-- Mobile Menu Button -->
+                    <button onclick="toggleMobileMenu()" class="md:hidden text-stone-300 hover:text-white z-50 relative">
+                        <i data-lucide="menu" id="mobile-menu-icon" class="w-8 h-8"></i>
                     </button>
                 </div>
             </div>
+        </div>
+
+        <!-- Mobile Menu Overlay -->
+        <div id="mobile-menu" class="fixed inset-0 bg-chef-dark/95 backdrop-blur-xl z-40 transform translate-x-full transition-transform duration-300 flex flex-col items-center justify-center space-y-8 md:hidden">
+            <a href="#about" onclick="toggleMobileMenu()" class="text-2xl text-stone-300 hover:text-chef-gold font-serif" data-i18n="nav_about">Sobre</a>
+            <a href="#education" onclick="toggleMobileMenu()" class="text-2xl text-stone-300 hover:text-chef-gold font-serif" data-i18n="nav_edu">Formação</a>
+            <a href="#experience" onclick="toggleMobileMenu()" class="text-2xl text-stone-300 hover:text-chef-gold font-serif" data-i18n="nav_exp">Experiência</a>
+            <a href="#skills" onclick="toggleMobileMenu()" class="text-2xl text-stone-300 hover:text-chef-gold font-serif" data-i18n="nav_skills">Habilidades</a>
+            <a href="#contact" onclick="toggleMobileMenu()" class="text-2xl text-stone-300 hover:text-chef-gold font-serif" data-i18n="nav_contact">Contato</a>
         </div>
     </nav>
 
@@ -512,7 +535,7 @@
                 skill_hot: "Praça Quente",
                 skill_seafood: "Frutos do Mar",
                 skill_pasta: "Massas Artesanais",
-                skill_org: "Organização & Higiene",
+                skill_org: "Organización e Higiene",
                 section_add_skills_subtitle: "Perfil Profissional",
                 section_add_skills_title: "Habilidades & Mercado",
                 skills_personal: "Habilidades Pessoais",
@@ -679,6 +702,16 @@
             }
         };
 
+        const flags = {
+            pt: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36 36"><path fill="#009b3a" d="M36 27a4 4 0 0 1-4 4H4a4 4 0 0 1-4-4V9a4 4 0 0 1 4-4h28a4 4 0 0 1 4 4v18z"/><path fill="#fedf00" d="M32.73 18L18 29.27 3.27 18 18 6.73z"/><circle fill="#002776" cx="18" cy="18" r="6.5"/><path fill="#fff" d="M13.25 18.27a8.6 8.6 0 0 0 9.27-2.34c-.26.23-1.09.84-2.82 1.34-2.61.76-4.94.34-6.45 1z"/></svg>',
+            en: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36 36"><path fill="#bd3d44" d="M32 5H4a4 4 0 0 0-4 4v18a4 4 0 0 0 4 4h28a4 4 0 0 0 4-4V9a4 4 0 0 0-4-4z"/><path fill="#fff" d="M0 27a4 4 0 0 0 4 4h28a4 4 0 0 0 4-4V9a4 4 0 0 0-4-4H4a4 4 0 0 0-4 4v18z"/><path fill="#bd3d44" d="M36 20.5H0v-5h36v5z"/><path fill="#bd3d44" d="M36 25.5H0v-1h36v1zm0-15H0v-1h36v1z"/><path fill="#192f5d" d="M19.38 5H4a4 4 0 0 0-4 4v12.23h19.38V5z"/><path fill="#fff" d="M2.35 19.35l1.69-1.39 1.15 1.54 1.35-1.92 1.58 1.19 1.35-1.92 1.15 1.54 1.69-1.39-.77 2.23H10.7l-.39 2.16L9.62 19.2l-2.04 1.27.35-2.35-2.31-.5 2.12-1.07zm14.88 0l-1.69-1.39-1.15 1.54-1.35-1.92-1.58 1.19-1.35-1.92-1.15 1.54-1.69-1.39.77 2.23h1.85l.39 2.16.69-2.04 2.04 1.27-.35-2.35 2.31-.5-2.12-1.07zM3.6 15.65l1.04-1.93 1.89.65.65-1.93 1.89.65 1.04-1.93.42 2.16 2.31.35-1.73 1.62.92 2.15-2.27-.77-1.46 1.81-1.46-1.81-2.27.77.92-2.15-1.73-1.62zm10.77 0l-1.04-1.93-1.89.65-.65-1.93-1.89.65-1.04-1.93-.42 2.16-2.31.35 1.73 1.62-.92 2.15 2.27-.77 1.46 1.81 1.46-1.81 2.27.77-.92-2.15 1.73-1.62zM3.22 8.54l1.62.77-.15 2.19 2.08-.88 1.31 1.77 1.31-1.77 2.08.88-.15-2.19 1.62-.77-2.16-.39.46-2.15-1.96 1.12L8.08 5l-1.19 2.12L4.93 5l.46 2.15z"/></svg>',
+            es: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36 36"><path fill="#bd3d44" d="M32 5H4a4 4 0 0 0-4 4v18a4 4 0 0 0 4 4h28a4 4 0 0 0 4-4V9a4 4 0 0 0-4-4z"/><path fill="#fbd116" d="M0 26h36V10H0z"/><path fill="#bd3d44" d="M6 15h9v6H6z"/></svg>',
+            fr: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36 36"><path fill="#0055A4" d="M0 0h12v36H0z"/><path fill="#fff" d="M12 0h12v36H12z"/><path fill="#EF4135" d="M24 0h12v36H24z"/></svg>'
+        };
+
+        const langOrder = ['pt', 'en', 'es', 'fr'];
+        let currentLangIndex = 0;
+
         function changeLanguage(lang) {
             // Update Text
             document.querySelectorAll('[data-i18n]').forEach(el => {
@@ -688,8 +721,8 @@
                 }
             });
             
-            // Visual feedback on buttons
-            const buttons = document.querySelectorAll('nav button');
+            // Visual feedback on desktop buttons
+            const buttons = document.querySelectorAll('.md\\:flex button');
             buttons.forEach(btn => {
                 if(btn.onclick.toString().includes(`'${lang}'`)) {
                     btn.classList.remove('opacity-50');
@@ -699,7 +732,38 @@
                     btn.classList.remove('scale-110');
                 }
             });
+
+            // Update mobile button icon
+            document.getElementById('mobile-lang-btn').innerHTML = flags[lang];
+            
+            // Sync index for cycle function
+            currentLangIndex = langOrder.indexOf(lang);
         }
+
+        function cycleLanguage() {
+            currentLangIndex = (currentLangIndex + 1) % langOrder.length;
+            changeLanguage(langOrder[currentLangIndex]);
+        }
+
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('translate-x-full');
+            
+            const icon = document.getElementById('mobile-menu-icon');
+            if (menu.classList.contains('translate-x-full')) {
+                icon.setAttribute('data-lucide', 'menu');
+            } else {
+                icon.setAttribute('data-lucide', 'x');
+            }
+            lucide.createIcons();
+        }
+
+        // Initialize mobile flag
+        document.addEventListener('DOMContentLoaded', () => {
+            document.getElementById('mobile-lang-btn').innerHTML = flags['pt'];
+            // Force scroll to top on load to fix mobile issue
+            window.scrollTo(0, 0);
+        });
 
         // Navbar Scroll Effect
         window.addEventListener('scroll', () => {
