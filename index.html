@@ -147,19 +147,46 @@
                 </div>
 
                 <div class="flex items-center gap-4">
-                    <!-- Flavor Mode Button REMOVED (Hidden Secret on Image now) -->
-
                     <!-- Desktop Flags -->
                     <div class="hidden md:flex items-center gap-3 border-l border-white/10 pl-4">
-                        <button onclick="changeLanguage('pt')" class="w-6 h-6 hover:scale-110 transition-transform" title="Português">
+                        <!-- Brasil -->
+                        <button onclick="changeLanguage('pt')" class="w-6 h-6 hover:scale-110 transition-transform" title="Português (Brasil)">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36 36" class="rounded-full shadow-lg"><path fill="#009b3a" d="M36 27a4 4 0 0 1-4 4H4a4 4 0 0 1-4-4V9a4 4 0 0 1 4-4h28a4 4 0 0 1 4 4v18z"/><path fill="#fedf00" d="M32.73 18L18 29.27 3.27 18 18 6.73z"/><circle fill="#002776" cx="18" cy="18" r="6.5"/><path fill="#fff" d="M13.25 18.27a8.6 8.6 0 0 0 9.27-2.34c-.26.23-1.09.84-2.82 1.34-2.61.76-4.94.34-6.45 1z"/></svg>
                         </button>
+                        
+                        <!-- Portugal (NOVA) -->
+                        <button onclick="changeLanguage('pt-PT')" class="w-6 h-6 hover:scale-110 transition-transform opacity-50" title="Português (Portugal)">
+                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36 36" class="rounded-full shadow-lg">
+                                <path fill="#e03c31" d="M12 0h24v36H12z"/>
+                                <path fill="#006600" d="M0 0h12v36H0z"/>
+                                <path fill="#ffe800" d="M17 19c0 .7.12 1.37.34 2H12v-4h5.34c-.22.63-.34 1.3-.34 2z"/>
+                                <circle fill="#ffe800" cx="12" cy="18" r="5"/>
+                                <path fill="#e03c31" d="M12 14c-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4-1.79-4-4-4z"/>
+                                <path fill="#fff" d="M12 15c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/>
+                                <path fill="#006600" d="M12 15.5c-.2 0-.39.04-.57.1.58.42.98 1.09 1.05 1.86.13 1.46-1.15 2.54-2.54 2.54-.15 0-.29-.02-.43-.05.29.61.91 1.05 1.64 1.05 1.02 0 1.85-.83 1.85-1.85v-1.8c0-1.02-.83-1.85-1.85-1.85z"/>
+                                <g>
+                                    <path fill="#ffe800" d="M13.5 16.5h-3v3h3z"/>
+                                    <path fill="#006600" d="M13 17h-2v2h2z"/>
+                                    <circle fill="#fff" cx="12" cy="18" r="1"/>
+                                </g>
+                                <!-- Simplified Coat of Arms for Small Icon -->
+                                <path fill="#fff" d="M12 14.5c1.93 0 3.5 1.57 3.5 3.5s-1.57 3.5-3.5 3.5-3.5-1.57-3.5-3.5 1.57-3.5 3.5-3.5z"/>
+                                <path fill="#e03c31" d="M12 15c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3m0-1c-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4-1.79-4-4-4z"/>
+                                <path fill="#003399" d="M12 16h1v1h-1zm-1.5 0h1v1h-1zm3 0h1v1h-1zm-1.5 1.5h1v1h-1zm0-3h1v1h-1z"/>
+                            </svg>
+                        </button>
+
+                        <!-- English -->
                         <button onclick="changeLanguage('en')" class="w-6 h-6 hover:scale-110 transition-transform opacity-50" title="English">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36 36" class="rounded-full shadow-lg"><path fill="#bd3d44" d="M32 5H4a4 4 0 0 0-4 4v18a4 4 0 0 0 4 4h28a4 4 0 0 0 4-4V9a4 4 0 0 0-4-4z"/><path fill="#fff" d="M0 27a4 4 0 0 0 4 4h28a4 4 0 0 0 4-4V9a4 4 0 0 0-4-4H4a4 4 0 0 0-4 4v18z"/><path fill="#bd3d44" d="M36 20.5H0v-5h36v5z"/><path fill="#bd3d44" d="M36 25.5H0v-1h36v1zm0-15H0v-1h36v1z"/><path fill="#192f5d" d="M19.38 5H4a4 4 0 0 0-4 4v12.23h19.38V5z"/><path fill="#fff" d="M2.35 19.35l1.69-1.39 1.15 1.54 1.35-1.92 1.58 1.19 1.35-1.92 1.15 1.54 1.69-1.39-.77 2.23H10.7l-.39 2.16L9.62 19.2l-2.04 1.27.35-2.35-2.31-.5 2.12-1.07zm14.88 0l-1.69-1.39-1.15 1.54-1.35-1.92-1.58 1.19-1.35-1.92-1.15 1.54-1.69-1.39.77 2.23h1.85l.39 2.16.69-2.04 2.04 1.27-.35-2.35 2.31-.5-2.12-1.07zM3.6 15.65l1.04-1.93 1.89.65.65-1.93 1.89.65 1.04-1.93.42 2.16 2.31.35-1.73 1.62.92 2.15-2.27-.77-1.46 1.81-1.46-1.81-2.27.77.92-2.15-1.73-1.62zm10.77 0l-1.04-1.93-1.89.65-.65-1.93-1.89.65-1.04-1.93-.42 2.16-2.31.35 1.73 1.62-.92 2.15 2.27-.77 1.46 1.81 1.46-1.81 2.27.77-.92-2.15 1.73-1.62zM3.22 8.54l1.62.77-.15 2.19 2.08-.88 1.31 1.77 1.31-1.77 2.08.88-.15-2.19 1.62-.77-2.16-.39.46-2.15-1.96 1.12L8.08 5l-1.19 2.12L4.93 5l.46 2.15z"/></svg>
                         </button>
+
+                        <!-- Español -->
                         <button onclick="changeLanguage('es')" class="w-6 h-6 hover:scale-110 transition-transform opacity-50" title="Español">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36 36" class="rounded-full shadow-lg"><path fill="#bd3d44" d="M32 5H4a4 4 0 0 0-4 4v18a4 4 0 0 0 4 4h28a4 4 0 0 0 4-4V9a4 4 0 0 0-4-4z"/><path fill="#fbd116" d="M0 26h36V10H0z"/><path fill="#bd3d44" d="M6 15h9v6H6z"/></svg>
                         </button>
+
+                        <!-- Français -->
                         <button onclick="changeLanguage('fr')" class="w-6 h-6 hover:scale-110 transition-transform opacity-50" title="Français">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36 36" class="rounded-full shadow-lg"><path fill="#0055A4" d="M0 0h12v36H0z"/><path fill="#fff" d="M12 0h12v36H12z"/><path fill="#EF4135" d="M24 0h12v36H24z"/></svg>
                         </button>
@@ -425,19 +452,19 @@
                 
                 <!-- Additional Skills (Soft & Market) -->
                 <div>
-                     <span class="text-chef-gold text-sm tracking-widest uppercase mb-2 block" data-i18n="section_add_skills_subtitle">Perfil Profissional</span>
-                     <h2 class="text-3xl font-bold text-white mb-6" data-i18n="section_add_skills_title">Habilidades & Mercado</h2>
-                     
-                     <div class="mb-8">
+                      <span class="text-chef-gold text-sm tracking-widest uppercase mb-2 block" data-i18n="section_add_skills_subtitle">Perfil Profissional</span>
+                      <h2 class="text-3xl font-bold text-white mb-6" data-i18n="section_add_skills_title">Habilidades & Mercado</h2>
+                      
+                      <div class="mb-8">
                         <h4 class="text-white font-bold mb-3 border-b border-stone-800 pb-2" data-i18n="skills_personal">Habilidades Pessoais</h4>
                         <div class="flex flex-wrap gap-2">
                             <span class="px-3 py-1 bg-stone-800 text-stone-300 rounded-full text-sm border border-stone-700" data-i18n="skill_proactive">Proatividade</span>
                             <span class="px-3 py-1 bg-stone-800 text-stone-300 rounded-full text-sm border border-stone-700" data-i18n="skill_teamwork">Trabalho em equipe</span>
                             <span class="px-3 py-1 bg-stone-800 text-stone-300 rounded-full text-sm border border-stone-700" data-i18n="skill_learning">Rápida aprendizagem</span>
                         </div>
-                     </div>
+                      </div>
 
-                     <div>
+                      <div>
                         <h4 class="text-white font-bold mb-3 border-b border-stone-800 pb-2" data-i18n="skills_market">Habilidades de Mercado</h4>
                         <div class="flex flex-wrap gap-2">
                             <span class="px-3 py-1 bg-stone-800 text-stone-300 rounded-full text-sm border border-stone-700" data-i18n="skill_hot_kitchen">Cozinha Quente</span>
@@ -447,7 +474,7 @@
                             <span class="px-3 py-1 bg-stone-800 text-stone-300 rounded-full text-sm border border-stone-700" data-i18n="skill_cashier">Operação de caixa</span>
                             <span class="px-3 py-1 bg-stone-800 text-stone-300 rounded-full text-sm border border-stone-700" data-i18n="skill_time">Gestão de Tempo</span>
                         </div>
-                     </div>
+                      </div>
                 </div>
             </div>
         </div>
@@ -632,7 +659,7 @@
                 skill_hot: "Praça Quente",
                 skill_seafood: "Frutos do Mar",
                 skill_pasta: "Massas Artesanais",
-                skill_org: "Organización e Higiene",
+                skill_org: "Organização e Higiene",
                 section_add_skills_subtitle: "Perfil Profissional",
                 section_add_skills_title: "Habilidades & Mercado",
                 skills_personal: "Habilidades Pessoais",
@@ -647,6 +674,57 @@
                 skill_cashier: "Operação de caixa",
                 skill_time: "Gestão de Tempo",
                 gallery_title: "Minhas Últimas Criações",
+                gallery_btn: "Seguir no Instagram",
+                footer_tagline: "Disponível para eventos e novas oportunidades."
+            },
+            'pt-PT': {
+                nav_about: "Sobre",
+                nav_edu: "Formação",
+                nav_exp: "Experiência",
+                nav_skills: "Competências",
+                nav_contact: "Contactos",
+                hero_role: "Cozinheiro Profissional",
+                hero_bio: "A transformar ingredientes em memórias. Experiência sólida em cozinhas de alto padrão em Belo Horizonte. A combinar competências técnicas com paixão pela gastronomia.",
+                hero_btn_contact: "Fale Comigo",
+                hero_btn_about: "Mais Sobre Mim",
+                section_about_subtitle: "A Minha História",
+                section_about_title: "Sobre Mim",
+                about_text: "Olá, o meu nome é Matheus Fonseca e sou cozinheiro, natural de Belo Horizonte, Minas Gerais. Desde pequeno, sempre tive uma conexão especial com a cozinha, influenciado pela rica tradição culinária da minha cidade e pelas receitas deliciosas que aprendi com a minha família. O que mais me motiva é a oportunidade de criar pratos que não apenas alimentam, mas também encantam e surpreendem. Além das aulas, procuro estagiar em restaurantes e participar em eventos gastronómicos sempre que posso. Estas experiências têm sido incríveis, pois permitem-me aprender com chefs de renome e trocar ideias com outros entusiastas da culinária. O meu objetivo é abrir o meu próprio restaurante, onde poderei partilhar as minhas criações e oferecer experiências memoráveis aos meus clientes.",
+                section_edu_subtitle: "Formação",
+                section_edu_title: "Educação Académica",
+                edu_degree: "Licenciatura em Gastronomia",
+                edu_desc: "Estudar Gastronomia na UNA é uma experiência transformadora. As aulas presenciais em cozinhas equipadas permitem explorar técnicas e sabores, a desenvolver não apenas competências culinárias, mas também uma conexão mais profunda com a arte de cozinhar.",
+                section_trajectory: "O Meu Percurso",
+                section_exp_title: "Experiência Profissional",
+                role_intern: "Cozinheiro Estagiário",
+                role_cook: "Cozinheiro",
+                role_assistant: "Ajudante de Cozinha",
+                role_recreio: "Atendimento e Gestão Operacional",
+                exp_pastaio: "Especializado em massas artesanais e cozinha italiana. Foco na produção de massas frescas, molhos clássicos e finalização de pratos com elevada atenção aos detalhes.",
+                exp_rex: "Atuação em ambiente de alta gastronomia e carnes nobres. Responsável pela secção de quentes, controlo de ponto de carnes, guarnições sofisticadas e manutenção dos padrões de qualidade.",
+                exp_coco: "Experiência em cozinha de alto volume com foco em frutos do mar. Rigoroso controlo de padronização, agilidade no serviço e trabalho em equipa em grande escala.",
+                exp_recreio: "Responsável pelo atendimento ao cliente, operação de caixa e gestão operacional do estabelecimento, a garantir a satisfação dos clientes e o bom funcionamento da loja.",
+                section_skills_subtitle: "Competências",
+                section_skills_title: "A Arte da Cozinha",
+                skills_desc: "Além da execução de receitas, possuo domínio técnico sobre os processos de uma cozinha profissional, a garantir segurança, sabor e eficiência.",
+                skill_hot: "Secção de Quentes",
+                skill_seafood: "Frutos do Mar",
+                skill_pasta: "Massas Artesanais",
+                skill_org: "Organização e Higiene",
+                section_add_skills_subtitle: "Perfil Profissional",
+                section_add_skills_title: "Competências e Mercado",
+                skills_personal: "Competências Pessoais",
+                skills_market: "Competências de Mercado",
+                skill_proactive: "Proatividade",
+                skill_teamwork: "Trabalho em equipa",
+                skill_learning: "Rápida aprendizagem",
+                skill_hot_kitchen: "Cozinha Quente",
+                skill_baking: "Panificação",
+                skill_safety: "Segurança Alimentar",
+                skill_customer: "Atendimento ao cliente",
+                skill_cashier: "Operação de caixa",
+                skill_time: "Gestão de Tempo",
+                gallery_title: "As Minhas Últimas Criações",
                 gallery_btn: "Seguir no Instagram",
                 footer_tagline: "Disponível para eventos e novas oportunidades."
             },
@@ -807,12 +885,13 @@
 
         const flags = {
             pt: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36 36"><path fill="#009b3a" d="M36 27a4 4 0 0 1-4 4H4a4 4 0 0 1-4-4V9a4 4 0 0 1 4-4h28a4 4 0 0 1 4 4v18z"/><path fill="#fedf00" d="M32.73 18L18 29.27 3.27 18 18 6.73z"/><circle fill="#002776" cx="18" cy="18" r="6.5"/><path fill="#fff" d="M13.25 18.27a8.6 8.6 0 0 0 9.27-2.34c-.26.23-1.09.84-2.82 1.34-2.61.76-4.94.34-6.45 1z"/></svg>',
+            'pt-PT': '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36 36"><path fill="#e03c31" d="M12 0h24v36H12z"/><path fill="#006600" d="M0 0h12v36H0z"/><path fill="#ffe800" d="M17 19c0 .7.12 1.37.34 2H12v-4h5.34c-.22.63-.34 1.3-.34 2z"/><circle fill="#ffe800" cx="12" cy="18" r="5"/><path fill="#e03c31" d="M12 14c-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4-1.79-4-4-4z"/><path fill="#fff" d="M12 15c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/><path fill="#006600" d="M12 15.5c-.2 0-.39.04-.57.1.58.42.98 1.09 1.05 1.86.13 1.46-1.15 2.54-2.54 2.54-.15 0-.29-.02-.43-.05.29.61.91 1.05 1.64 1.05 1.02 0 1.85-.83 1.85-1.85v-1.8c0-1.02-.83-1.85-1.85-1.85z"/><g><path fill="#ffe800" d="M13.5 16.5h-3v3h3z"/><path fill="#006600" d="M13 17h-2v2h2z"/><circle fill="#fff" cx="12" cy="18" r="1"/></g><path fill="#fff" d="M12 14.5c1.93 0 3.5 1.57 3.5 3.5s-1.57 3.5-3.5 3.5-3.5-1.57-3.5-3.5 1.57-3.5 3.5-3.5z"/><path fill="#e03c31" d="M12 15c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3m0-1c-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4-1.79-4-4-4z"/><path fill="#003399" d="M12 16h1v1h-1zm-1.5 0h1v1h-1zm3 0h1v1h-1zm-1.5 1.5h1v1h-1zm0-3h1v1h-1z"/></svg>',
             en: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36 36"><path fill="#bd3d44" d="M32 5H4a4 4 0 0 0-4 4v18a4 4 0 0 0 4 4h28a4 4 0 0 0 4-4V9a4 4 0 0 0-4-4z"/><path fill="#fff" d="M0 27a4 4 0 0 0 4 4h28a4 4 0 0 0 4-4V9a4 4 0 0 0-4-4H4a4 4 0 0 0-4 4v18z"/><path fill="#bd3d44" d="M36 20.5H0v-5h36v5z"/><path fill="#bd3d44" d="M36 25.5H0v-1h36v1zm0-15H0v-1h36v1z"/><path fill="#192f5d" d="M19.38 5H4a4 4 0 0 0-4 4v12.23h19.38V5z"/><path fill="#fff" d="M2.35 19.35l1.69-1.39 1.15 1.54 1.35-1.92 1.58 1.19 1.35-1.92 1.15 1.54 1.69-1.39-.77 2.23H10.7l-.39 2.16L9.62 19.2l-2.04 1.27.35-2.35-2.31-.5 2.12-1.07zm14.88 0l-1.69-1.39-1.15 1.54-1.35-1.92-1.58 1.19-1.35-1.92-1.15 1.54-1.69-1.39.77 2.23h1.85l.39 2.16.69-2.04 2.04 1.27-.35-2.35 2.31-.5-2.12-1.07zM3.6 15.65l1.04-1.93 1.89.65.65-1.93 1.89.65 1.04-1.93.42 2.16 2.31.35-1.73 1.62.92 2.15-2.27-.77-1.46 1.81-1.46-1.81-2.27.77.92-2.15-1.73-1.62zm10.77 0l-1.04-1.93-1.89.65-.65-1.93-1.89.65-1.04-1.93-.42 2.16-2.31.35 1.73 1.62-.92 2.15 2.27-.77 1.46 1.81 1.46-1.81 2.27.77-.92-2.15 1.73-1.62zM3.22 8.54l1.62.77-.15 2.19 2.08-.88 1.31 1.77 1.31-1.77 2.08.88-.15-2.19 1.62-.77-2.16-.39.46-2.15-1.96 1.12L8.08 5l-1.19 2.12L4.93 5l.46 2.15z"/></svg>',
             es: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36 36"><path fill="#bd3d44" d="M32 5H4a4 4 0 0 0-4 4v18a4 4 0 0 0 4 4h28a4 4 0 0 0 4-4V9a4 4 0 0 0-4-4z"/><path fill="#fbd116" d="M0 26h36V10H0z"/><path fill="#bd3d44" d="M6 15h9v6H6z"/></svg>',
             fr: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36 36"><path fill="#0055A4" d="M0 0h12v36H0z"/><path fill="#fff" d="M12 0h12v36H12z"/><path fill="#EF4135" d="M24 0h12v36H24z"/></svg>'
         };
 
-        const langOrder = ['pt', 'en', 'es', 'fr'];
+        const langOrder = ['pt', 'pt-PT', 'en', 'es', 'fr'];
         let currentLangIndex = 0;
 
         function changeLanguage(lang) {
@@ -827,6 +906,7 @@
             // Visual feedback on desktop buttons
             const buttons = document.querySelectorAll('.md\\:flex button');
             buttons.forEach(btn => {
+                // Check if button onclick matches current lang
                 if(btn.onclick.toString().includes(`'${lang}'`)) {
                     btn.classList.remove('opacity-50');
                     btn.classList.add('scale-110');
