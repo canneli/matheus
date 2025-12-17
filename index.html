@@ -2,7 +2,7 @@
 <html lang="pt-BR" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="description" content="Portfólio Matheus R. Fonseca">
     <title>Matheus R. Fonseca</title>
     
@@ -55,6 +55,9 @@
             color: #e7e5e4;
             font-family: 'Inter', sans-serif;
             transition: background 0.5s ease;
+            touch-action: none; /* Crucial para o jogo no mobile */
+            user-select: none;
+            -webkit-user-select: none;
         }
         
         h1, h2, h3, h4 {
@@ -75,44 +78,454 @@
             transition: all 0.3s ease;
         }
 
-        /* --- FLAVOR MODE STYLES --- */
+        /* --- MODO JOGO (Flavor Mode) --- */
         body.flavor-mode {
-            background: linear-gradient(-45deg, #ff5f6d, #ffc371, #23a6d5, #23d5ab, #ffbf00, #ff6b6b);
-            background-size: 400% 400%;
-            animation: gradientBG 10s ease infinite;
+            background: #151515;
+            overflow: hidden;
         }
 
-        /* Ajustes dos painéis no modo Flavor para ficarem legíveis */
+        body.flavor-mode::before {
+            content: '';
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: radial-gradient(circle at center, #2a2215 0%, #000000 100%);
+            z-index: -1;
+        }
+
         body.flavor-mode .glass-panel, 
         body.flavor-mode nav, 
         body.flavor-mode footer, 
         body.flavor-mode section {
-            background: rgba(0, 0, 0, 0.4) !important;
-            border-color: rgba(255, 255, 255, 0.2) !important;
+            opacity: 0.05;
+            pointer-events: none;
+            transition: opacity 0.5s;
         }
 
-        @keyframes gradientBG {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-
-        .ingredient-particle {
+        /* UI do Jogo */
+        .game-ui {
+            display: none;
             position: fixed;
-            bottom: -50px;
+            top: 0; left: 0; right: 0; bottom: 0;
+            pointer-events: none;
+            z-index: 100;
+        }
+        body.flavor-mode .game-ui { display: block; }
+
+        .game-hud {
+            pointer-events: auto;
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 10px;
+        }
+        
+        .game-lives {
+            pointer-events: auto;
+            position: absolute;
+            top: 20px;
+            left: 20px;
+        }
+
+        .active-powerups {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        .power-icon {
+            width: 40px;
+            height: 40px;
+            background: rgba(0,0,0,0.6);
+            border: 2px solid #555;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            position: relative;
+        }
+        .power-icon.active { border-color: #d4af37; box-shadow: 0 0 10px #d4af37; color: white; }
+        .power-count {
+            position: absolute;
+            bottom: -5px;
+            right: -5px;
+            background: red;
+            color: white;
+            font-size: 10px;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        /* Angel Button */
+        #angel-btn {
+            display: none;
+            position: absolute;
+            bottom: 30px;
+            right: 30px;
+            width: 80px;
+            height: 80px;
+            background: radial-gradient(circle, #ffaaaa, #ff0000);
+            border: 4px solid white;
+            border-radius: 50%;
+            font-size: 40px;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 0 20px red, 0 0 40px white;
+            cursor: pointer;
+            pointer-events: auto;
+            z-index: 200;
+            animation: pulseAngel 1s infinite;
+        }
+        @keyframes pulseAngel { 0% { transform: scale(1); } 50% { transform: scale(1.1); } 100% { transform: scale(1); } }
+
+        /* Lâminas (Katanas) */
+        .blade-item, .power-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            cursor: pointer;
+            transition: transform 0.2s;
+            background: rgba(255,255,255,0.05);
+            padding: 8px;
+            border-radius: 12px;
+            width: 80px;
+            position: relative;
+        }
+        .blade-item:hover, .power-item:hover { transform: scale(1.05); background: rgba(255,255,255,0.1); }
+        .blade-item.disabled { opacity: 0.3; pointer-events: none; }
+        
+        .blade-btn, .power-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: 2px solid #555;
+            background: #222;
+            position: relative;
+            transition: border-color 0.2s;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+        
+        .blade-label, .power-label {
+            font-size: 9px;
+            color: #aaa;
+            margin-top: 4px;
+            font-weight: bold;
+            text-transform: uppercase;
+            text-align: center;
+            line-height: 1.2;
+        }
+        .power-cost { color: #ffd700; font-size: 9px; margin-top: 2px; }
+
+        .blade-btn.locked { opacity: 0.5; }
+        .blade-btn.locked::after {
+            content: '🔒';
+            position: absolute;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            background: rgba(0,0,0,0.6);
+        }
+        .blade-btn.active { border-color: white; box-shadow: 0 0 10px white; }
+        .blade-item.active-item .blade-label { color: #d4af37; }
+        
+        .blade-level-badge {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background: #d4af37;
+            color: black;
+            font-size: 8px;
+            font-weight: bold;
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10;
+        }
+
+        .preview-blue { background: linear-gradient(45deg, #00ffff, #0088ff); }
+        .preview-pink { background: linear-gradient(45deg, #ff00ff, #ff88cc); }
+        .preview-rainbow { background: linear-gradient(45deg, red, orange, yellow, green, blue, indigo, violet); animation: spinRainbow 2s linear infinite; }
+        .preview-gold { background: linear-gradient(45deg, #ffd700, #b8860b, #fffacd); box-shadow: 0 0 5px gold; }
+        .preview-dragon { background: linear-gradient(45deg, #8b0000, #ffd700, #ff4500); box-shadow: 0 0 5px red; }
+        .preview-red { background: linear-gradient(45deg, #ff0000, #800000, #000000); box-shadow: 0 0 5px darkred; }
+
+        @keyframes spinRainbow { 100% { filter: hue-rotate(360deg); } }
+
+        /* Objetos do Jogo */
+        .game-object {
+            position: fixed;
+            font-size: 4rem;
+            z-index: 60;
+            user-select: none;
+            pointer-events: none;
+            will-change: transform, top, left;
+            transform-origin: center;
+        }
+
+        .bomb-particle { filter: drop-shadow(0 0 15px red); }
+        
+        .super-fruit {
+            filter: drop-shadow(0 0 30px gold);
+            font-size: 8rem; /* Gigante */
+            animation: pulseSuper 0.3s infinite alternate;
+            z-index: 70;
+        }
+        
+        .frenzy-fruit {
+            filter: drop-shadow(0 0 20px yellow);
+            animation: shakeFrenzy 0.2s infinite;
+        }
+
+        .dragon-bomb-particle {
+            font-size: 5rem;
+            filter: drop-shadow(0 0 20px darkred);
+            animation: dragonWiggle 1s infinite alternate ease-in-out;
+            z-index: 80;
+        }
+        @keyframes dragonWiggle {
+            from { transform: translateY(0) rotate(-10deg); }
+            to { transform: translateY(10px) rotate(10deg); }
+        }
+        
+        @keyframes pulseSuper { from { transform: translate(-50%, -50%) scale(1); } to { transform: translate(-50%, -50%) scale(1.1); } }
+        @keyframes shakeFrenzy { 0% { transform: rotate(-10deg); } 50% { transform: rotate(10deg); } 100% { transform: rotate(-10deg); } }
+
+        /* Efeitos Especiais */
+        .local-flash {
+            position: fixed;
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+            z-index: 85;
+            animation: popFlash 0.5s ease-out forwards;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .local-flash::after {
+            content: '✨';
             font-size: 2rem;
-            z-index: 1; /* Atrás do conteúdo principal */
+            animation: riseStars 0.5s ease-out forwards;
+        }
+
+        .mega-rainbow {
+            position: fixed;
+            bottom: -50vh;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 120vw;
+            height: 120vw;
+            border-radius: 50%;
+            box-shadow: 
+                0 0 0 20px rgba(255, 0, 0, 0.4),
+                0 0 0 40px rgba(255, 165, 0, 0.4),
+                0 0 0 60px rgba(255, 255, 0, 0.4),
+                0 0 0 80px rgba(0, 128, 0, 0.4),
+                0 0 0 100px rgba(0, 0, 255, 0.4),
+                0 0 0 120px rgba(238, 130, 238, 0.4);
+            z-index: 40;
             pointer-events: none;
             opacity: 0;
-            animation: floatUp linear infinite;
+            animation: rainbowRise 1.5s ease-out forwards;
         }
 
-        @keyframes floatUp {
-            0% { transform: translateY(0) rotate(0deg); opacity: 0; }
-            10% { opacity: 0.8; }
-            90% { opacity: 0.8; }
-            100% { transform: translateY(-110vh) rotate(360deg); opacity: 0; }
+        @keyframes rainbowRise {
+            0% { transform: translateX(-50%) scale(0.8); opacity: 0; }
+            30% { opacity: 0.8; }
+            100% { transform: translateX(-50%) scale(1.2); opacity: 0; }
         }
+        
+        @keyframes popFlash {
+            0% { opacity: 0; transform: translate(-50%, -50%) scale(0.5); }
+            30% { opacity: 0.8; transform: translate(-50%, -50%) scale(1.2); }
+            100% { opacity: 0; transform: translate(-50%, -50%) scale(1.5); }
+        }
+        @keyframes riseStars {
+            0% { opacity: 1; transform: translateY(0) scale(0.5); }
+            100% { opacity: 0; transform: translateY(-50px) scale(1.5); }
+        }
+
+        .flash-blue { background: radial-gradient(circle, rgba(0, 255, 255, 0.6) 0%, transparent 70%); }
+        .flash-pink { background: radial-gradient(circle, rgba(255, 0, 255, 0.6) 0%, transparent 70%); }
+        .flash-gold { background: radial-gradient(circle, rgba(255, 215, 0, 0.6) 0%, transparent 70%); }
+        .flash-rainbow { background: radial-gradient(circle, rgba(255, 255, 255, 0.8) 0%, transparent 70%); }
+        .flash-red { background: radial-gradient(circle, rgba(255, 0, 0, 0.6) 0%, transparent 70%); }
+
+        .explosion {
+            position: fixed;
+            width: 100px;
+            height: 100px;
+            background: radial-gradient(circle, #ffff00 10%, #ff8800 40%, #ff0000 70%, transparent 100%);
+            border-radius: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            animation: explode 0.6s ease-out forwards;
+            z-index: 200;
+            pointer-events: none;
+            mix-blend-mode: screen;
+        }
+        @keyframes explode {
+            0% { transform: translate(-50%, -50%) scale(0.5); opacity: 1; }
+            50% { transform: translate(-50%, -50%) scale(3); opacity: 0.8; }
+            100% { transform: translate(-50%, -50%) scale(4); opacity: 0; }
+        }
+
+        .angel-flash {
+            position: fixed;
+            inset: 0;
+            background: rgba(255, 0, 0, 0.3);
+            z-index: 200;
+            pointer-events: none;
+            animation: flashRed 0.5s ease-out forwards;
+        }
+        .frenzy-overlay {
+            position: fixed;
+            inset: 0;
+            background: radial-gradient(circle, transparent 50%, rgba(255, 255, 0, 0.2) 100%);
+            z-index: 55;
+            pointer-events: none;
+            animation: pulseFrenzy 1s infinite;
+        }
+        .dragon-flash {
+            position: fixed;
+            inset: 0;
+            background: linear-gradient(45deg, rgba(255, 69, 0, 0.3), rgba(255, 215, 0, 0.3));
+            z-index: 190;
+            pointer-events: none;
+            animation: flashRed 0.8s ease-out forwards;
+        }
+        .flying-dragon {
+            position: fixed;
+            font-size: 5rem;
+            z-index: 195;
+            pointer-events: none;
+            animation: flyDragon 1s linear forwards;
+        }
+        @keyframes flashRed { 0% { opacity: 1; } 100% { opacity: 0; } }
+        @keyframes pulseFrenzy { 0% { opacity: 0.5; } 50% { opacity: 1; } 100% { opacity: 0.5; } }
+        @keyframes flyDragon { 
+            0% { transform: translateX(-100px) translateY(0) rotate(10deg); opacity: 0.8; } 
+            100% { transform: translateX(110vw) translateY(-200px) rotate(10deg); opacity: 0; } 
+        }
+
+        /* Rastros (Trails) */
+        .slash-trail {
+            position: fixed;
+            pointer-events: none;
+            border-radius: 50px;
+            height: 8px;
+            z-index: 90;
+            transform: translate(-50%, -50%);
+            animation: fadeTrail 0.2s linear forwards;
+        }
+        
+        /* Estilos dos Rastros */
+        .trail-blue { background: #00ffff; box-shadow: 0 0 10px #00ffff, 0 0 20px blue; }
+        .trail-pink { background: #ff00ff; box-shadow: 0 0 10px #ff00ff, 0 0 20px purple; }
+        .trail-rainbow { background: linear-gradient(to right, red, orange, yellow, green, blue, violet); box-shadow: 0 0 15px white; }
+        .trail-gold { background: #ffd700; box-shadow: 0 0 10px #ffd700, 0 0 25px white; height: 10px; }
+        .trail-dragon { background: linear-gradient(to right, #ffd700, #ff0000); box-shadow: 0 0 10px #ff0000, 0 0 20px #ffd700; height: 12px; }
+        .trail-red { background: #ff0000; box-shadow: 0 0 10px #ff0000, 0 0 30px black; height: 10px; }
+
+        @keyframes fadeTrail {
+            0% { width: 15px; opacity: 1; }
+            100% { width: 0px; opacity: 0; }
+        }
+
+        /* Combo & Textos */
+        .floating-text {
+            position: fixed;
+            font-weight: 900;
+            font-family: 'Playfair Display', serif;
+            pointer-events: none;
+            z-index: 200;
+            text-shadow: 2px 2px 0 #000;
+            animation: popUp 0.8s ease-out forwards;
+        }
+        @keyframes popUp {
+            0% { transform: scale(0.5); opacity: 0; }
+            20% { transform: scale(1.2); opacity: 1; }
+            100% { transform: scale(1) translateY(-50px); opacity: 0; }
+        }
+
+        /* Game Over / Shop */
+        #game-over-screen {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.95);
+            z-index: 300;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            pointer-events: auto;
+            overflow-y: auto; /* Allow scrolling on small screens */
+            padding: 20px;
+        }
+
+        /* Vidas / Missed Fruits */
+        .miss-x {
+            color: #444;
+            font-size: 2rem;
+            margin-right: 2px;
+            transition: color 0.3s;
+        }
+        .miss-x.active {
+            color: #ef4444; /* Red */
+            text-shadow: 0 0 10px red;
+        }
+
+        /* Shop Tabs */
+        .shop-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        .shop-tab-btn {
+            padding: 8px 16px;
+            border-radius: 20px;
+            background: #333;
+            color: #888;
+            cursor: pointer;
+            border: 1px solid #444;
+            transition: all 0.3s;
+        }
+        .shop-tab-btn.active {
+            background: #d4af37;
+            color: #000;
+            font-weight: bold;
+            border-color: #d4af37;
+        }
+
+        /* Upgrade Panel */
+        #blade-upgrade-panel {
+            display: none;
+            margin-top: 15px;
+            padding: 15px;
+            background: rgba(0, 0, 0, 0.6);
+            border: 1px solid #444;
+            border-radius: 12px;
+            width: 100%;
+            max-width: 300px;
+        }
+        #blade-upgrade-panel.active { display: block; }
 
         /* Scrollbar elegante */
         ::-webkit-scrollbar { width: 6px; }
@@ -127,8 +540,186 @@
 </head>
 <body class="antialiased overflow-x-hidden relative">
 
-    <!-- Container for floating ingredients (Created by JS) -->
-    <div id="ingredients-container" class="fixed inset-0 pointer-events-none overflow-hidden z-0 hidden"></div>
+    <!-- GAME UI -->
+    <div class="game-ui">
+        <!-- Vidas e Poderes (Esquerda) -->
+        <div class="game-lives flex flex-col items-start">
+            <div class="text-stone-400 text-xs uppercase tracking-widest mb-1">Comidinhas Perdidas</div>
+            <div id="lives-container" class="flex mb-2">
+                <!-- X icons will be generated by JS -->
+            </div>
+            
+            <!-- Active Powers HUD -->
+            <div class="active-powerups">
+                <div class="power-icon" id="hud-shield" title="Escudo Ativo">
+                    🛡️
+                    <div class="power-count" id="count-shield">0</div>
+                </div>
+                <div class="power-icon" id="hud-life" title="Vida Extra (Auto)">
+                    ❤️
+                    <div class="power-count" id="count-life">0</div>
+                </div>
+                <!-- Angel Icon Indicator -->
+                <div class="power-icon" id="hud-angel" title="Fúria do Anjo (Ativa!)" style="display: none;">
+                    🍓
+                </div>
+                <!-- Frenzy Icon Indicator -->
+                <div class="power-icon" id="hud-frenzy" title="FRENESI! (Vidas Infinitas)" style="display: none; border-color: yellow; color: yellow;">
+                    🍌
+                </div>
+            </div>
+        </div>
+
+        <!-- Botão Anjo (Aparece se tiver o poder) -->
+        <div id="angel-btn" onclick="triggerAngelPower()">🍓</div>
+
+        <!-- HUD (Direita) -->
+        <div class="game-hud">
+            <!-- Score -->
+            <div class="text-right mb-4">
+                <div class="text-5xl font-bold text-white drop-shadow-lg" style="font-family: 'Playfair Display', serif;">
+                    <span id="score-display">0</span>
+                </div>
+                <div class="flex items-center justify-end gap-2 text-chef-gold text-sm font-bold bg-black/40 px-2 py-1 rounded">
+                    <span>$</span><span id="coin-display">0</span>
+                </div>
+                <div class="text-stone-500 text-xs mt-1">Recorde: <span id="highscore-display">0</span></div>
+            </div>
+
+            <button onclick="exitGame()" class="mt-2 px-4 py-2 bg-red-600/80 hover:bg-red-600 text-white text-xs font-bold rounded uppercase tracking-wider transition-colors border border-red-500">
+                Sair
+            </button>
+        </div>
+    </div>
+
+    <!-- Game Over Screen / SHOP -->
+    <div id="game-over-screen">
+        <h2 class="text-5xl font-bold text-red-600 mb-1 font-serif" id="game-over-title">GAME OVER</h2>
+        <p class="text-stone-400 mb-4 uppercase tracking-widest text-xs" id="game-over-msg">Cuidado com os explosivos!</p>
+        
+        <div class="bg-stone-900/90 p-6 rounded-2xl border border-stone-700 text-center mb-6 w-full max-w-2xl">
+            <!-- Score Summary -->
+            <div class="grid grid-cols-3 gap-2 items-end mb-4 bg-black/30 p-4 rounded-xl">
+                <div>
+                    <p class="text-stone-400 text-[10px] uppercase">Pontos</p>
+                    <p class="text-2xl md:text-3xl font-bold text-white" id="final-score">0</p>
+                </div>
+                <div>
+                    <p class="text-stone-500 text-[10px] uppercase">Recorde</p>
+                    <p class="text-xl md:text-2xl font-bold text-stone-300" id="final-highscore">0</p>
+                </div>
+                <div>
+                    <p class="text-chef-gold text-[10px] uppercase font-bold">Moedas</p>
+                    <p class="text-2xl md:text-3xl font-bold text-chef-gold" id="final-coins">+0</p>
+                </div>
+            </div>
+            
+            <div class="text-right mb-2">
+                <span class="text-stone-400 text-sm">Carteira: </span>
+                <span class="text-chef-gold font-bold text-xl">$ <span id="shop-coin-display">0</span></span>
+            </div>
+
+            <!-- Shop Tabs -->
+            <div class="shop-tabs justify-center">
+                <div class="shop-tab-btn active" onclick="switchShopTab('blades', this)">Katanas</div>
+                <div class="shop-tab-btn" onclick="switchShopTab('powers', this)">Poderes</div>
+            </div>
+
+            <!-- TAB: BLADES -->
+            <div id="shop-blades" class="shop-content flex flex-col items-center">
+                <p class="text-stone-500 text-xs mb-2">Desbloqueie recordes para liberar!</p>
+                
+                <!-- Blades Grid -->
+                <div class="flex flex-wrap justify-center gap-4 mb-4">
+                    <div class="blade-item" onclick="selectBlade('blue')">
+                        <div class="blade-level-badge" id="lvl-badge-blue">0</div>
+                        <div class="blade-btn preview-blue active" id="btn-shop-blue"></div>
+                        <span class="blade-label">Grátis</span>
+                    </div>
+                    <div class="blade-item" onclick="selectBlade('pink')">
+                        <div class="blade-level-badge" id="lvl-badge-pink">0</div>
+                        <div class="blade-btn preview-pink locked" id="btn-shop-pink"></div>
+                        <span class="blade-label">Neon<br>200 pts</span>
+                    </div>
+                    <div class="blade-item" onclick="selectBlade('rainbow')">
+                        <div class="blade-level-badge" id="lvl-badge-rainbow">0</div>
+                        <div class="blade-btn preview-rainbow locked" id="btn-shop-rainbow"></div>
+                        <span class="blade-label">Arco-Íris<br>500 pts</span>
+                    </div>
+                    <div class="blade-item" onclick="selectBlade('gold')">
+                        <div class="blade-level-badge" id="lvl-badge-gold">0</div>
+                        <div class="blade-btn preview-gold locked" id="btn-shop-gold"></div>
+                        <span class="blade-label">Dourada<br>1000 pts</span>
+                    </div>
+                    <div class="blade-item" onclick="selectBlade('dragon')">
+                        <div class="blade-level-badge" id="lvl-badge-dragon">0</div>
+                        <div class="blade-btn preview-dragon locked" id="btn-shop-dragon"></div>
+                        <span class="blade-label">Dragão<br>3000 pts</span>
+                    </div>
+                    <div class="blade-item" onclick="selectBlade('red')">
+                        <div class="blade-level-badge" id="lvl-badge-red">0</div>
+                        <div class="blade-btn preview-red locked" id="btn-shop-red"></div>
+                        <span class="blade-label text-red-500 font-bold">Hard Mode<br>10k pts</span>
+                    </div>
+                </div>
+
+                <!-- Upgrade Panel (Hidden by default) -->
+                <div id="blade-upgrade-panel">
+                    <h3 class="text-chef-gold font-bold uppercase text-sm mb-1" id="upgrade-title">Melhorar Lâmina</h3>
+                    <p class="text-stone-300 text-xs mb-2" id="upgrade-desc">Efeito: +1 ponto por fruta</p>
+                    <p class="text-white text-xs font-bold mb-3">Nível Atual: <span id="upgrade-current-lvl">0</span> / 3</p>
+                    
+                    <button id="btn-upgrade-action" class="px-6 py-2 bg-green-600 hover:bg-green-500 text-white text-xs font-bold rounded-full transition-colors flex items-center justify-center gap-2 mx-auto disabled:opacity-50 disabled:cursor-not-allowed" onclick="buyBladeUpgrade()">
+                        <span>Melhorar</span>
+                        <span class="bg-black/30 px-2 rounded">$ <span id="upgrade-cost">100</span></span>
+                    </button>
+                    <p id="max-level-msg" class="text-green-400 font-bold text-xs hidden">NÍVEL MÁXIMO!</p>
+                </div>
+            </div>
+
+            <!-- TAB: POWERS -->
+            <div id="shop-powers" class="shop-content hidden">
+                <p class="text-stone-500 text-xs mb-2">Consumíveis (Máx 3 de cada)</p>
+                <div class="flex flex-wrap justify-center gap-4">
+                    <!-- Bomb Shield -->
+                    <div class="power-item" onclick="buyPower('shield', 200, this)">
+                        <div class="power-btn border-blue-400 text-blue-400">🛡️</div>
+                        <span class="power-label">Escudo<br>Bomba</span>
+                        <span class="power-cost">200 $</span>
+                        <div class="text-xs text-white mt-1">Qtd: <span id="shop-qty-shield">0</span>/3</div>
+                    </div>
+                    <!-- Extra Life -->
+                    <div class="power-item" onclick="buyPower('life', 150, this)">
+                        <div class="power-btn border-red-400 text-red-400">❤️</div>
+                        <span class="power-label">Vida<br>Extra</span>
+                        <span class="power-cost">150 $</span>
+                        <div class="text-xs text-white mt-1">Qtd: <span id="shop-qty-life">0</span>/3</div>
+                    </div>
+                    <!-- Angel Power -->
+                    <div class="power-item" onclick="buyPower('angel', 300, this)">
+                        <div class="power-btn border-pink-400 text-pink-400">🍓</div>
+                        <span class="power-label">Fúria<br>Anjo</span>
+                        <span class="power-cost">300 $</span>
+                        <div class="text-xs text-white mt-1">Qtd: <span id="shop-qty-angel">0</span>/3</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="flex gap-4">
+            <button onclick="restartGame()" class="px-8 py-3 bg-chef-gold text-stone-900 font-bold rounded hover:bg-white hover:scale-105 transition-all uppercase tracking-widest shadow-lg shadow-chef-gold/20">
+                Jogar Novamente
+            </button>
+            <button onclick="exitGame()" class="px-8 py-3 border border-stone-600 text-stone-400 font-bold rounded hover:border-white hover:text-white transition-colors uppercase tracking-widest">
+                Menu Principal
+            </button>
+        </div>
+    </div>
+
+    <!-- Game Containers -->
+    <div id="game-container" class="fixed inset-0 pointer-events-none overflow-hidden z-50 hidden"></div>
+    <div id="slash-container" class="fixed inset-0 pointer-events-none overflow-hidden z-[90]"></div>
+    <div id="fx-container" class="fixed inset-0 pointer-events-none overflow-hidden z-[80]"></div>
 
     <!-- Navbar -->
     <nav class="fixed w-full z-50 transition-all duration-300 glass-panel border-b-0">
@@ -153,12 +744,12 @@
                     <!-- Desktop Flags -->
                     <div class="hidden md:flex items-center gap-3 border-l border-white/10 pl-4">
                         <!-- Brasil -->
-                        <button onclick="changeLanguage('pt')" class="w-6 h-6 hover:scale-110 transition-transform" title="Português (Brasil)">
+                        <button onclick="changeLanguage('pt')" data-lang="pt" class="w-6 h-6 hover:scale-110 transition-transform" title="Português (Brasil)">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36 36" class="rounded-full shadow-lg"><path fill="#009b3a" d="M36 27a4 4 0 0 1-4 4H4a4 4 0 0 1-4-4V9a4 4 0 0 1 4-4h28a4 4 0 0 1 4 4v18z"/><path fill="#fedf00" d="M32.73 18L18 29.27 3.27 18 18 6.73z"/><circle fill="#002776" cx="18" cy="18" r="6.5"/><path fill="#fff" d="M13.25 18.27a8.6 8.6 0 0 0 9.27-2.34c-.26.23-1.09.84-2.82 1.34-2.61.76-4.94.34-6.45 1z"/></svg>
                         </button>
                         
-                        <!-- Portugal (NOVA) -->
-                        <button onclick="changeLanguage('pt-PT')" class="w-6 h-6 hover:scale-110 transition-transform opacity-50" title="Português (Portugal)">
+                        <!-- Portugal -->
+                        <button onclick="changeLanguage('pt-PT')" data-lang="pt-PT" class="w-6 h-6 hover:scale-110 transition-transform opacity-50" title="Português (Portugal)">
                              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36 36" class="rounded-full shadow-lg">
                                 <path fill="#e03c31" d="M12 0h24v36H12z"/>
                                 <path fill="#006600" d="M0 0h12v36H0z"/>
@@ -172,7 +763,6 @@
                                     <path fill="#006600" d="M13 17h-2v2h2z"/>
                                     <circle fill="#fff" cx="12" cy="18" r="1"/>
                                 </g>
-                                <!-- Simplified Coat of Arms for Small Icon -->
                                 <path fill="#fff" d="M12 14.5c1.93 0 3.5 1.57 3.5 3.5s-1.57 3.5-3.5 3.5-3.5-1.57-3.5-3.5 1.57-3.5 3.5-3.5z"/>
                                 <path fill="#e03c31" d="M12 15c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3m0-1c-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4-1.79-4-4-4z"/>
                                 <path fill="#003399" d="M12 16h1v1h-1zm-1.5 0h1v1h-1zm3 0h1v1h-1zm-1.5 1.5h1v1h-1zm0-3h1v1h-1z"/>
@@ -180,17 +770,17 @@
                         </button>
 
                         <!-- English -->
-                        <button onclick="changeLanguage('en')" class="w-6 h-6 hover:scale-110 transition-transform opacity-50" title="English">
+                        <button onclick="changeLanguage('en')" data-lang="en" class="w-6 h-6 hover:scale-110 transition-transform opacity-50" title="English">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36 36" class="rounded-full shadow-lg"><path fill="#bd3d44" d="M32 5H4a4 4 0 0 0-4 4v18a4 4 0 0 0 4 4h28a4 4 0 0 0 4-4V9a4 4 0 0 0-4-4z"/><path fill="#fff" d="M0 27a4 4 0 0 0 4 4h28a4 4 0 0 0 4-4V9a4 4 0 0 0-4-4H4a4 4 0 0 0-4 4v18z"/><path fill="#bd3d44" d="M36 20.5H0v-5h36v5z"/><path fill="#bd3d44" d="M36 25.5H0v-1h36v1zm0-15H0v-1h36v1z"/><path fill="#192f5d" d="M19.38 5H4a4 4 0 0 0-4 4v12.23h19.38V5z"/><path fill="#fff" d="M2.35 19.35l1.69-1.39 1.15 1.54 1.35-1.92 1.58 1.19 1.35-1.92 1.15 1.54 1.69-1.39-.77 2.23H10.7l-.39 2.16L9.62 19.2l-2.04 1.27.35-2.35-2.31-.5 2.12-1.07zm14.88 0l-1.69-1.39-1.15 1.54-1.35-1.92-1.58 1.19-1.35-1.92-1.15 1.54-1.69-1.39.77 2.23h1.85l.39 2.16.69-2.04 2.04 1.27-.35-2.35 2.31-.5-2.12-1.07zM3.6 15.65l1.04-1.93 1.89.65.65-1.93 1.89.65 1.04-1.93.42 2.16 2.31.35-1.73 1.62.92 2.15-2.27-.77-1.46 1.81-1.46-1.81-2.27.77.92-2.15-1.73-1.62zm10.77 0l-1.04-1.93-1.89.65-.65-1.93-1.89.65-1.04-1.93-.42 2.16-2.31.35 1.73 1.62-.92 2.15 2.27-.77 1.46 1.81 1.46-1.81 2.27.77-.92-2.15 1.73-1.62zM3.22 8.54l1.62.77-.15 2.19 2.08-.88 1.31 1.77 1.31-1.77 2.08.88-.15-2.19 1.62-.77-2.16-.39.46-2.15-1.96 1.12L8.08 5l-1.19 2.12L4.93 5l.46 2.15z"/></svg>
                         </button>
 
                         <!-- Español -->
-                        <button onclick="changeLanguage('es')" class="w-6 h-6 hover:scale-110 transition-transform opacity-50" title="Español">
+                        <button onclick="changeLanguage('es')" data-lang="es" class="w-6 h-6 hover:scale-110 transition-transform opacity-50" title="Español">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36 36" class="rounded-full shadow-lg"><path fill="#bd3d44" d="M32 5H4a4 4 0 0 0-4 4v18a4 4 0 0 0 4 4h28a4 4 0 0 0 4-4V9a4 4 0 0 0-4-4z"/><path fill="#fbd116" d="M0 26h36V10H0z"/><path fill="#bd3d44" d="M6 15h9v6H6z"/></svg>
                         </button>
 
                         <!-- Français -->
-                        <button onclick="changeLanguage('fr')" class="w-6 h-6 hover:scale-110 transition-transform opacity-50" title="Français">
+                        <button onclick="changeLanguage('fr')" data-lang="fr" class="w-6 h-6 hover:scale-110 transition-transform opacity-50" title="Français">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36 36" class="rounded-full shadow-lg"><path fill="#0055A4" d="M0 0h12v36H0z"/><path fill="#fff" d="M12 0h12v36H12z"/><path fill="#EF4135" d="M24 0h12v36H24z"/></svg>
                         </button>
                     </div>
@@ -228,11 +818,11 @@
 
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full">
             <div class="flex flex-col md:flex-row items-center gap-12 lg:gap-20">
-                <!-- Image Container - AGORA COM O EVENTO DE CLIQUE (SECRET MODE) -->
+                <!-- Image Container - EASTER EGG TRIGGER -->
                 <div class="w-64 h-64 md:w-80 md:h-80 lg:w-[400px] lg:h-[500px] flex-shrink-0 relative group animate-fade-in-up">
                     <div class="absolute inset-0 border-2 border-chef-gold/30 rounded-lg translate-x-4 translate-y-4 group-hover:translate-x-2 group-hover:translate-y-2 transition-transform duration-500"></div>
-                    <!-- Adicionado onclick e cursor-pointer aqui -->
-                    <div onclick="toggleFlavorMode()" class="w-full h-full rounded-lg overflow-hidden shadow-2xl relative cursor-pointer" title="Clique para uma surpresa...">
+                    <!-- TRIGGER DO JOGO -->
+                    <div onclick="toggleFlavorMode()" class="w-full h-full rounded-lg overflow-hidden shadow-2xl relative cursor-pointer z-50 hover:brightness-110 ring-2 ring-transparent hover:ring-chef-gold transition-all" title="Clique para ativar o Modo Chef Ninja!">
                         <img 
                             src="https://blogger.googleusercontent.com/img/a/AVvXsEhldf6e9RSmGBUZEhVXxTNQ8T28BjTNeeny6tAAxOFuHZFdoqgVS7jUCV4jDY-QfWeE7dcL5F0yLy34f8GI6FMkKiIBu-Gmf3Wr_3foyZQ9cj9JOlXfHfabXl_M8LCSTOPaHXKNWrSDFM2XxnQnsMX47hJ7VCLc1TOxq5nloJQKcg7c5SKFvRRiwfNVBA0_=s1600" 
                             alt="Matheus R. Fonseca" 
@@ -240,6 +830,10 @@
                         >
                         <!-- Gradient Overlay on Image -->
                         <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent pointer-events-none"></div>
+                        <!-- Easter Egg Icon -->
+                        <div class="absolute bottom-2 right-2 text-white/50 hover:text-chef-gold transition-colors opacity-0 group-hover:opacity-100 p-2">
+                            <i data-lucide="gamepad-2" class="w-6 h-6"></i>
+                        </div>
                     </div>
                 </div>
 
@@ -276,7 +870,7 @@
         </div>
     </section>
 
-    <!-- About Section (Nova Seção Detalhada) -->
+    <!-- About Section -->
     <section id="about" class="py-24 bg-[#141210] relative">
         <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
             <div class="grid grid-cols-1 md:grid-cols-12 gap-12 items-center">
@@ -575,54 +1169,886 @@
 
     <!-- Scripts -->
     <script>
-        lucide.createIcons();
+        document.addEventListener('DOMContentLoaded', () => {
+            lucide.createIcons();
+            
+            // Game Init
+            loadGameData();
+            currentBlade = gameData.blade;
+            document.getElementById('highscore-display').innerText = gameData.highScore;
+            initLives();
+
+            // I18N Init
+            changeLanguage('pt');
+            window.scrollTo(0, 0);
+        });
 
         // ---------------------------------------------------------
-        // FLAVOR MODE LOGIC
+        // GAME ENGINE (Fruit Ninja Style)
         // ---------------------------------------------------------
-        let flavorMode = false;
-        const ingredients = ['🍅', '🍤', '🧀', '🌶️', '🥦', '🥩', '🍋', '🧅', '🥑', '🥖', '🌮', '🥣'];
-        const ingredientsContainer = document.getElementById('ingredients-container');
+        let gameData = {
+            highScore: 0,
+            coins: 0,
+            blade: 'blue',
+            inventory: { shield: 0, life: 0, angel: 0 },
+            bladeLevels: { blue: 0, pink: 0, rainbow: 0, gold: 0, dragon: 0, red: 0 }
+        };
+
+        const upgradeConfig = {
+            blue: { name: 'Afiada', desc: 'Pontos extras por corte', costs: [15, 40, 80], values: [0, 1, 2, 3] },
+            pink: { name: 'Sobrecarga', desc: 'Chance de Raio em Cadeia', costs: [200, 500, 1000], values: [0.25, 0.45, 0.65, 0.80] },
+            rainbow: { name: 'Sorte Extra', desc: 'Chance Anti-Bomba', costs: [300, 600, 1200], values: [0.60, 0.80, 0.95, 1.0] },
+            gold: { name: 'Riqueza', desc: 'Moedas Extras por corte', costs: [500, 1000, 2000], values: [0, 3, 6, 10] },
+            dragon: { name: 'Fúria Eterna', desc: 'Multiplicador de Combo', costs: [800, 1500, 3000], values: [5, 10, 15, 20] },
+            red: { name: 'Modo Hard', desc: 'Dificuldade Extrema - Pontos x5', costs: [5000, 10000, 15000], values: [5, 6, 7, 8] }
+        };
+
+        function loadGameData() {
+            try {
+                const saved = localStorage.getItem('chefNinjaData_v2');
+                if (saved) {
+                    const parsed = JSON.parse(saved);
+                    gameData = { ...gameData, ...parsed };
+                    if(!gameData.bladeLevels) gameData.bladeLevels = { blue: 0, pink: 0, rainbow: 0, gold: 0, dragon: 0, red: 0 };
+                }
+            } catch(e) { console.error("Save error", e); }
+            updateShopUI();
+        }
+
+        function saveGameData() {
+            try {
+                localStorage.setItem('chefNinjaData_v2', JSON.stringify(gameData));
+            } catch(e) {}
+            updateShopUI();
+        }
+
+        // Game State
+        let gameActive = false;
+        let score = 0;
+        let missedFruits = 0;
+        const MAX_MISSED = 5; 
+        let angelFuryActive = false;
+        let isFrenzyMode = false;
+        let frenzyInterval;
+        let frenzyTimer;
+        
+        const BASE_GRAVITY = 0.35;
+        let currentGravity = BASE_GRAVITY;
+        let gameLoopId;
+        let spawnInterval;
+        let spawnRateModifier = 1; 
+        let nextMegaFruitScore = 50;
+        let megaFruitGap = 100;
+        
+        let activeObjects = [];
+        let currentBlade = 'blue';
+        let comboCount = 0;
+        let comboTimer = null;
+        let mouseX = 0, mouseY = 0;
+        let isMouseDown = false;
+        let isSuperRound = false;
+
+        const ingredientsList = ['🍅','🍤','🧀','🌶️','🥦','🥩','🍋','🧅','🥑','🥖','🌮','🍖','🍗','🥕','🍆'];
+        const container = document.getElementById('game-container');
+        const slashContainer = document.getElementById('slash-container');
+        const fxContainer = document.getElementById('fx-container');
+
+        function initLives() {
+            const container = document.getElementById('lives-container');
+            container.innerHTML = '';
+            for(let i=0; i<MAX_MISSED; i++) {
+                container.innerHTML += '<span class="miss-x" id="x-'+i+'">X</span>';
+            }
+            updateLivesUI();
+        }
 
         function toggleFlavorMode() {
-            flavorMode = !flavorMode;
+            gameActive = !gameActive;
             document.body.classList.toggle('flavor-mode');
             
-            if (flavorMode) {
-                document.getElementById('ingredients-container').classList.remove('hidden');
-                spawnIngredients();
+            if (gameActive) {
+                container.classList.remove('hidden');
+                restartGame();
             } else {
-                document.getElementById('ingredients-container').classList.add('hidden');
-                ingredientsContainer.innerHTML = ''; // Clear items
+                exitGame();
             }
         }
 
-        function spawnIngredients() {
-            // Create initial batch
-            for(let i=0; i<30; i++) {
-                createIngredient();
-            }
-            // Continue creating occasionally
-            // In a real scenario, use requestAnimationFrame or interval, but CSS loop handles movement
-        }
-
-        function createIngredient() {
-            const el = document.createElement('div');
-            el.innerText = ingredients[Math.floor(Math.random() * ingredients.length)];
-            el.className = 'ingredient-particle';
+        function restartGame() {
+            gameActive = true; 
+            score = 0;
+            missedFruits = 0;
+            isSuperRound = false;
+            angelFuryActive = false;
+            isFrenzyMode = false;
+            currentGravity = BASE_GRAVITY;
+            spawnRateModifier = 1;
+            nextMegaFruitScore = 50;
+            megaFruitGap = 100;
             
-            // Random properties
-            const left = Math.random() * 100;
-            const size = 1 + Math.random() * 2; // 1rem to 3rem
-            const duration = 5 + Math.random() * 10; // 5s to 15s
-            const delay = Math.random() * 5; 
+            if(frenzyInterval) clearInterval(frenzyInterval);
+            if(frenzyTimer) clearTimeout(frenzyTimer);
+            
+            if(currentBlade === 'gold') {
+                currentGravity *= 1.2;
+                spawnRateModifier = 0.8;
+            }
+            
+            updateScore();
+            updateLivesUI();
+            updatePowerupsHUD();
+            
+            activeObjects.forEach(obj => obj.el.remove());
+            activeObjects = [];
+            fxContainer.innerHTML = '';
+            document.getElementById('game-over-screen').style.display = 'none';
+            document.getElementById('angel-btn').style.display = 'none';
+            if(gameData.inventory.angel > 0) document.getElementById('angel-btn').style.display = 'flex';
+            
+            const overlays = document.querySelectorAll('.frenzy-overlay');
+            overlays.forEach(o => o.remove());
 
-            el.style.left = `${left}vw`;
-            el.style.fontSize = `${size}rem`;
-            el.style.animationDuration = `${duration}s`;
-            el.style.animationDelay = `-${delay}s`; // Negative delay to start mid-animation
+            document.addEventListener('mousedown', () => isMouseDown = true);
+            document.addEventListener('mouseup', () => isMouseDown = false);
+            document.addEventListener('mousemove', handleInput);
+            document.addEventListener('touchmove', handleInput, { passive: false });
+            
+            startGameLoop();
+        }
 
-            ingredientsContainer.appendChild(el);
+        function exitGame() {
+            gameActive = false;
+            document.body.classList.remove('flavor-mode');
+            container.classList.add('hidden');
+            document.getElementById('game-over-screen').style.display = 'none';
+            stopGameLoop();
+        }
+
+        function startGameLoop() {
+            if(spawnInterval) clearInterval(spawnInterval);
+            spawnInterval = setInterval(spawnObject, 700 * spawnRateModifier); 
+            updateGame();
+        }
+
+        function stopGameLoop() {
+            clearInterval(spawnInterval);
+            if(frenzyInterval) clearInterval(frenzyInterval);
+            cancelAnimationFrame(gameLoopId);
+            document.removeEventListener('mousemove', handleInput);
+            document.removeEventListener('touchmove', handleInput);
+        }
+
+        function updateGame() {
+            if (!gameActive) return;
+
+            for (let i = activeObjects.length - 1; i >= 0; i--) {
+                let obj = activeObjects[i];
+                
+                if (obj.type === 'dragonbomb') {
+                    obj.x += obj.vx;
+                    obj.time = (obj.time || 0) + 0.1;
+                    obj.y += Math.sin(obj.time) * 5; 
+                    obj.el.style.left = obj.x + 'px';
+                    obj.el.style.top = obj.y + 'px';
+                    if (obj.x > window.innerWidth + 100 || obj.x < -100) {
+                        obj.el.remove();
+                        activeObjects.splice(i, 1);
+                    }
+                    continue;
+                }
+                
+                if (obj.type === 'super') {
+                    obj.rot += obj.rotSpeed;
+                    obj.el.style.transform = `translate(-50%, -50%) rotate(${obj.rot}deg) scale(1.2)`;
+                    obj.x = window.innerWidth / 2;
+                    obj.y = window.innerHeight / 2;
+                    obj.el.style.left = obj.x + 'px';
+                    obj.el.style.top = obj.y + 'px';
+                } else {
+                    obj.x += obj.vx;
+                    obj.y += obj.vy;
+                    obj.vy += currentGravity; 
+                    obj.rot += obj.rotSpeed;
+                    obj.el.style.left = obj.x + 'px';
+                    obj.el.style.top = obj.y + 'px';
+                    obj.el.style.transform = `translate(-50%, -50%) rotate(${obj.rot}deg)`;
+
+                    if (obj.y > window.innerHeight + 100) {
+                        if(obj.type === 'fruit') handleMissedFruit();
+                        obj.el.remove();
+                        activeObjects.splice(i, 1);
+                    }
+                }
+            }
+            gameLoopId = requestAnimationFrame(updateGame);
+        }
+
+        function handleMissedFruit() {
+            if(!gameActive || isSuperRound || isFrenzyMode) return;
+            if (missedFruits === MAX_MISSED - 1 && gameData.inventory.life > 0) {
+                useLifePowerup();
+                return;
+            }
+            missedFruits++;
+            updateLivesUI();
+            if (missedFruits >= MAX_MISSED) gameOver("GAME OVER", "Você deixou cair muitas comidinhas!");
+        }
+
+        function useLifePowerup() {
+            gameData.inventory.life--;
+            missedFruits = 0;
+            updateLivesUI();
+            updatePowerupsHUD();
+            createFloatingText(window.innerWidth/2, window.innerHeight/2, "VIDA EXTRA USADA!", "red", 2);
+            saveGameData();
+        }
+
+        function updateLivesUI() {
+            for(let i=0; i<MAX_MISSED; i++) {
+                const el = document.getElementById('x-'+i);
+                if(el) {
+                    if(i < missedFruits) el.classList.add('active');
+                    else el.classList.remove('active');
+                }
+            }
+        }
+
+        function updatePowerupsHUD() {
+            const shieldCount = document.getElementById('count-shield');
+            const lifeCount = document.getElementById('count-life');
+            if(shieldCount) shieldCount.innerText = gameData.inventory.shield;
+            if(lifeCount) lifeCount.innerText = gameData.inventory.life;
+            
+            const shieldIcon = document.getElementById('hud-shield');
+            const lifeIcon = document.getElementById('hud-life');
+            const angelBtn = document.getElementById('angel-btn');
+            const angelIcon = document.getElementById('hud-angel'); 
+            const frenzyIcon = document.getElementById('hud-frenzy');
+
+            if(shieldIcon) { if(gameData.inventory.shield > 0) shieldIcon.classList.add('active'); else shieldIcon.classList.remove('active'); }
+            if(lifeIcon) { if(gameData.inventory.life > 0) lifeIcon.classList.add('active'); else lifeIcon.classList.remove('active'); }
+            
+            if(angelBtn) {
+                if(gameData.inventory.angel > 0 && !angelFuryActive) {
+                    angelBtn.style.display = 'flex';
+                    angelBtn.innerText = '🍓';
+                } else {
+                    angelBtn.style.display = 'none';
+                }
+            }
+            
+            if(angelIcon) {
+                if(angelFuryActive) {
+                    angelIcon.style.display = 'flex';
+                    angelIcon.classList.add('active');
+                } else {
+                    angelIcon.style.display = 'none';
+                }
+            }
+
+            if(frenzyIcon) frenzyIcon.style.display = isFrenzyMode ? 'flex' : 'none';
+        }
+
+        function triggerAngelPower() {
+            if(gameData.inventory.angel <= 0 || !gameActive) return;
+            gameData.inventory.angel--;
+            angelFuryActive = true; 
+            updatePowerupsHUD();
+            saveGameData();
+
+            const flash = document.createElement('div');
+            flash.className = 'angel-flash';
+            fxContainer.appendChild(flash);
+            setTimeout(() => flash.remove(), 500);
+
+            let bonusScore = 0;
+            activeObjects.forEach(obj => {
+                if(obj.type === 'fruit') {
+                    obj.el.innerText = '🍓';
+                    createHalves('🍓', obj.x, obj.y, true); 
+                    bonusScore += 5; 
+                    obj.el.remove();
+                }
+            });
+            activeObjects = []; 
+            addScore(bonusScore, window.innerWidth/2, window.innerHeight/2);
+            createFloatingText(window.innerWidth/2, window.innerHeight/2 - 50, "FÚRIA DO ANJO!", "#ff69b4", 3);
+        }
+
+        function triggerLocalEffect(x, y, type) {
+            const effect = document.createElement('div');
+            effect.className = `local-flash flash-${type}`;
+            effect.style.left = x + 'px';
+            effect.style.top = y + 'px';
+            fxContainer.appendChild(effect);
+            setTimeout(() => effect.remove(), 500);
+        }
+        
+        function triggerRainbowSave(obj) {
+            obj.defused = true; 
+            obj.vx = (obj.x < window.innerWidth/2 ? -1 : 1) * (Math.random() * 20 + 20); 
+            obj.vy = -30; 
+            const rainbow = document.createElement('div');
+            rainbow.className = 'mega-rainbow';
+            fxContainer.appendChild(rainbow);
+            setTimeout(() => rainbow.remove(), 1500);
+            createFloatingText(obj.x, obj.y, "SALVO!", "cyan", 2);
+            addScore(5, obj.x, obj.y);
+        }
+
+        function spawnObject() {
+            if(!gameActive) return;
+            if(isSuperRound || isFrenzyMode) return;
+
+            if (score >= nextMegaFruitScore) {
+                startSuperRound();
+                nextMegaFruitScore += megaFruitGap;
+                megaFruitGap += 100;
+                return;
+            }
+
+            if (currentBlade === 'red' && Math.random() < 0.05) { 
+                spawnDragonBomb();
+                return;
+            }
+
+            const rand = Math.random();
+            if (rand < 0.05) { spawnLineFormation(); return; }
+            if (rand > 0.995) { spawnSingleFruit('frenzy', '🍌'); return; }
+
+            const el = document.createElement('div');
+            el.className = 'game-object';
+            
+            let type = 'fruit';
+            let content = ingredientsList[Math.floor(Math.random() * ingredientsList.length)];
+            let hp = 1;
+
+            if (rand < 0.15) { 
+                type = 'bomb';
+                content = '💣';
+                el.classList.add('bomb-particle');
+            }
+
+            if(angelFuryActive && type === 'fruit') content = '🍓';
+
+            el.innerText = content;
+            container.appendChild(el);
+
+            const level = Math.floor(score / 100);
+            let speedMultiplier = 1 + (level * 0.1); 
+            if(currentBlade === 'gold') speedMultiplier *= 1.2;
+
+            currentGravity = BASE_GRAVITY * (1 + (level * 0.05)); 
+            if(currentBlade === 'gold') currentGravity *= 1.2;
+
+            const startX = Math.random() * (window.innerWidth - 100) + 50;
+            const startY = window.innerHeight + 60;
+            const centerBias = (window.innerWidth / 2 - startX) * 0.005;
+            const vx = (Math.random() - 0.5) * 6 + centerBias;
+            const vy = -(Math.random() * 8 + 14) * speedMultiplier; 
+
+            activeObjects.push({
+                el: el, x: startX, y: startY, vx: vx, vy: vy,
+                rot: 0, rotSpeed: (Math.random() - 0.5) * 15,
+                type: type, hp: hp, spawnTime: Date.now()
+            });
+        }
+
+        function spawnDragonBomb() {
+            const el = document.createElement('div');
+            el.className = 'game-object dragon-bomb-particle';
+            el.innerText = '🐲💣';
+            container.appendChild(el);
+            const side = Math.random() < 0.5 ? 'left' : 'right';
+            const startY = Math.random() * (window.innerHeight * 0.6) + 100;
+            let startX, vx;
+            if(side === 'left') { startX = -50; vx = Math.random() * 3 + 2; } 
+            else { startX = window.innerWidth + 50; vx = -(Math.random() * 3 + 2); }
+            activeObjects.push({
+                el: el, x: startX, y: startY, vx: vx, vy: 0,
+                rot: 0, rotSpeed: 0, type: 'dragonbomb', hp: 1, spawnTime: Date.now(), time: 0
+            });
+        }
+
+        function spawnSingleFruit(type, content) {
+            const el = document.createElement('div');
+            el.className = 'game-object';
+            if(type === 'frenzy') el.classList.add('frenzy-fruit');
+            el.innerText = content;
+            container.appendChild(el);
+            const startX = Math.random() * (window.innerWidth - 100) + 50;
+            const startY = window.innerHeight + 60;
+            const vx = (window.innerWidth/2 - startX) * 0.01; 
+            const vy = -(Math.random() * 5 + 15);
+            activeObjects.push({
+                el: el, x: startX, y: startY, vx: vx, vy: vy,
+                rot: 0, rotSpeed: 10, type: type, hp: 1, spawnTime: Date.now()
+            });
+        }
+
+        function spawnLineFormation() {
+            const count = 5;
+            const gap = 60; 
+            const startX = Math.random() * (window.innerWidth - (count * gap)) + 20;
+            const startY = window.innerHeight + 60;
+            for(let i=0; i<count; i++) {
+                const el = document.createElement('div');
+                el.className = 'game-object';
+                let content = ingredientsList[Math.floor(Math.random() * ingredientsList.length)];
+                if(angelFuryActive) content = '🍓';
+                el.innerText = content;
+                container.appendChild(el);
+                const vx = ((window.innerWidth/2) - (startX + i*gap)) * 0.002; 
+                const vy = -17 - (Math.sin(i)*2); 
+                activeObjects.push({
+                    el: el, x: startX + (i * gap), y: startY, vx: vx, vy: vy,
+                    rot: 0, rotSpeed: 5, type: 'fruit', hp: 1, spawnTime: Date.now()
+                });
+            }
+            createFloatingText(window.innerWidth/2, window.innerHeight - 200, "FILEIRA!", "#00ff00", 1.5);
+        }
+
+        function startFrenzyMode() {
+            if(isFrenzyMode) return;
+            isFrenzyMode = true;
+            updatePowerupsHUD();
+            const overlay = document.createElement('div');
+            overlay.className = 'frenzy-overlay';
+            fxContainer.appendChild(overlay);
+            createFloatingText(window.innerWidth/2, window.innerHeight/2, "FRENESI!", "yellow", 3);
+            frenzyInterval = setInterval(spawnSideFruit, 250); 
+            frenzyTimer = setTimeout(endFrenzyMode, 8000); 
+        }
+
+        function endFrenzyMode() {
+            isFrenzyMode = false;
+            clearInterval(frenzyInterval);
+            const overlay = document.querySelector('.frenzy-overlay');
+            if(overlay) overlay.remove();
+            updatePowerupsHUD();
+            createFloatingText(window.innerWidth/2, window.innerHeight/2, "FIM DO FRENESI", "white", 2);
+        }
+
+        function spawnSideFruit() {
+            if(!gameActive) return;
+            const side = Math.random() < 0.5 ? 'left' : 'right';
+            const el = document.createElement('div');
+            el.className = 'game-object';
+            let content = ingredientsList[Math.floor(Math.random() * ingredientsList.length)];
+            if(angelFuryActive) content = '🍓';
+            el.innerText = content;
+            container.appendChild(el);
+            let startX, vx;
+            if(side === 'left') { startX = -50; vx = Math.random() * 10 + 5; } 
+            else { startX = window.innerWidth + 50; vx = -(Math.random() * 10 + 5); }
+            const startY = Math.random() * (window.innerHeight * 0.5) + (window.innerHeight * 0.2); 
+            const vy = -(Math.random() * 10 + 5); 
+            activeObjects.push({
+                el: el, x: startX, y: startY, vx: vx, vy: vy,
+                rot: 0, rotSpeed: 15, type: 'fruit', hp: 1, spawnTime: Date.now()
+            });
+        }
+
+        function startSuperRound() {
+            isSuperRound = true;
+            activeObjects.forEach(obj => obj.el.remove());
+            activeObjects = [];
+            missedFruits = 0;
+            updateLivesUI();
+            createFloatingText(window.innerWidth/2, window.innerHeight/2 - 150, "MEGA FRUTA!", "#d4af37", 3);
+            const el = document.createElement('div');
+            el.className = 'game-object super-fruit';
+            el.innerText = '🍉';
+            container.appendChild(el);
+            const cx = window.innerWidth / 2;
+            const cy = window.innerHeight / 2;
+            el.style.left = cx + 'px';
+            el.style.top = cy + 'px';
+            el.style.transform = `translate(-50%, -50%) scale(1)`;
+            activeObjects.push({
+                el: el, x: cx, y: cy, vx: 0, vy: 0, rot: 0, rotSpeed: 2, type: 'super', hp: 30, spawnTime: Date.now()
+            });
+        }
+
+        function handleInput(e) {
+            if (!gameActive) return;
+            e.preventDefault();
+            let x, y;
+            if(e.type === 'touchmove') { x = e.touches[0].clientX; y = e.touches[0].clientY; } 
+            else { x = e.clientX; y = e.clientY; }
+            createSlash(x, y);
+            checkCollision(x, y);
+        }
+
+        function createSlash(x, y) {
+            const slash = document.createElement('div');
+            slash.className = `slash-trail trail-${currentBlade}`;
+            slash.style.left = x + 'px';
+            slash.style.top = y + 'px';
+            slashContainer.appendChild(slash);
+            setTimeout(() => slash.remove(), 200);
+        }
+
+        function checkCollision(mx, my) {
+            const hitRadius = 30; 
+            for (let i = activeObjects.length - 1; i >= 0; i--) {
+                let obj = activeObjects[i];
+                if (Date.now() - obj.spawnTime < 200) continue;
+                let effectiveRadius = hitRadius + 30;
+                if(obj.type === 'super') effectiveRadius = 120;
+                if(obj.type === 'dragonbomb') effectiveRadius = 60; 
+                const dx = mx - obj.x;
+                const dy = my - obj.y;
+                const dist = Math.sqrt(dx*dx + dy*dy);
+                if (dist < effectiveRadius) hitObject(obj, i);
+            }
+        }
+
+        function triggerExplosion(x, y) {
+            const boom = document.createElement('div');
+            boom.className = 'explosion';
+            boom.style.left = x + 'px';
+            boom.style.top = y + 'px';
+            fxContainer.appendChild(boom);
+            gameActive = false;
+        }
+
+        function hitObject(obj, index) {
+            let lvl = gameData.bladeLevels[currentBlade] || 0;
+            if(currentBlade === 'dragon') lvl = gameData.bladeLevels.dragon;
+
+            if (obj.type === 'dragonbomb') {
+                triggerExplosion(obj.x, obj.y);
+                setTimeout(() => { gameOver("DRAGÃO BOMBA!", "Modo Hard é impiedoso!"); }, 600);
+            } else if (obj.type === 'bomb') {
+                if (obj.defused) return;
+                let safe = false;
+                if(gameData.inventory.shield > 0) { useShield(obj, index); return; }
+                
+                if (currentBlade === 'gold' || currentBlade === 'dragon') {
+                    const rainbowChance = upgradeConfig.rainbow.values[lvl]; 
+                    if (currentBlade === 'gold' || Math.random() < rainbowChance) {
+                        safe = true;
+                        createFloatingText(obj.x, obj.y, "✨", "cyan", 2);
+                        if(currentBlade === 'dragon' || currentBlade === 'rainbow') triggerRainbowSave(obj);
+                    }
+                } else if (currentBlade === 'rainbow') {
+                    if (Math.random() < upgradeConfig.rainbow.values[lvl]) { triggerRainbowSave(obj); return; }
+                }
+
+                if (!safe && !obj.defused) {
+                    triggerExplosion(obj.x, obj.y);
+                    setTimeout(() => { gameOver("EXPLODIU!", "Você cortou uma bomba!"); }, 600);
+                }
+
+            } else if (obj.type === 'super') {
+                obj.hp--;
+                addScore(1, obj.x, obj.y); 
+                createHalves('🍉', obj.x, obj.y, true);
+                if (obj.hp <= 0) {
+                    explodeSuperFruit(obj);
+                    activeObjects.splice(index, 1);
+                    obj.el.remove();
+                    isSuperRound = false;
+                }
+            } else if (obj.type === 'frenzy') {
+                createFloatingText(obj.x, obj.y, "FRENESI!!!", "yellow", 2);
+                createHalves('🍌', obj.x, obj.y);
+                addScore(10, obj.x, obj.y);
+                activeObjects.splice(index, 1);
+                obj.el.remove();
+                startFrenzyMode();
+            } else {
+                let isStrawberry = (obj.el.innerText === '🍓');
+                sliceFruit(obj, isStrawberry);
+                if (['pink', 'rainbow', 'gold', 'dragon'].includes(currentBlade)) {
+                    const chance = upgradeConfig.pink.values[lvl];
+                    if (Math.random() < chance) {
+                        triggerNeonChain(index);
+                        triggerLocalEffect(obj.x, obj.y, 'pink');
+                    }
+                }
+                activeObjects.splice(index, 1);
+                obj.el.remove();
+            }
+        }
+
+        function triggerNeonChain(startIndex) {
+            let targets = 0;
+            for(let i = activeObjects.length - 1; i >= 0; i--) {
+                if (i === startIndex) continue;
+                let obj = activeObjects[i];
+                if (obj.type === 'fruit' && targets < 2) {
+                    sliceFruit(obj, obj.el.innerText === '🍓');
+                    createFloatingText(obj.x, obj.y, "⚡", "#ff00ff", 1.5);
+                    obj.el.remove();
+                    activeObjects.splice(i, 1);
+                    targets++;
+                }
+            }
+        }
+
+        function useShield(obj, index) {
+            gameData.inventory.shield--;
+            updatePowerupsHUD();
+            saveGameData();
+            createFloatingText(obj.x, obj.y, "ESCUDO!", "#00ffff", 1.5);
+            obj.vy = -20; 
+            obj.vx = (Math.random() - 0.5) * 30; 
+            obj.spawnTime = Date.now() + 1000; 
+        }
+
+        function sliceFruit(obj, isStrawberry) {
+            createHalves(obj.el.innerText, obj.x, obj.y);
+            let pts = isStrawberry ? 2 : 1;
+            if (['blue', 'pink', 'rainbow', 'gold', 'dragon'].includes(currentBlade)) {
+                const lvl = (currentBlade === 'dragon') ? gameData.bladeLevels.dragon : gameData.bladeLevels.blue;
+                pts += upgradeConfig.blue.values[lvl];
+                if(currentBlade === 'blue' || Math.random() > 0.5) triggerLocalEffect(obj.x, obj.y, 'blue');
+            }
+            if (currentBlade === 'red') pts *= 5;
+            if(isStrawberry) createFloatingText(obj.x, obj.y, "+2", "#ff69b4", 1.2);
+            addScore(pts, obj.x, obj.y);
+            handleCombo(obj.x, obj.y);
+        }
+
+        function explodeSuperFruit(obj) {
+            for(let i=0; i<15; i++) { createHalves('🍉', obj.x, obj.y, true); }
+            addScore(50, obj.x, obj.y);
+            createFloatingText(obj.x, obj.y - 50, "MEGA COMBO!!!", "#d4af37", 3);
+        }
+
+        function createHalves(char, x, y, explode=false) {
+            [1, -1].forEach(dir => {
+                const el = document.createElement('div');
+                el.innerText = char;
+                el.className = 'game-object opacity-80';
+                el.style.left = x + 'px';
+                el.style.top = y + 'px';
+                el.style.clipPath = dir === 1 ? 'inset(0 50% 0 0)' : 'inset(0 0 0 50%)';
+                container.appendChild(el);
+                let vx = dir * (5 + Math.random() * 5);
+                let vy = explode ? -(Math.random() * 20 + 5) : -5;
+                if(explode) vx = (Math.random() - 0.5) * 30;
+                let rot = 0;
+                function animateHalf() {
+                    vx *= 0.98;
+                    vy += currentGravity * 1.5; 
+                    x += vx;
+                    y += vy;
+                    rot += dir * 10;
+                    el.style.left = x + 'px';
+                    el.style.top = y + 'px';
+                    el.style.transform = `translate(-50%, -50%) rotate(${rot}deg) ${explode ? 'scale(0.5)' : ''}`;
+                    if (y < window.innerHeight + 100) requestAnimationFrame(animateHalf);
+                    else el.remove();
+                }
+                requestAnimationFrame(animateHalf);
+            });
+        }
+
+        function addScore(points, x, y) {
+            score += points;
+            let coinsEarned = points;
+            if (['gold', 'dragon'].includes(currentBlade)) {
+                const lvl = (currentBlade === 'dragon') ? gameData.bladeLevels.dragon : gameData.bladeLevels.gold;
+                coinsEarned += upgradeConfig.gold.values[lvl];
+                if(coinsEarned > points) triggerLocalEffect(x, y, 'gold');
+            }
+            gameData.coins += coinsEarned;
+            updateScore();
+        }
+
+        function updateScore() {
+            document.getElementById('score-display').innerText = score;
+            document.getElementById('coin-display').innerText = gameData.coins;
+        }
+
+        function handleCombo(x, y) {
+            comboCount++;
+            if (comboTimer) clearTimeout(comboTimer);
+            comboTimer = setTimeout(() => comboCount = 0, 300);
+            if (comboCount >= 3) {
+                let bonus = comboCount;
+                if (currentBlade === 'dragon') {
+                    const lvl = gameData.bladeLevels.dragon;
+                    bonus *= upgradeConfig.dragon.values[lvl]; 
+                    showDragonEffect();
+                }
+                score += bonus; 
+                updateScore();
+                createFloatingText(x, y, `${comboCount}x COMBO!`, '#fbbf24', 2);
+                if (missedFruits > 0) {
+                    missedFruits--;
+                    updateLivesUI();
+                    createFloatingText(x, y - 60, "VIDA RECUPERADA!", "#00ff00", 1.2);
+                }
+            }
+        }
+
+        function showDragonEffect() {
+            if (document.querySelector('.flying-dragon')) return;
+            const flash = document.createElement('div');
+            flash.className = 'dragon-flash';
+            fxContainer.appendChild(flash);
+            setTimeout(() => flash.remove(), 800);
+            const dragon = document.createElement('div');
+            dragon.innerText = '🐉';
+            dragon.className = 'flying-dragon';
+            dragon.style.top = (Math.random() * window.innerHeight) + 'px';
+            fxContainer.appendChild(dragon);
+            setTimeout(() => dragon.remove(), 1000);
+        }
+
+        function createFloatingText(x, y, text, color, scale) {
+            const el = document.createElement('div');
+            el.className = 'floating-text';
+            el.innerText = text;
+            el.style.left = x + 'px';
+            el.style.top = y + 'px';
+            el.style.color = color;
+            el.style.transform = `scale(${scale})`;
+            slashContainer.appendChild(el);
+            setTimeout(() => el.remove(), 800);
+        }
+
+        function gameOver(title="GAME OVER", msg="Tente novamente!") {
+            stopGameLoop();
+            if (score > gameData.highScore) gameData.highScore = score;
+            saveGameData();
+            document.getElementById('game-over-title').innerText = title;
+            document.getElementById('game-over-msg').innerText = msg;
+            document.getElementById('final-score').innerText = score;
+            document.getElementById('final-coins').innerText = "+" + score;
+            document.getElementById('final-highscore').innerText = gameData.highScore;
+            switchShopTab('blades', document.querySelectorAll('.shop-tab-btn')[0]);
+            updateShopUI();
+            document.getElementById('game-over-screen').style.display = 'flex';
+        }
+
+        function switchShopTab(tab, el) {
+            document.querySelectorAll('.shop-tab-btn').forEach(b => b.classList.remove('active'));
+            document.querySelectorAll('.shop-content').forEach(c => c.classList.add('hidden'));
+            el.classList.add('active');
+            document.getElementById('shop-' + tab).classList.remove('hidden');
+        }
+
+        function updateShopUI() {
+            const coinDisplay = document.getElementById('shop-coin-display');
+            if(coinDisplay) coinDisplay.innerText = gameData.coins;
+            for(let key in gameData.bladeLevels) {
+                const badge = document.getElementById('lvl-badge-' + key);
+                if(badge) badge.innerText = gameData.bladeLevels[key];
+            }
+            const currentMax = gameData.highScore;
+            const blades = [
+                { id: 'btn-shop-pink', req: 200 },
+                { id: 'btn-shop-rainbow', req: 500 },
+                { id: 'btn-shop-gold', req: 1000 },
+                { id: 'btn-shop-dragon', req: 3000 },
+                { id: 'btn-shop-red', req: 10000 }
+            ];
+            blades.forEach(blade => {
+                const el = document.getElementById(blade.id);
+                if (el) {
+                    if (currentMax >= blade.req) {
+                        el.classList.remove('locked');
+                        el.parentElement.classList.remove('disabled');
+                    } else {
+                        el.classList.add('locked');
+                    }
+                }
+            });
+            document.querySelectorAll('.blade-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll('.blade-item').forEach(item => item.classList.remove('active-item'));
+            const activeBtn = document.getElementById('btn-shop-' + gameData.blade);
+            if(activeBtn) {
+                activeBtn.classList.add('active');
+                activeBtn.parentElement.classList.add('active-item');
+            }
+            updateUpgradePanel();
+        }
+
+        function updateUpgradePanel() {
+            const panel = document.getElementById('blade-upgrade-panel');
+            const bladeType = gameData.blade;
+            const currentLevel = gameData.bladeLevels[bladeType];
+            const maxLevel = 3;
+            if (document.getElementById('btn-shop-' + bladeType).classList.contains('locked')) {
+                panel.style.display = 'none';
+                return;
+            }
+            panel.style.display = 'block';
+            const config = upgradeConfig[bladeType];
+            document.getElementById('upgrade-title').innerText = "Melhorar: " + config.name;
+            document.getElementById('upgrade-desc').innerText = config.desc;
+            document.getElementById('upgrade-current-lvl').innerText = currentLevel;
+            const btn = document.getElementById('btn-upgrade-action');
+            const maxMsg = document.getElementById('max-level-msg');
+            if (currentLevel >= maxLevel) {
+                btn.style.display = 'none';
+                maxMsg.style.display = 'block';
+            } else {
+                btn.style.display = 'flex';
+                maxMsg.style.display = 'none';
+                const cost = config.costs[currentLevel];
+                document.getElementById('upgrade-cost').innerText = cost;
+                if (gameData.coins >= cost) {
+                    btn.disabled = false;
+                    btn.classList.remove('opacity-50');
+                } else {
+                    btn.disabled = true;
+                    btn.classList.add('opacity-50');
+                }
+            }
+        }
+
+        function selectBlade(type) {
+            const currentMax = gameData.highScore;
+            if (type === 'pink' && currentMax < 200) return;
+            if (type === 'rainbow' && currentMax < 500) return;
+            if (type === 'gold' && currentMax < 1000) return;
+            if (type === 'dragon' && currentMax < 3000) return;
+            if (type === 'red' && currentMax < 10000) return;
+            gameData.blade = type;
+            currentBlade = type;
+            saveGameData();
+        }
+
+        function buyBladeUpgrade() {
+            const type = gameData.blade;
+            const lvl = gameData.bladeLevels[type];
+            const cost = upgradeConfig[type].costs[lvl];
+            if (gameData.coins >= cost) {
+                gameData.coins -= cost;
+                gameData.bladeLevels[type]++;
+                saveGameData();
+                const btn = document.getElementById('btn-upgrade-action');
+                btn.innerText = "SUCESSO!";
+                setTimeout(() => { 
+                    btn.innerHTML = '<span>Melhorar</span><span class="bg-black/30 px-2 rounded">$ <span id="upgrade-cost"></span></span>';
+                    updateShopUI(); 
+                }, 500);
+            }
+        }
+
+        function buyPower(type, cost, btnEl) {
+            if (gameData.coins >= cost && gameData.inventory[type] < 3) {
+                gameData.coins -= cost;
+                gameData.inventory[type]++;
+                saveGameData();
+                btnEl.style.transform = "scale(1.1)";
+                setTimeout(() => btnEl.style.transform = "scale(1)", 100);
+                updateShopUI(); 
+            } else {
+                if(gameData.inventory[type] >= 3) {
+                    btnEl.style.borderColor = "red";
+                    setTimeout(() => btnEl.style.borderColor = "", 300);
+                } else {
+                    btnEl.style.opacity = "0.5";
+                    setTimeout(() => btnEl.style.opacity = "1", 300);
+                }
+            }
         }
 
         // ---------------------------------------------------------
@@ -883,6 +2309,57 @@
                 gallery_title: "Mes Dernières Créations",
                 gallery_btn: "Suivre sur Instagram",
                 footer_tagline: "Disponible pour événements et nouvelles opportunités."
+            },
+            it: {
+                nav_about: "Chi Sono",
+                nav_edu: "Istruzione",
+                nav_exp: "Esperienza",
+                nav_skills: "Competenze",
+                nav_contact: "Contatto",
+                hero_role: "Cuoco Professionista",
+                hero_bio: "Trasformare ingredienti in ricordi. Solida esperienza in cucine di alto livello a Belo Horizonte. Combinando abilità tecniche con passione per la gastronomia.",
+                hero_btn_contact: "Contattami",
+                hero_btn_about: "Più Su Di Me",
+                section_about_subtitle: "La Mia Storia",
+                section_about_title: "Chi Sono",
+                about_text: "Ciao, mi chiamo Matheus Fonseca e sono un cuoco, originario di Belo Horizonte, Minas Gerais. Fin da piccolo, ho sempre avuto un legame speciale con la cucina, influenzato dalla ricca tradizione culinaria della mia città e dalle deliziose ricette apprese con la mia famiglia. Ciò che mi motiva di più è la possibilità di creare piatti che non solo nutrono, ma incantano e sorprendono anche. Oltre alle lezioni, cerco di fare stage nei ristoranti e partecipare a eventi gastronomici ogni volta che posso. Queste esperienze sono state incredibili, permettendomi di imparare da chef rinomati e scambiare idee con altri appassionati di cucina. Il mio obiettivo è aprire il mio ristorante, dove potrò condividere le mie creazioni e offrire esperienze memorabili ai miei clienti.",
+                section_edu_subtitle: "Istruzione",
+                section_edu_title: "Formazione Accademica",
+                edu_degree: "Laurea in Gastronomia",
+                edu_desc: "Studiare Gastronomia all'UNA è un'esperienza trasformativa. Le lezioni in presenza in cucine attrezzate permettono di esplorare tecniche e sapori, sviluppando non solo abilità culinarie ma anche una connessione più profonda con l'arte della cucina.",
+                section_trajectory: "Il Mio Percorso",
+                section_exp_title: "Esperienza Professionale",
+                role_intern: "Tirocinante Cuoco",
+                role_cook: "Cuoco",
+                role_assistant: "Aiuto Cuoco",
+                role_recreio: "Addetto e Gestione Operativa",
+                exp_pastaio: "Specializzato in pasta artigianale e cucina italiana. Focus sulla produzione di pasta fresca, salse classiche e finitura dei piatti con grande attenzione ai dettagli.",
+                exp_rex: "Lavoro in ambiente di alta gastronomia e carni pregiate. Responsabile della partita calda, controllo della cottura delle carni, contorni sofisticati e mantenimento degli standard di qualità.",
+                exp_coco: "Esperienza in cucina ad alto volume focalizzata sui frutti di mare. Rigoroso controllo della standardizzazione, agilità nel servizio e lavoro di squadra su larga scala.",
+                exp_recreio: "Responsabile del servizio clienti, operazioni di cassa e gestione operativa dello stabilimento, garantendo la soddisfazione del cliente e il buon funzionamento del negozio.",
+                section_skills_subtitle: "Competenze",
+                section_skills_title: "L'Arte della Cucina",
+                skills_desc: "Oltre all'esecuzione delle ricette, possiedo padronanza tecnica sui processi di una cucina professionale, garantendo sicurezza, sapore ed efficienza.",
+                skill_hot: "Partita Calda",
+                skill_seafood: "Frutti di Mare",
+                skill_pasta: "Pasta Artigianale",
+                skill_org: "Organizzazione & Igiene",
+                section_add_skills_subtitle: "Profilo Professionale",
+                section_add_skills_title: "Competenze & Mercato",
+                skills_personal: "Competenze Personali",
+                skills_market: "Competenze di Mercato",
+                skill_proactive: "Proattività",
+                skill_teamwork: "Lavoro di Squadra",
+                skill_learning: "Apprendimento Rapido",
+                skill_hot_kitchen: "Cucina Calda",
+                skill_baking: "Panificazione",
+                skill_safety: "Sicurezza Alimentare",
+                skill_customer: "Servizio Clienti",
+                skill_cashier: "Operazioni di Cassa",
+                skill_time: "Gestione del Tempo",
+                gallery_title: "Le Mie Ultime Creazioni",
+                gallery_btn: "Segui su Instagram",
+                footer_tagline: "Disponibile per eventi e nuove opportunità."
             }
         };
 
@@ -891,26 +2368,26 @@
             'pt-PT': '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36 36"><path fill="#e03c31" d="M12 0h24v36H12z"/><path fill="#006600" d="M0 0h12v36H0z"/><path fill="#ffe800" d="M17 19c0 .7.12 1.37.34 2H12v-4h5.34c-.22.63-.34 1.3-.34 2z"/><circle fill="#ffe800" cx="12" cy="18" r="5"/><path fill="#e03c31" d="M12 14c-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4-1.79-4-4-4z"/><path fill="#fff" d="M12 15c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/><path fill="#006600" d="M12 15.5c-.2 0-.39.04-.57.1.58.42.98 1.09 1.05 1.86.13 1.46-1.15 2.54-2.54 2.54-.15 0-.29-.02-.43-.05.29.61.91 1.05 1.64 1.05 1.02 0 1.85-.83 1.85-1.85v-1.8c0-1.02-.83-1.85-1.85-1.85z"/><g><path fill="#ffe800" d="M13.5 16.5h-3v3h3z"/><path fill="#006600" d="M13 17h-2v2h2z"/><circle fill="#fff" cx="12" cy="18" r="1"/></g><path fill="#fff" d="M12 14.5c1.93 0 3.5 1.57 3.5 3.5s-1.57 3.5-3.5 3.5-3.5-1.57-3.5-3.5 1.57-3.5 3.5-3.5z"/><path fill="#e03c31" d="M12 15c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3m0-1c-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4-1.79-4-4-4z"/><path fill="#003399" d="M12 16h1v1h-1zm-1.5 0h1v1h-1zm3 0h1v1h-1zm-1.5 1.5h1v1h-1zm0-3h1v1h-1z"/></svg>',
             en: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36 36"><path fill="#bd3d44" d="M32 5H4a4 4 0 0 0-4 4v18a4 4 0 0 0 4 4h28a4 4 0 0 0 4-4V9a4 4 0 0 0-4-4z"/><path fill="#fff" d="M0 27a4 4 0 0 0 4 4h28a4 4 0 0 0 4-4V9a4 4 0 0 0-4-4H4a4 4 0 0 0-4 4v18z"/><path fill="#bd3d44" d="M36 20.5H0v-5h36v5z"/><path fill="#bd3d44" d="M36 25.5H0v-1h36v1zm0-15H0v-1h36v1z"/><path fill="#192f5d" d="M19.38 5H4a4 4 0 0 0-4 4v12.23h19.38V5z"/><path fill="#fff" d="M2.35 19.35l1.69-1.39 1.15 1.54 1.35-1.92 1.58 1.19 1.35-1.92 1.15 1.54 1.69-1.39-.77 2.23H10.7l-.39 2.16L9.62 19.2l-2.04 1.27.35-2.35-2.31-.5 2.12-1.07zm14.88 0l-1.69-1.39-1.15 1.54-1.35-1.92-1.58 1.19-1.35-1.92-1.15 1.54-1.69-1.39.77 2.23h1.85l.39 2.16.69-2.04 2.04 1.27-.35-2.35 2.31-.5-2.12-1.07zM3.6 15.65l1.04-1.93 1.89.65.65-1.93 1.89.65 1.04-1.93.42 2.16 2.31.35-1.73 1.62.92 2.15-2.27-.77-1.46 1.81-1.46-1.81-2.27.77.92-2.15-1.73-1.62zm10.77 0l-1.04-1.93-1.89.65-.65-1.93-1.89.65-1.04-1.93-.42 2.16-2.31.35 1.73 1.62-.92 2.15 2.27-.77 1.46 1.81 1.46-1.81 2.27.77-.92-2.15 1.73-1.62zM3.22 8.54l1.62.77-.15 2.19 2.08-.88 1.31 1.77 1.31-1.77 2.08.88-.15-2.19 1.62-.77-2.16-.39.46-2.15-1.96 1.12L8.08 5l-1.19 2.12L4.93 5l.46 2.15z"/></svg>',
             es: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36 36"><path fill="#bd3d44" d="M32 5H4a4 4 0 0 0-4 4v18a4 4 0 0 0 4 4h28a4 4 0 0 0 4-4V9a4 4 0 0 0-4-4z"/><path fill="#fbd116" d="M0 26h36V10H0z"/><path fill="#bd3d44" d="M6 15h9v6H6z"/></svg>',
-            fr: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36 36"><path fill="#0055A4" d="M0 0h12v36H0z"/><path fill="#fff" d="M12 0h12v36H12z"/><path fill="#EF4135" d="M24 0h12v36H24z"/></svg>'
+            fr: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36 36"><path fill="#0055A4" d="M0 0h12v36H0z"/><path fill="#fff" d="M12 0h12v36H12z"/><path fill="#EF4135" d="M24 0h12v36H24z"/></svg>',
+            it: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36 36"><path fill="#009246" d="M0 0h12v36H0z"/><path fill="#fff" d="M12 0h12v36H12z"/><path fill="#ce2b37" d="M24 0h12v36H24z"/></svg>'
         };
 
-        const langOrder = ['pt', 'pt-PT', 'en', 'es', 'fr'];
+        const langOrder = ['pt', 'pt-PT', 'en', 'es', 'fr', 'it'];
         let currentLangIndex = 0;
 
         function changeLanguage(lang) {
             // Update Text
             document.querySelectorAll('[data-i18n]').forEach(el => {
                 const key = el.getAttribute('data-i18n');
-                if (translations[lang][key]) {
+                if (translations[lang] && translations[lang][key]) {
                     el.textContent = translations[lang][key];
                 }
             });
             
             // Visual feedback on desktop buttons
-            const buttons = document.querySelectorAll('.md\\:flex button');
+            const buttons = document.querySelectorAll('button[data-lang]');
             buttons.forEach(btn => {
-                // Check if button onclick matches current lang
-                if(btn.onclick.toString().includes(`'${lang}'`)) {
+                if (btn.dataset.lang === lang) {
                     btn.classList.remove('opacity-50');
                     btn.classList.add('scale-110');
                 } else {
@@ -920,7 +2397,10 @@
             });
 
             // Update mobile button icon
-            document.getElementById('mobile-lang-btn').innerHTML = flags[lang];
+            const mobileBtn = document.getElementById('mobile-lang-btn');
+            if (mobileBtn) {
+                mobileBtn.innerHTML = flags[lang];
+            }
             
             // Sync index for cycle function
             currentLangIndex = langOrder.indexOf(lang);
@@ -943,13 +2423,6 @@
             }
             lucide.createIcons();
         }
-
-        // Initialize mobile flag
-        document.addEventListener('DOMContentLoaded', () => {
-            document.getElementById('mobile-lang-btn').innerHTML = flags['pt'];
-            // Force scroll to top on load to fix mobile issue
-            window.scrollTo(0, 0);
-        });
 
         // Navbar Scroll Effect
         window.addEventListener('scroll', () => {
