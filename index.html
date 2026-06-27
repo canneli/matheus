@@ -229,10 +229,9 @@
 
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full">
             <div class="flex flex-col md:flex-row items-center gap-12 lg:gap-20">
-                <!-- Image Container - AGORA COM O EVENTO DE CLIQUE (SECRET MODE) -->
+                <!-- Image Container - EVENTO DE CLIQUE (SECRET MODE) -->
                 <div class="w-64 h-64 md:w-80 md:h-80 lg:w-[400px] lg:h-[500px] flex-shrink-0 relative group animate-fade-in-up">
                     <div class="absolute inset-0 border-2 border-chef-gold/30 rounded-lg translate-x-4 translate-y-4 group-hover:translate-x-2 group-hover:translate-y-2 transition-transform duration-500"></div>
-                    <!-- Adicionado onclick e cursor-pointer aqui -->
                     <div onclick="toggleFlavorMode()" class="w-full h-full rounded-lg overflow-hidden shadow-2xl relative cursor-pointer" title="Clique para uma surpresa...">
                         <img 
                             src="https://blogger.googleusercontent.com/img/a/AVvXsEhldf6e9RSmGBUZEhVXxTNQ8T28BjTNeeny6tAAxOFuHZFdoqgVS7jUCV4jDY-QfWeE7dcL5F0yLy34f8GI6FMkKiIBu-Gmf3Wr_3foyZQ9cj9JOlXfHfabXl_M8LCSTOPaHXKNWrSDFM2XxnQnsMX47hJ7VCLc1TOxq5nloJQKcg7c5SKFvRRiwfNVBA0_=s1600" 
@@ -277,7 +276,7 @@
         </div>
     </section>
 
-    <!-- About Section (Nova Seção Detalhada) -->
+    <!-- About Section -->
     <section id="about" class="py-24 bg-[#141210] relative">
         <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
             <div class="grid grid-cols-1 md:grid-cols-12 gap-12 items-center">
@@ -474,133 +473,134 @@
         </div>
     </section>
 
-    <!-- Certifications Section -->
+    <!-- Certifications Section (Nova Versão em Lista) -->
     <section id="certifications" class="py-24 bg-[#141210] relative">
-        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
             <div class="text-center mb-16">
                 <span class="text-chef-gold text-sm tracking-widest uppercase mb-2 block" data-i18n="section_certs_subtitle">Qualificações</span>
                 <h2 class="text-4xl md:text-5xl font-bold text-white mb-4" data-i18n="section_certs_title">Certificados e Cursos</h2>
                 <div class="w-24 h-1 bg-chef-gold mx-auto"></div>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <!-- Cert 1: Cozinha Internacional -->
-                <a href="https://cloudapp.animaeducacao.com.br/validador-documento/?code=39fd3d54fe054901a77961e589c60dde" target="_blank" class="glass-panel p-6 rounded-xl hover:border-chef-gold/50 transition-all hover:-translate-y-1 group flex items-center gap-4">
-                    <div class="w-12 h-12 bg-stone-800 rounded-full flex items-center justify-center text-chef-gold shrink-0">
-                        <i data-lucide="award"></i>
-                    </div>
-                    <div>
-                        <h3 class="text-lg font-bold text-white group-hover:text-chef-gold transition-colors" data-i18n="cert_intl_title">Cozinha Internacional</h3>
-                        <p class="text-xs text-stone-500 mt-0.5" data-i18n="cert_intl_date">Emitido em julho de 2025</p>
-                        <p class="text-sm text-stone-400 mt-1 flex items-center gap-1"><i data-lucide="external-link" class="w-3 h-3"></i> <span data-i18n="cert_view">Visualizar credencial</span></p>
-                    </div>
-                </a>
-
-                <!-- Cert 2: Panificação e Confeitaria -->
-                <a href="https://cloudapp.animaeducacao.com.br/validador-documento/?code=d8b76064a54e42039c64e222d4682a30" target="_blank" class="glass-panel p-6 rounded-xl hover:border-chef-gold/50 transition-all hover:-translate-y-1 group flex items-center gap-4">
-                    <div class="w-12 h-12 bg-stone-800 rounded-full flex items-center justify-center text-chef-gold shrink-0">
-                        <i data-lucide="award"></i>
-                    </div>
-                    <div>
-                        <h3 class="text-lg font-bold text-white group-hover:text-chef-gold transition-colors" data-i18n="cert_bake_title">Panificação e Confeitaria</h3>
-                        <p class="text-xs text-stone-500 mt-0.5" data-i18n="cert_bake_date">Emitido em dezembro de 2024</p>
-                        <p class="text-sm text-stone-400 mt-1 flex items-center gap-1"><i data-lucide="external-link" class="w-3 h-3"></i> <span data-i18n="cert_view">Visualizar credencial</span></p>
-                    </div>
-                </a>
-
-                <!-- Cert 3: Garde Manger e Cozinha Criativa -->
-                <a href="https://cloudapp.animaeducacao.com.br/validador-documento/?code=cb213fa0bf0e4d88b9b0706f9a93466d" target="_blank" class="glass-panel p-6 rounded-xl hover:border-chef-gold/50 transition-all hover:-translate-y-1 group flex items-center gap-4">
-                    <div class="w-12 h-12 bg-stone-800 rounded-full flex items-center justify-center text-chef-gold shrink-0">
-                        <i data-lucide="award"></i>
-                    </div>
-                    <div>
-                        <h3 class="text-lg font-bold text-white group-hover:text-chef-gold transition-colors" data-i18n="cert_garde_title">Garde Manger e Cozinha Criativa</h3>
-                        <p class="text-xs text-stone-500 mt-0.5" data-i18n="cert_garde_date">Emitido em julho de 2024</p>
-                        <p class="text-sm text-stone-400 mt-1 flex items-center gap-1"><i data-lucide="external-link" class="w-3 h-3"></i> <span data-i18n="cert_view">Visualizar credencial</span></p>
-                    </div>
-                </a>
-
-                <!-- Cert 4: Bebidas e Harmonização -->
-                <a href="https://cloudapp.animaeducacao.com.br/validador-documento/?code=0e2b7a3a791347259953818782474810" target="_blank" class="glass-panel p-6 rounded-xl hover:border-chef-gold/50 transition-all hover:-translate-y-1 group flex items-center gap-4">
-                    <div class="w-12 h-12 bg-stone-800 rounded-full flex items-center justify-center text-chef-gold shrink-0">
-                        <i data-lucide="award"></i>
-                    </div>
-                    <div>
-                        <h3 class="text-lg font-bold text-white group-hover:text-chef-gold transition-colors" data-i18n="cert_drinks_title">Bebidas e Harmonização</h3>
-                        <p class="text-xs text-stone-500 mt-0.5" data-i18n="cert_drinks_date">Emitido em dezembro de 2025</p>
-                        <p class="text-sm text-stone-400 mt-1 flex items-center gap-1"><i data-lucide="external-link" class="w-3 h-3"></i> <span data-i18n="cert_view">Visualizar credencial</span></p>
-                    </div>
-                </a>
-
-                <!-- Cert 5: Cozinha Brasileira, Sustentabilidade e Segurança Alimentar -->
-                <a href="https://cloudapp.animaeducacao.com.br/validador-documento/?code=f7a1b970636945ad84093e0dcebfa35a" target="_blank" class="glass-panel p-6 rounded-xl hover:border-chef-gold/50 transition-all hover:-translate-y-1 group flex items-center gap-4">
-                    <div class="w-12 h-12 bg-stone-800 rounded-full flex items-center justify-center text-chef-gold shrink-0">
-                        <i data-lucide="award"></i>
-                    </div>
-                    <div>
-                        <h3 class="text-lg font-bold text-white group-hover:text-chef-gold transition-colors" data-i18n="cert_brazilian_title">Cozinha Brasileira, Sustentabilidade e Segurança Alimentar</h3>
-                        <p class="text-xs text-stone-500 mt-0.5" data-i18n="cert_brazilian_date">Emitido em dezembro de 2025</p>
-                        <p class="text-sm text-stone-400 mt-1 flex items-center gap-1"><i data-lucide="external-link" class="w-3 h-3"></i> <span data-i18n="cert_view">Visualizar credencial</span></p>
-                    </div>
-                </a>
-
-                <!-- Cert 6: Hospitalidade, Turismo e Gastronomia -->
-                <a href="https://cloudapp.animaeducacao.com.br/validador-documento/?code=4a1fb2fd85424d69b8a4e0f240bd7ef6" target="_blank" class="glass-panel p-6 rounded-xl hover:border-chef-gold/50 transition-all hover:-translate-y-1 group flex items-center gap-4">
-                    <div class="w-12 h-12 bg-stone-800 rounded-full flex items-center justify-center text-chef-gold shrink-0">
-                        <i data-lucide="award"></i>
-                    </div>
-                    <div>
-                        <h3 class="text-lg font-bold text-white group-hover:text-chef-gold transition-colors" data-i18n="cert_hospitality_title">Hospitalidade, Turismo e Gastronomia</h3>
-                        <p class="text-xs text-stone-500 mt-0.5" data-i18n="cert_hospitality_date">Emitido em julho de 2024</p>
-                        <p class="text-sm text-stone-400 mt-1 flex items-center gap-1"><i data-lucide="external-link" class="w-3 h-3"></i> <span data-i18n="cert_view">Visualizar credencial</span></p>
-                    </div>
-                </a>
-
-                <!-- Cert 7: Gestão de Negócios em Alimentos e Bebidas -->
-                <a href="https://cloudapp.animaeducacao.com.br/validador-documento/?code=1ead62a28aa342b680de696b9fcf3eba" target="_blank" class="glass-panel p-6 rounded-xl hover:border-chef-gold/50 transition-all hover:-translate-y-1 group flex items-center gap-4">
-                    <div class="w-12 h-12 bg-stone-800 rounded-full flex items-center justify-center text-chef-gold shrink-0">
-                        <i data-lucide="award"></i>
-                    </div>
-                    <div>
-                        <h3 class="text-lg font-bold text-white group-hover:text-chef-gold transition-colors" data-i18n="cert_business_title">Gestão de Negócios em Alimentos e Bebidas</h3>
-                        <p class="text-xs text-stone-500 mt-0.5" data-i18n="cert_business_date">Emitido em dezembro de 2024</p>
-                        <p class="text-sm text-stone-400 mt-1 flex items-center gap-1"><i data-lucide="external-link" class="w-3 h-3"></i> <span data-i18n="cert_view">Visualizar credencial</span></p>
-                    </div>
-                </a>
-
-                <!-- Cert 8: Semiologia Veterinária (link não abre automaticamente -> aba de código para copiar) -->
-                <div class="glass-panel p-6 rounded-xl hover:border-chef-gold/50 transition-all group flex flex-col gap-3">
-                    <div class="flex items-center gap-4">
-                        <div class="w-12 h-12 bg-stone-800 rounded-full flex items-center justify-center text-chef-gold shrink-0">
-                            <i data-lucide="award"></i>
-                        </div>
-                        <div>
-                            <h3 class="text-lg font-bold text-white group-hover:text-chef-gold transition-colors" data-i18n="cert_vet_title">Semiologia Veterinária</h3>
-                            <p class="text-xs text-stone-500 mt-0.5" data-i18n="cert_vet_note">O link não abre automaticamente. Copie o código e cole no site do validador:</p>
-                        </div>
-                    </div>
-                    <div class="flex items-center gap-2 bg-stone-900/60 border border-stone-700 rounded-lg px-3 py-2">
-                        <code class="text-xs text-stone-300 truncate flex-1 select-all">f9751eeb254682c4c341a56d40416d40</code>
-                        <button onclick="copyCredentialCode('f9751eeb254682c4c341a56d40416d40', this)" class="shrink-0 text-chef-gold hover:text-white transition-colors flex items-center gap-1 text-xs uppercase tracking-wide">
-                            <i data-lucide="copy" class="w-3.5 h-3.5"></i>
-                            <span data-i18n="cert_copy_btn">Copiar</span>
-                        </button>
-                    </div>
-                    <a href="https://cloudapp.animaeducacao.com.br/validador-documento/" target="_blank" class="text-xs text-stone-500 hover:text-chef-gold transition-colors flex items-center gap-1">
-                        <i data-lucide="external-link" class="w-3 h-3"></i> <span data-i18n="cert_vet_link">Abrir site do validador</span>
-                    </a>
+            <div class="space-y-8">
+                
+                <!-- Categoria: UNA -->
+                <div class="glass-panel p-6 md:p-8 rounded-xl border border-stone-800/60">
+                    <h3 class="text-xl md:text-2xl font-bold text-chef-gold mb-4 flex items-center gap-3 border-b border-stone-800 pb-3">
+                        <i data-lucide="chef-hat" class="w-6 h-6"></i> 
+                        <span data-i18n="inst_una">Centro Universitário UNA</span>
+                    </h3>
+                    <ul class="space-y-2">
+                        <li>
+                            <a href="https://cloudapp.animaeducacao.com.br/validador-documento/?code=39fd3d54fe054901a77961e589c60dde" target="_blank" class="flex flex-col sm:flex-row sm:items-center justify-between group hover:bg-stone-800/40 p-3 -mx-3 rounded transition-colors border-b border-stone-800/50 last:border-0">
+                                <div>
+                                    <p class="text-white font-medium group-hover:text-chef-gold transition-colors" data-i18n="cert_intl_title">Cozinha Internacional</p>
+                                    <p class="text-sm text-stone-500 mt-1 sm:mt-0" data-i18n="cert_date_jul_2025">Jul 2025</p>
+                                </div>
+                                <i data-lucide="external-link" class="w-4 h-4 text-stone-600 group-hover:text-chef-gold transition-colors hidden sm:block"></i>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://cloudapp.animaeducacao.com.br/validador-documento/?code=d8b76064a54e42039c64e222d4682a30" target="_blank" class="flex flex-col sm:flex-row sm:items-center justify-between group hover:bg-stone-800/40 p-3 -mx-3 rounded transition-colors border-b border-stone-800/50 last:border-0">
+                                <div>
+                                    <p class="text-white font-medium group-hover:text-chef-gold transition-colors" data-i18n="cert_bake_title">Panificação e Confeitaria</p>
+                                    <p class="text-sm text-stone-500 mt-1 sm:mt-0" data-i18n="cert_date_dec_2024">Dez 2024</p>
+                                </div>
+                                <i data-lucide="external-link" class="w-4 h-4 text-stone-600 group-hover:text-chef-gold transition-colors hidden sm:block"></i>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://cloudapp.animaeducacao.com.br/validador-documento/?code=cb213fa0bf0e4d88b9b0706f9a93466d" target="_blank" class="flex flex-col sm:flex-row sm:items-center justify-between group hover:bg-stone-800/40 p-3 -mx-3 rounded transition-colors border-b border-stone-800/50 last:border-0">
+                                <div>
+                                    <p class="text-white font-medium group-hover:text-chef-gold transition-colors" data-i18n="cert_garde_title">Garde Manger e Cozinha Criativa</p>
+                                    <p class="text-sm text-stone-500 mt-1 sm:mt-0" data-i18n="cert_date_jul_2024">Jul 2024</p>
+                                </div>
+                                <i data-lucide="external-link" class="w-4 h-4 text-stone-600 group-hover:text-chef-gold transition-colors hidden sm:block"></i>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://cloudapp.animaeducacao.com.br/validador-documento/?code=0e2b7a3a791347259953818782474810" target="_blank" class="flex flex-col sm:flex-row sm:items-center justify-between group hover:bg-stone-800/40 p-3 -mx-3 rounded transition-colors border-b border-stone-800/50 last:border-0">
+                                <div>
+                                    <p class="text-white font-medium group-hover:text-chef-gold transition-colors" data-i18n="cert_drinks_title">Bebidas e Harmonização</p>
+                                    <p class="text-sm text-stone-500 mt-1 sm:mt-0" data-i18n="cert_date_dec_2025">Dez 2025</p>
+                                </div>
+                                <i data-lucide="external-link" class="w-4 h-4 text-stone-600 group-hover:text-chef-gold transition-colors hidden sm:block"></i>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://cloudapp.animaeducacao.com.br/validador-documento/?code=f7a1b970636945ad84093e0dcebfa35a" target="_blank" class="flex flex-col sm:flex-row sm:items-center justify-between group hover:bg-stone-800/40 p-3 -mx-3 rounded transition-colors border-b border-stone-800/50 last:border-0">
+                                <div>
+                                    <p class="text-white font-medium group-hover:text-chef-gold transition-colors" data-i18n="cert_brazilian_title">Cozinha Brasileira, Sustentabilidade e Segurança Alimentar</p>
+                                    <p class="text-sm text-stone-500 mt-1 sm:mt-0" data-i18n="cert_date_dec_2025">Dez 2025</p>
+                                </div>
+                                <i data-lucide="external-link" class="w-4 h-4 text-stone-600 group-hover:text-chef-gold transition-colors hidden sm:block"></i>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://cloudapp.animaeducacao.com.br/validador-documento/?code=4a1fb2fd85424d69b8a4e0f240bd7ef6" target="_blank" class="flex flex-col sm:flex-row sm:items-center justify-between group hover:bg-stone-800/40 p-3 -mx-3 rounded transition-colors border-b border-stone-800/50 last:border-0">
+                                <div>
+                                    <p class="text-white font-medium group-hover:text-chef-gold transition-colors" data-i18n="cert_hospitality_title">Hospitalidade, Turismo e Gastronomia</p>
+                                    <p class="text-sm text-stone-500 mt-1 sm:mt-0" data-i18n="cert_date_jul_2024">Jul 2024</p>
+                                </div>
+                                <i data-lucide="external-link" class="w-4 h-4 text-stone-600 group-hover:text-chef-gold transition-colors hidden sm:block"></i>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://cloudapp.animaeducacao.com.br/validador-documento/?code=1ead62a28aa342b680de696b9fcf3eba" target="_blank" class="flex flex-col sm:flex-row sm:items-center justify-between group hover:bg-stone-800/40 p-3 -mx-3 rounded transition-colors border-b border-stone-800/50 last:border-0">
+                                <div>
+                                    <p class="text-white font-medium group-hover:text-chef-gold transition-colors" data-i18n="cert_business_title">Gestão de Negócios em Alimentos e Bebidas</p>
+                                    <p class="text-sm text-stone-500 mt-1 sm:mt-0" data-i18n="cert_date_dec_2024">Dez 2024</p>
+                                </div>
+                                <i data-lucide="external-link" class="w-4 h-4 text-stone-600 group-hover:text-chef-gold transition-colors hidden sm:block"></i>
+                            </a>
+                        </li>
+                    </ul>
                 </div>
 
-                <!-- Cert 9: Competências Essenciais para a Carreira em Administração de Sistemas -->
-                <a href="#" target="_blank" class="glass-panel p-6 rounded-xl hover:border-chef-gold/50 transition-all hover:-translate-y-1 group flex items-center gap-4 md:col-span-2 md:w-2/3 md:mx-auto" title="Inserir link do certificado no href">
-                    <div class="w-12 h-12 bg-stone-800 rounded-full flex items-center justify-center text-chef-gold shrink-0">
-                        <i data-lucide="award"></i>
-                    </div>
-                    <div>
-                        <h3 class="text-lg font-bold text-white group-hover:text-chef-gold transition-colors" data-i18n="cert_sysadmin_title">Competências Essenciais para a Carreira em Administração de Sistemas</h3>
-                        <p class="text-sm text-stone-400 mt-1 flex items-center gap-1"><i data-lucide="external-link" class="w-3 h-3"></i> <span data-i18n="cert_view">Visualizar credencial</span></p>
-                    </div>
-                </a>
+                <!-- Categoria: Universidade Metropolitana -->
+                <div class="glass-panel p-6 md:p-8 rounded-xl border border-stone-800/60">
+                    <h3 class="text-xl md:text-2xl font-bold text-chef-gold mb-4 flex items-center gap-3 border-b border-stone-800 pb-3">
+                        <i data-lucide="stethoscope" class="w-6 h-6"></i> 
+                        <span data-i18n="inst_metropolitana">Universidade Metropolitana</span>
+                    </h3>
+                    <ul class="space-y-2">
+                        <li class="flex flex-col md:flex-row md:items-center justify-between p-3 -mx-3 hover:bg-stone-800/40 rounded transition-colors border-b border-stone-800/50 last:border-0 gap-4 md:gap-0">
+                            <div>
+                                <p class="text-white font-medium" data-i18n="cert_vet_title">Semiologia Veterinária</p>
+                                <p class="text-xs text-stone-500 mt-1" data-i18n="cert_vet_note">Copie o código para validar no site:</p>
+                            </div>
+                            <div class="flex items-center gap-2 flex-wrap">
+                                <code class="text-xs text-stone-300 bg-stone-900/80 border border-stone-700 rounded px-2 py-1.5 select-all">f9751eeb254682c4c341a56d40416d40</code>
+                                <button onclick="copyCredentialCode('f9751eeb254682c4c341a56d40416d40', this)" class="text-chef-gold hover:text-white transition-colors flex items-center gap-1 text-xs uppercase p-1 font-medium bg-chef-gold/10 rounded px-2">
+                                    <i data-lucide="copy" class="w-3.5 h-3.5"></i>
+                                    <span data-i18n="cert_copy_btn">Copiar</span>
+                                </button>
+                                <a href="https://cloudapp.animaeducacao.com.br/validador-documento/" target="_blank" class="text-stone-500 hover:text-chef-gold transition-colors p-1" title="Validar Credencial">
+                                    <i data-lucide="external-link" class="w-4 h-4"></i>
+                                </a>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Categoria: Microsoft -->
+                <div class="glass-panel p-6 md:p-8 rounded-xl border border-stone-800/60">
+                    <h3 class="text-xl md:text-2xl font-bold text-chef-gold mb-4 flex items-center gap-3 border-b border-stone-800 pb-3">
+                        <i data-lucide="monitor" class="w-6 h-6"></i> 
+                        <span data-i18n="inst_microsoft">Microsoft</span>
+                    </h3>
+                    <ul class="space-y-2">
+                        <li>
+                            <a href="https://www.linkedin.com/learning/certificates/1efa9521ab15e797ededc6a5ac10a811752b9e50c63080375f6e4dfcd6eedda1" target="_blank" class="flex flex-col sm:flex-row sm:items-center justify-between group hover:bg-stone-800/40 p-3 -mx-3 rounded transition-colors border-b border-stone-800/50 last:border-0">
+                                <div>
+                                    <p class="text-white font-medium group-hover:text-chef-gold transition-colors" data-i18n="cert_sysadmin_title">Competências Essenciais para a Carreira em Administração de Sistemas</p>
+                                </div>
+                                <i data-lucide="external-link" class="w-4 h-4 text-stone-600 group-hover:text-chef-gold transition-colors hidden sm:block mt-2 sm:mt-0"></i>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+
             </div>
         </div>
     </section>
@@ -797,29 +797,30 @@
                 skill_drinks: "Bebidas e harmonização",
                 skill_events: "Planejamento de eventos",
                 skill_safety: "Segurança Alimentar",
+                
+                /* Novos textos para certificados */
                 section_certs_subtitle: "Qualificações",
                 section_certs_title: "Certificados e Cursos",
-                cert_view: "Visualizar credencial",
+                inst_una: "Centro Universitário UNA",
+                inst_metropolitana: "Universidade Metropolitana",
+                inst_microsoft: "Microsoft",
+                cert_date_jul_2025: "Jul 2025",
+                cert_date_dec_2024: "Dez 2024",
+                cert_date_jul_2024: "Jul 2024",
+                cert_date_dec_2025: "Dez 2025",
                 cert_intl_title: "Cozinha Internacional",
-                cert_intl_date: "Emitido em julho de 2025",
                 cert_bake_title: "Panificação e Confeitaria",
-                cert_bake_date: "Emitido em dezembro de 2024",
                 cert_garde_title: "Garde Manger e Cozinha Criativa",
-                cert_garde_date: "Emitido em julho de 2024",
                 cert_drinks_title: "Bebidas e Harmonização",
-                cert_drinks_date: "Emitido em dezembro de 2025",
                 cert_brazilian_title: "Cozinha Brasileira, Sustentabilidade e Segurança Alimentar",
-                cert_brazilian_date: "Emitido em dezembro de 2025",
                 cert_hospitality_title: "Hospitalidade, Turismo e Gastronomia",
-                cert_hospitality_date: "Emitido em julho de 2024",
                 cert_business_title: "Gestão de Negócios em Alimentos e Bebidas",
-                cert_business_date: "Emitido em dezembro de 2024",
                 cert_vet_title: "Semiologia Veterinária",
-                cert_vet_note: "O link não abre automaticamente. Copie o código e cole no site do validador:",
-                cert_vet_link: "Abrir site do validador",
+                cert_vet_note: "Copie o código para validar no site:",
                 cert_copy_btn: "Copiar",
                 cert_copied: "Copiado!",
                 cert_sysadmin_title: "Competências Essenciais para a Carreira em Administração de Sistemas",
+                
                 gallery_title: "Minhas Últimas Criações",
                 gallery_btn: "Seguir no Instagram",
                 footer_tagline: "Disponível para eventos e novas oportunidades."
@@ -869,29 +870,29 @@
                 skill_drinks: "Bebidas e harmonização",
                 skill_events: "Planeamento de eventos",
                 skill_safety: "Segurança Alimentar",
+                
                 section_certs_subtitle: "Qualificações",
                 section_certs_title: "Certificados e Cursos",
-                cert_view: "Visualizar credencial",
+                inst_una: "Centro Universitário UNA",
+                inst_metropolitana: "Universidade Metropolitana",
+                inst_microsoft: "Microsoft",
+                cert_date_jul_2025: "Jul 2025",
+                cert_date_dec_2024: "Dez 2024",
+                cert_date_jul_2024: "Jul 2024",
+                cert_date_dec_2025: "Dez 2025",
                 cert_intl_title: "Cozinha Internacional",
-                cert_intl_date: "Emitido em julho de 2025",
                 cert_bake_title: "Panificação e Pastelaria",
-                cert_bake_date: "Emitido em dezembro de 2024",
                 cert_garde_title: "Garde Manger e Cozinha Criativa",
-                cert_garde_date: "Emitido em julho de 2024",
                 cert_drinks_title: "Bebidas e Harmonização",
-                cert_drinks_date: "Emitido em dezembro de 2025",
                 cert_brazilian_title: "Cozinha Brasileira, Sustentabilidade e Segurança Alimentar",
-                cert_brazilian_date: "Emitido em dezembro de 2025",
                 cert_hospitality_title: "Hotelaria, Turismo e Gastronomia",
-                cert_hospitality_date: "Emitido em julho de 2024",
                 cert_business_title: "Gestão de Negócios em Alimentação e Bebidas",
-                cert_business_date: "Emitido em dezembro de 2024",
                 cert_vet_title: "Semiologia Veterinária",
-                cert_vet_note: "O link não abre automaticamente. Copie o código e cole no site do validador:",
-                cert_vet_link: "Abrir site do validador",
+                cert_vet_note: "Copie o código para validar no site:",
                 cert_copy_btn: "Copiar",
                 cert_copied: "Copiado!",
                 cert_sysadmin_title: "Competências Essenciais para a Carreira em Administração de Sistemas",
+                
                 gallery_title: "As Minhas Últimas Criações",
                 gallery_btn: "Seguir no Instagram",
                 footer_tagline: "Disponível para eventos e novas oportunidades."
@@ -941,29 +942,29 @@
                 skill_drinks: "Beverages & Pairing",
                 skill_events: "Event Planning",
                 skill_safety: "Food Safety",
+                
                 section_certs_subtitle: "Qualifications",
                 section_certs_title: "Certificates & Courses",
-                cert_view: "View credential",
+                inst_una: "Centro Universitário UNA",
+                inst_metropolitana: "Universidade Metropolitana",
+                inst_microsoft: "Microsoft",
+                cert_date_jul_2025: "Jul 2025",
+                cert_date_dec_2024: "Dec 2024",
+                cert_date_jul_2024: "Jul 2024",
+                cert_date_dec_2025: "Dec 2025",
                 cert_intl_title: "International Cuisine",
-                cert_intl_date: "Issued July 2025",
                 cert_bake_title: "Baking and Pastry",
-                cert_bake_date: "Issued December 2024",
                 cert_garde_title: "Garde Manger and Creative Cuisine",
-                cert_garde_date: "Issued July 2024",
                 cert_drinks_title: "Beverages and Pairing",
-                cert_drinks_date: "Issued December 2025",
                 cert_brazilian_title: "Brazilian Cuisine, Sustainability and Food Safety",
-                cert_brazilian_date: "Issued December 2025",
                 cert_hospitality_title: "Hospitality, Tourism and Gastronomy",
-                cert_hospitality_date: "Issued July 2024",
                 cert_business_title: "Food and Beverage Business Management",
-                cert_business_date: "Issued December 2024",
                 cert_vet_title: "Veterinary Semiology",
-                cert_vet_note: "This link doesn't open automatically. Copy the code and paste it on the validator website:",
-                cert_vet_link: "Open validator website",
+                cert_vet_note: "Copy the code to validate on the site:",
                 cert_copy_btn: "Copy",
                 cert_copied: "Copied!",
                 cert_sysadmin_title: "Essential Skills for a Systems Administration Career",
+                
                 gallery_title: "My Latest Creations",
                 gallery_btn: "Follow on Instagram",
                 footer_tagline: "Available for events and new opportunities."
@@ -1013,29 +1014,29 @@
                 skill_drinks: "Bebidas y maridaje",
                 skill_events: "Planificación de eventos",
                 skill_safety: "Seguridad Alimentaria",
+                
                 section_certs_subtitle: "Cualificaciones",
                 section_certs_title: "Certificados y Cursos",
-                cert_view: "Ver credencial",
+                inst_una: "Centro Universitario UNA",
+                inst_metropolitana: "Universidad Metropolitana",
+                inst_microsoft: "Microsoft",
+                cert_date_jul_2025: "Jul 2025",
+                cert_date_dec_2024: "Dic 2024",
+                cert_date_jul_2024: "Jul 2024",
+                cert_date_dec_2025: "Dic 2025",
                 cert_intl_title: "Cocina Internacional",
-                cert_intl_date: "Emitido en julio de 2025",
                 cert_bake_title: "Panadería y Pastelería",
-                cert_bake_date: "Emitido en diciembre de 2024",
                 cert_garde_title: "Garde Manger y Cocina Creativa",
-                cert_garde_date: "Emitido en julio de 2024",
                 cert_drinks_title: "Bebidas y Maridaje",
-                cert_drinks_date: "Emitido en diciembre de 2025",
                 cert_brazilian_title: "Cocina Brasileña, Sostenibilidad y Seguridad Alimentaria",
-                cert_brazilian_date: "Emitido en diciembre de 2025",
                 cert_hospitality_title: "Hospitalidad, Turismo y Gastronomía",
-                cert_hospitality_date: "Emitido en julio de 2024",
                 cert_business_title: "Gestión de Negocios en Alimentos y Bebidas",
-                cert_business_date: "Emitido en diciembre de 2024",
                 cert_vet_title: "Semiología Veterinaria",
-                cert_vet_note: "El enlace no se abre automáticamente. Copie el código y péguelo en el sitio del validador:",
-                cert_vet_link: "Abrir sitio del validador",
+                cert_vet_note: "Copie el código para validar en el sitio:",
                 cert_copy_btn: "Copiar",
                 cert_copied: "¡Copiado!",
                 cert_sysadmin_title: "Competencias Esenciales para la Carrera en Administración de Sistemas",
+                
                 gallery_title: "Mis Últimas Creaciones",
                 gallery_btn: "Seguir en Instagram",
                 footer_tagline: "Disponible para eventos y nuevas oportunidades."
@@ -1085,9 +1086,29 @@
                 skill_drinks: "Boissons et Accords",
                 skill_events: "Planification d'événements",
                 skill_safety: "Sécurité Alimentaire",
+                
                 section_certs_subtitle: "Qualifications",
                 section_certs_title: "Certificats et Cours",
-                cert_view: "Voir la certification",
+                inst_una: "Centro Universitário UNA",
+                inst_metropolitana: "Universidade Metropolitana",
+                inst_microsoft: "Microsoft",
+                cert_date_jul_2025: "Juil 2025",
+                cert_date_dec_2024: "Déc 2024",
+                cert_date_jul_2024: "Juil 2024",
+                cert_date_dec_2025: "Déc 2025",
+                cert_intl_title: "Cuisine Internationale",
+                cert_bake_title: "Boulangerie et Pâtisserie",
+                cert_garde_title: "Garde Manger et Cuisine Créative",
+                cert_drinks_title: "Boissons et Accords",
+                cert_brazilian_title: "Cuisine Brésilienne, Durabilité et Sécurité Alimentaire",
+                cert_hospitality_title: "Hospitalité, Tourisme et Gastronomie",
+                cert_business_title: "Gestion d'Entreprise Alimentaire",
+                cert_vet_title: "Sémiologie Vétérinaire",
+                cert_vet_note: "Copiez le code pour valider sur le site :",
+                cert_copy_btn: "Copier",
+                cert_copied: "Copié !",
+                cert_sysadmin_title: "Compétences Essentielles pour l'Administration de Systèmes",
+                
                 gallery_title: "Mes Dernières Créations",
                 gallery_btn: "Suivre sur Instagram",
                 footer_tagline: "Disponible pour événements et nouvelles opportunités."
@@ -1107,8 +1128,7 @@
         let currentLang = 'pt';
 
         // ---------------------------------------------------------
-        // COPY CREDENTIAL CODE (usado no card de Semiologia Veterinária,
-        // cujo link de validação não abre automaticamente)
+        // COPY CREDENTIAL CODE
         // ---------------------------------------------------------
         function copyCredentialCode(code, btnEl) {
             const span = btnEl.querySelector('span');
